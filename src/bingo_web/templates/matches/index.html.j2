@@ -1,0 +1,29 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">Listing Matches</h1>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a href="/matches/new" class="button is-primary">New Match</a>
+    </p>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Start Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for match in matches %}
+        <tr>
+          <td><a href="/matches/{{match.id}}">{{ match.name }}</a></td>
+          <td>{{ match.start_date }}</td>>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

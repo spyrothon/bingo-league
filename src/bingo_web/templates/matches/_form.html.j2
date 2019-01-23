@@ -1,0 +1,113 @@
+<div class="field">
+  <label class="label">Name</label>
+  <div class="control">
+    <input class="input" type="text" name="name" placeholder="Event name" value="{{event.name|d('')}}">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Subdomain</label>
+  <div class="control">
+    <div class="field has-addons">
+      <div class="control">
+        <input class="input" type="text" name="subdomain" placeholder="the-event" value="{{event.subdomain|d('')}}">
+      </div>
+      <p class="control">
+        <a class="button is-static">
+          .somehost.gg
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Organized by</label>
+  <div class="control">
+    <div class="select">
+      <select name="organization_id">
+        {% for org in orgs %}
+          <option
+            value="{{org.id}}"
+            {% if org.id == event.organization_id %}
+              selected
+            {% endif %}
+          >{{org.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>
+
+
+<div class="field">
+  <label class="label" for="site_title">Site Title</label>
+  <div class="control is-expanded">
+    <input class="input" type="text" name="site_title" placeholder="The Event" value="{{event.site_title|d('')}}">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="description">Description</label>
+  <div class="control is-expanded">
+    <textarea class="textarea" type="text" name="description" placeholder="This content will be displayed on the home page of your event">{{event.description|d('')}}</textarea>
+  </div>
+</div>
+
+
+<div class="field">
+  <label class="label" for="discord">Discord</label>
+  <div class="control has-icons-left is-expanded">
+    <input class="input" type="text" name="discord" placeholder="https://discord.gg/aserverinvite" value="{{event.discord|d('')}}">
+    <span class="icon is-small is-left">
+      <i class="fab fa-discord"></i>
+    </span>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="twitter">Twitter</label>
+  <div class="control has-icons-left is-expanded">
+    <input class="input" type="text" name="twitter" placeholder="https://twitter.com/theevent" value="{{event.twitter|d('')}}">
+    <span class="icon is-small is-left">
+      <i class="fas fa-at"></i>
+    </span>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="twitch">Twitch</label>
+  <div class="control has-icons-left is-expanded">
+    <input class="input" type="text" name="twitch" placeholder="https://twitch.tv/the_event" value="{{event.twitch|d('')}}">
+    <span class="icon is-small is-left">
+      <i class="fab fa-twitch"></i>
+    </span>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="horaro_schedule_id">Horaro Schedule ID</label>
+  <div class="control is-expanded">
+    <input class="input" type="text" name="horaro_schedule_id" placeholder="" value="{{event.horaro_schedule_id|d('')}}">
+    <p class="help">This is <em>not</em> the URL slug of the schedule.</p>
+  </div>
+</div>
+
+
+<div class="field">
+  <label class="label">State</label>
+  <div class="control">
+    <div class="select">
+      <select name="state">
+        {% for state in ['draft', 'accepting_submissions', 'decided', 'scheduled', 'closed'] %}
+          <option
+            value="{{state}}"
+            {% if state == event.state %}
+              selected
+            {% endif %}
+          >{{state}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+display_name: Bingo Web
+info: true
+build: crystal build ./src/bingo_web.cr --no-debug
+run: ./bingo_web
+watch:
+  - src/bingo_web/*.cr
+  - src/bingo_web/**/*.cr

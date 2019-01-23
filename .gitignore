@@ -1,0 +1,26 @@
+# Caching
+.sass-cache
+.cache
+.shards
+.DS_Store
+
+# Config / Security
+.env
+ssl/
+
+# Crystal deps
+/lib/
+/dev/
+
+# Asset deps
+node_modules/
+public/
+
+# Database dump files from heroku
+*.dump
+
+# Executables
+bin/
+/fifteenfortyfive
+/sentry
+/*.dwarf

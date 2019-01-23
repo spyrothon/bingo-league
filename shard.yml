@@ -1,0 +1,36 @@
+name: bingo-league
+version: 0.1.0
+crystal: 0.26.1
+license: MIT
+authors:
+  - Jon <jonegeland@gmail.com>
+
+
+targets:
+  bingo_web:
+    main: src/bingo_web.cr
+  tool:
+    main: src/tool.cr
+
+
+dependencies:
+  pg:
+    github: will/crystal-pg
+  crinja:
+    github: straight-shoota/crinja
+  crecto:
+    # github: crecto/crecto
+    # Using this until updated changesets and typecasting are
+    # supported by the official crecto
+    github: faultyserver/crecto
+    branch: temp/casts
+  migrate:
+    github: vladfaust/migrate.cr
+  orion:
+    github: obsidian/orion
+  awscr-s3:
+    github: taylorfinnell/awscr-s3
+  honcho:
+    github: faultyserver/honcho
+  dotenv:
+    github: gdotdesign/cr-dotenv

@@ -1,0 +1,18 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">Edit Match</h1>
+
+  <form method="POST" action="/matches/{{match.id}}/update">
+    {% include "matches/_form.html.j2" %}
+
+    <div class="field is-grouped">
+      <div class="control">
+        <input type="submit" value="Update Match" class="button is-link">
+      </div>
+      <div class="control">
+        <a href="/matches" class="button is-text">Cancel</a>
+      </div>
+    </div>
+  </form>
+{% endblock %}
