@@ -1,0 +1,8 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">{{ team.name }}</h1>
+  <p>
+    <a class="button" href="/teams/{{team.id}}/edit">Edit</a>
+  </p>
+{% endblock %}

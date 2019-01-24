@@ -1,6 +1,6 @@
 require "crinja"
 
-module Template
+module BingoWeb::Template
   ENGINE.filters["strftime"] = Crinja.filter({format: nil, default: nil}) do |arguments|
     begin
       time = arguments.target!.as_time

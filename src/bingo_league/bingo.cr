@@ -1,8 +1,8 @@
-require "../../repo"
+require "./repo.cr"
 require "./bingo/**"
 require "crecto"
 
-module Bingo
+module BingoLeague::Bingo
   extend self
 
   ###

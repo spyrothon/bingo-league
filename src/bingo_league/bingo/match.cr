@@ -1,6 +1,6 @@
 require "crinja"
 
-module Bingo
+module BingoLeague::Bingo
   @[Crinja::Attributes]
   class Match < Crecto::Model
     include Crinja::Object::Auto

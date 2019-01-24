@@ -5,9 +5,9 @@ require "http"
 #
 # If a user is not logged in, they will be redirected to the login page with
 # a callback to bring them back to the originally-requested route.
-class AuthenticationHandler
+class BingoWeb::AuthenticationHandler
   include HTTP::Handler
-  include BingoWebRouter::Helpers
+  include BingoWeb::Router::Helpers
 
   def call(conn : HTTP::Server::Context)
     unless conn.current_user?

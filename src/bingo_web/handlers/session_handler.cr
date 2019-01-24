@@ -1,11 +1,13 @@
 require "http"
 
+private alias Accounts = BingoLeague::Accounts
+
 class HTTP::Server::Context
-  property! current_user : Account
-  property! session : Session
+  property! current_user : Accounts::User
+  property! session : Accounts::Session
 end
 
-class SessionHandler
+class BingoWeb::SessionHandler
   include HTTP::Handler
 
   def call(conn : HTTP::Server::Context)
@@ -14,16 +16,16 @@ class SessionHandler
   end
 
   def set_current_user(conn)
-    return unless session_id = conn.request.cookies["1545_session_id"]?
+    return unless session_id = conn.request.cookies["bingo-league_session_id"]?
     session_id = session_id.value
 
     session = Accounts.get_valid_session(session_id)
     return unless session
 
-    account = Accounts.get_account_for_session(session)
+    account = Accounts.get_user_for_session(session)
     return unless account
 
-    conn.session = session.as(Session)
-    conn.current_user = account.as(Account)
+    conn.session = session.as(Accounts::Session)
+    conn.current_user = account.as(Accounts::User)
   end
 end

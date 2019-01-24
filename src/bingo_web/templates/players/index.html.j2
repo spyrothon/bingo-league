@@ -1,0 +1,27 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">Players</h1>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a href="/players/new" class="button is-primary">New Player</a>
+    </p>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for player in players %}
+        <tr>
+          <td><a href="/players/{{player.id}}">{{ player.name }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends "layouts/main.html.j2" %}
 
 {% block main %}
-  <h1 class="title">Listing Matches</h1>
+  <h1 class="title">Match Setup</h1>
 
   <div class="field is-grouped">
     <p class="control">
@@ -13,6 +13,7 @@
     <thead>
       <tr>
         <th>Name</th>
+        <th>League</th>
         <th>Start Date</th>
       </tr>
     </thead>
@@ -21,7 +22,8 @@
       {% for match in matches %}
         <tr>
           <td><a href="/matches/{{match.id}}">{{ match.name }}</a></td>
-          <td>{{ match.start_date }}</td>>
+          <td>{{ match.league.name }}</td>
+          <td>{{ match.start_date }}</td>
         </tr>
       {% endfor %}
     </tbody>

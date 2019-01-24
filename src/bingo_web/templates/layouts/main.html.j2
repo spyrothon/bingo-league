@@ -18,7 +18,15 @@
   <body>
     {% include "layouts/_navbar.html.j2" %}
 
-    {% block main %}{% endblock %}
+    {% block wrapper %}
+      <main class="main">
+        <section class="section">
+          <div class="container">
+            {% block main %}{% endblock %}
+          </div>
+        </section>
+      </main>
+    {% endblock %}
 
     {% include "layouts/_footer.html.j2" %}
   </body>

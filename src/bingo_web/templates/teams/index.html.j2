@@ -1,0 +1,31 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">Teams</h1>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a href="/teams/new" class="button is-primary">New Team</a>
+    </p>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>League</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for team in teams %}
+        <tr>
+          <td><a href="/teams/{{team.id}}">{{ team.name }}</a></td>
+          <td>{{ team.color }}</td>
+          <td><a href="/leagues/{{team.league.id}}">{{ team.league.name }}</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

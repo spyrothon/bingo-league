@@ -1,6 +1,18 @@
 require "orion"
 
-router BingoWebRouter do
+macro crud(name, singular)
+  scope "{{name.id}}" do
+    get   "",                             to: "{{name.id}}#index",    helper: "{{name.id}}"
+    get   "/new",                         to: "{{name.id}}#new",      helper: "{{name.id}}_new"
+    post  "/create",                      to: "{{name.id}}#create",   helper: "{{name.id}}_create"
+    get   "/:{{singular.id}}_id",         to: "{{name.id}}#show",     helper: "{{name.id}}_show"
+    get   "/:{{singular.id}}_id/edit",    to: "{{name.id}}#edit",     helper: "{{name.id}}_edit"
+    post  "/:{{singular.id}}_id/update",  to: "{{name.id}}#update",   helper: "{{name.id}}_update"
+    get   "/:{{singular.id}}_id/delete",  to: "{{name.id}}#delete",   helper: "{{name.id}}_delete"
+  end
+end
+
+router BingoWeb::Router do
   use HTTP::ErrorHandler
   use HTTP::LogHandler.new(STDOUT)
   use SessionHandler
@@ -9,7 +21,10 @@ router BingoWebRouter do
     use AuthenticationHandler
   end
 
-  resources :matches
+  crud :matches,  "match"
+  crud :leagues,  "league"
+  crud :players,  "player"
+  crud :teams,    "team"
 
 
   get   "login",  to: "sessions#new", helper: "login"

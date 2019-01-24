@@ -3,9 +3,9 @@ require "http"
 # A middleware for ensuring that a user has permissions to access a component
 # of the application. This handler assumes that `conn.current_user` exists
 # (e.g., AuthenticationHandler should be placed _before_ this handler).
-class AuthorizationHandler
+class BingoWeb::AuthorizationHandler
   include HTTP::Handler
-  include BingoWebRouter::Helpers
+  include BingoWeb::Router::Helpers
 
   def initialize(@required_level = :admin)
   end

@@ -1,6 +1,7 @@
-require "../../fifteenfortyfive/contexts/accounts"
+class BingoWeb::SessionsController < BingoWeb::Controller
+  private alias Query     = BingoLeague::Query
+  private alias Accounts  = BingoLeague::Accounts
 
-class SessionsController < BingoWebController
   def new
     redirect_target = query_params["redirect"]? || "/"
     render("sessions/new.html.j2")
@@ -11,26 +12,26 @@ class SessionsController < BingoWebController
     password = body_params["password"]
     redirect_target = query_params["redirect"]? || "/"
 
-    account = Accounts.list_accounts(Query.where(username: username)).first
+    account = Accounts.list_users(Query.where(name: username)).first
 
     unless account
       render_error(422, "Username does not exist")
       return
     end
 
-    unless account.password_matches?(password)
-      render_error(422, "Wrong password")
+    if session = Accounts.create_session(account, password)
+      response.cookies["bingo-league_session_id"] = session.instance.key!
+      redirect_to(redirect_target)
+      return
+    else
+      render_error(422, "Could not log in")
       return
     end
-
-    sign_in_user(account)
-    redirect_to(redirect_target)
   end
 
   def destroy
     if session = @context.session?
-      session.active = false
-      Repo.update(session)
+      Accounts.invalidate_session(session)
     end
 
     redirect_to("/")

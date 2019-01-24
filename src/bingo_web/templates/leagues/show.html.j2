@@ -1,0 +1,31 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">{{ league.name }}</h1>
+  <p>
+    <a class="button" href="/leagues/{{league.id}}/edit">Edit</a>
+  </p>
+
+  <div class="has-margin-top-lg">
+    <h1 class="title">Matches</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Match</th>
+          <th>Teams / Players</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for match in league.matches %}
+          <tr>
+            <td><a href="/matches/{{match.id}}/edit">{{match.name}}</a></td>
+            <td>{{match.teams | count }} / {{match.players | count}}</td>
+            <td>{{match.start_date}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,7 +1,6 @@
 require "crinja"
-require "../../fifteenfortyfive/constants"
 
-module Template
+module BingoWeb::Template
   extend self
 
   TEMPLATE_DIR = File.join(__DIR__, "..", "templates")
@@ -17,8 +16,7 @@ module Template
 
   private def conn_to_h(conn)
     {
-      "user" => conn.current_user?,
-      "constants" => Constants.template_constants
+      "user" => conn.current_user?
     }
   end
 end

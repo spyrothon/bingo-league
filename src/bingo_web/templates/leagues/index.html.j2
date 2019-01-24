@@ -1,0 +1,29 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">Leagues</h1>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a href="/leagues/new" class="button is-primary">New League</a>
+    </p>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Match Count</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for league in leagues %}
+        <tr>
+          <td><a href="/leagues/{{league.id}}">{{ league.name }}</a></td>
+          <td>{{ league.matches | count }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
