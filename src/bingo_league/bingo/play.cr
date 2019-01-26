@@ -7,6 +7,7 @@ module BingoLeague::Bingo
 
     schema "bingo_plays" do
       field :score, Int32, default: 0
+      field :won, Bool, default: false
 
       belongs_to :team, Team
       belongs_to :match, Match

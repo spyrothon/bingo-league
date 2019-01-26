@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { renderJoined } from '../util';
+import { DateTime } from 'luxon';
 
 class Match extends Component {
   render(props) {
@@ -9,11 +10,18 @@ class Match extends Component {
       teams
     } = props;
 
+    const start_date = DateTime.fromISO(match.start_date);
+
     return (
       <div class="match">
-        <p class="match-title has-text-weight-bold">{match.name}</p>
+        <p class="match-title">
+          <p class="is-pulled-right has-margin-right-sm">{start_date.toLocaleString(DateTime.DATETIME_MED)}</p>
+          <p class="has-text-weight-bold">{match.name}</p>
+        </p>
 
-        <div class="level has-margin-top-md has-margin-bottom-md">
+        <div class="level has-margin-top-sm">
+          <div class="level-item">
+          </div>
           { renderJoined(plays, (play) => {
               const team = teams.find((t) => t.id == play.team_id);
 
@@ -35,6 +43,8 @@ class Match extends Component {
               </div>
             ))
           }
+          <div class="level-item">
+          </div>
         </div>
       </div>
     );

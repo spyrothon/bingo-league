@@ -13,6 +13,7 @@ class LeagueDisplay extends Component {
       league,
       matchesById,
       teamsById,
+      playsById,
       loading,
       createMatch
     } = props;
@@ -30,7 +31,7 @@ class LeagueDisplay extends Component {
           <div class="column is-4-desktop">
             <div class="box">
               <h2 class="title">Team Standings</h2>
-              <TeamStandings teams={teams} />
+              <TeamStandings teamsById={teamsById} matchesById={matchesById} playsById={playsById} />
             </div>
           </div>
 
