@@ -65,7 +65,7 @@ module BingoLeague::Bingo
   def create_match(attrs)
     match = Match.new
     match = match.cast(attrs)
-    Repo.insert(match)
+    changeset = Repo.insert(match)
   end
 
   def update_match(match : Match, changes)

@@ -13,9 +13,7 @@ class BingoWeb::LeaguesController < BingoWeb::Controller
   end
 
   def show
-    if league = Bingo.get_league(url_params["league_id"],
-          Query.preload(:matches, Query.preload([:teams, :players]))
-        )
+    if league = Bingo.get_league(url_params["league_id"], Query.preload([:matches, :teams]))
       render("leagues/show.html.j2", {
         "league" => league
       })

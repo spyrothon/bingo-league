@@ -10,7 +10,11 @@ module BingoLeague::Bingo
       field :alias_name, String
 
       belongs_to :account, Accounts::User, foreign_key: :account_id
+      belongs_to :team, Team
     end
+
+    validate_required :account_id
+    validate_required :team_id
 
     def name
       alias_name || (account? && account.name)

@@ -32,6 +32,10 @@ shards:
     github: phoffer/inflector.cr
     version: 0.1.8
 
+  keyer:
+    github: danielpclark/keyer_cr
+    commit: a50da4c54dfe759392f86f6143b99df57c3f1bf7
+
   migrate:
     github: vladfaust/migrate.cr
     version: 0.4.1

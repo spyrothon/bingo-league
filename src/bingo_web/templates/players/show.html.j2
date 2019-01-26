@@ -2,6 +2,7 @@
 
 {% block main %}
   <h1 class="title">{{ player.name }}</h1>
+  <p class="subtitle">{{ player.team.name }}</p>
   <p>
     <a class="button" href="/players/{{player.id}}/edit">Edit</a>
   </p>

@@ -9,6 +9,8 @@ macro crud(name, singular)
     get   "/:{{singular.id}}_id/edit",    to: "{{name.id}}#edit",     helper: "{{name.id}}_edit"
     post  "/:{{singular.id}}_id/update",  to: "{{name.id}}#update",   helper: "{{name.id}}_update"
     get   "/:{{singular.id}}_id/delete",  to: "{{name.id}}#delete",   helper: "{{name.id}}_delete"
+
+    {{yield}}
   end
 end
 
@@ -21,8 +23,13 @@ router BingoWeb::Router do
     use AuthenticationHandler
   end
 
-  crud :matches,  "match"
+  crud :matches,  "match" do
+    post  "/:match_id/add_team",              to: "matches#add_team"
+    get   "/:match_id/teams/:team_id/remove", to: "matches#remove_team"
+  end
+
   crud :leagues,  "league"
+  crud :plays,    "play"
   crud :players,  "player"
   crud :teams,    "team"
 
@@ -30,6 +37,11 @@ router BingoWeb::Router do
   get   "login",  to: "sessions#new", helper: "login"
   post  "login",  to: "sessions#create", helper: "sessions_create"
   get   "logout", to: "sessions#destroy", helper: "logout"
+
+
+  scope "api" do
+    get "/leagues/:league_id", controller: API::LeaguesController, action: show
+  end
 
 
   ## Static assets

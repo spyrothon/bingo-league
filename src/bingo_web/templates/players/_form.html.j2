@@ -4,3 +4,23 @@
     <input class="input" type="text" name="alias_name" placeholder="Player name" value="{{player.alias_name|d('')}}">
   </div>
 </div>
+
+<div class="field">
+  <label class="label">Team</label>
+  <div class="control">
+    <div class="select">
+      <select name="team_id">
+        {% for team in teams %}
+          <option
+            value="{{team.id}}"
+            {% if player.team_id == team.id %}
+              selected
+            {% endif %}
+          >
+            {{team.name}}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>

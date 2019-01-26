@@ -5,3 +5,4 @@ run: ./bingo_web
 watch:
   - src/bingo_web/*.cr
   - src/bingo_web/**/*.cr
+  - src/bingo_league/**/*.cr

@@ -6,11 +6,13 @@ module BingoLeague::Bingo
     include Crinja::Object::Auto
 
     schema "bingo_plays" do
-      field :score, Int32
+      field :score, Int32, default: 0
 
-      belongs_to :player, Player
       belongs_to :team, Team
       belongs_to :match, Match
     end
+
+    validate_required :team_id
+    validate_required :match_id
   end
 end

@@ -6,16 +6,17 @@ class BingoWeb::PlayersController < BingoWeb::Controller
   private alias Bingo = BingoLeague::Bingo
 
   def index
-    players = Bingo.list_players()
+    players = Bingo.list_players(Query.preload(:team))
     render("players/index.html.j2", {
       "players" => players
     })
   end
 
   def show
-    if player = Bingo.get_player(url_params["player_id"])
+    if player = Bingo.get_player(url_params["player_id"], Query.preload(:team))
       render("players/show.html.j2", {
-        "player" => player
+        "player" => player,
+        "teams" => Bingo.list_teams()
       })
     else
       redirect_to players_path

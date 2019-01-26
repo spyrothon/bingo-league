@@ -12,7 +12,10 @@ module BingoLeague::Bingo
       belongs_to :league, League
 
       has_many :plays, Play
-      has_many :players, Player, through: :plays
+      has_many :players, Player
     end
+
+    validate_required :name
+    validate_required :league_id
   end
 end

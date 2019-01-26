@@ -13,6 +13,10 @@ class BingoWeb::Controller
     Template.render(@context, template, locals)
   end
 
+  def render_json(value)
+    response.print(value.to_json)
+  end
+
   def render_error(status : Int32, message : String)
     response.status_code = status
     response.print(message)
@@ -22,9 +26,14 @@ class BingoWeb::Controller
   property! body_params   : Hash(String, String)
   property! url_params    : Hash(String, String)
   property! query_params  : Hash(String, String)
+  property! raw_request_body : String
+
+  def raw_request_body
+    @raw_request_body ||= request.body.not_nil!.gets_to_end
+  end
 
   def body_params
-    @body_params ||= HTTP::Params.parse(request.body.not_nil!.gets_to_end).to_h
+    @body_params ||= HTTP::Params.parse(raw_request_body).to_h
   end
 
   def url_params

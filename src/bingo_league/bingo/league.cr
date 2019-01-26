@@ -14,5 +14,7 @@ module BingoLeague::Bingo
       has_many :matches, Match
       has_many :teams, Team
     end
+
+    validate_required :name
   end
 end
