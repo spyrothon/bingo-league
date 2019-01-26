@@ -46,6 +46,22 @@ module BingoLeague::Bingo
   # Matches
   ###
 
+  struct PlayParams
+    JSON.mapping({
+      team_id: String,
+      score: String?
+    })
+  end
+
+  struct MatchParams
+    JSON.mapping({
+      league_id: Int64,
+      name: String,
+      start_date: Time,
+      plays: Array(PlayParams)
+    })
+  end
+
   def list_matches(query : Query = Query.new)
     Repo.all(Match, query)
   end
@@ -66,6 +82,21 @@ module BingoLeague::Bingo
     match = Match.new
     match = match.cast(attrs)
     changeset = Repo.insert(match)
+  end
+
+  def create_match_from_json(json_string)
+    match = Match.from_json(json_string)
+    plays = match.plays
+    changeset = Repo.insert(match)
+    return changeset unless changeset.valid?
+
+    match = changeset.instance
+    multi = Multi.new
+    plays.each do |play|
+      play.match = match
+      multi.insert(play)
+    end
+    Repo.transaction(multi)
   end
 
   def update_match(match : Match, changes)

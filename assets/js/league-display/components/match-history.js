@@ -1,28 +1,17 @@
 import { h, Component } from 'preact';
+import MatchContainer from '../containers/match-container';
 
 class MatchHistory extends Component {
   render(props) {
     const { matches } = props;
 
     return (
-      <table class="table is-fullwidth">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Player Count</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          { matches.map((match) => (
-              <tr>
-                <td>{match.name}</td>
-                <td>{match.plays.length}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <div class="matches">
+        { matches.map((match) => (
+            <MatchContainer match={match} />
+          ))
+        }
+      </div>
     );
   }
 };

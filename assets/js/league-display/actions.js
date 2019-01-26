@@ -1,6 +1,7 @@
 import {
   FETCH_LEAGUE,
-  RECEIVE_LEAGUE
+  RECEIVE_LEAGUE,
+  CREATE_MATCH
 } from './constants';
 
 const defaultHeaders = {
@@ -20,16 +21,31 @@ export function fetchLeague(leagueId) {
         return dispatch(receiveLeague(response));
       });
   };
-}
+};
 
-export function receiveLeague(league) {
+export function receiveLeague(data) {
   return {
     type: RECEIVE_LEAGUE,
-    data: {
-      league: league
-    }
+    data: data
+  };
+};
+
+export function createMatch(matchData) {
+  console.log(matchData);
+  return dispatch => {
+    fetch('/api/matches/create', {
+      headers: defaultHeaders,
+      method: 'POST',
+      body: JSON.stringify(matchData)
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((response) => {
+      return dispatch(fetchLeague(matchData.league_id));
+    });
   };
 }
+
 
 
 function checkStatus(response) {
@@ -38,8 +54,8 @@ function checkStatus(response) {
   } else {
     throw response;
   }
-}
+};
 
 function parseJSON(response) {
   return response.json();
-}
+};

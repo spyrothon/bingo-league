@@ -40,7 +40,9 @@ router BingoWeb::Router do
 
 
   scope "api" do
-    get "/leagues/:league_id", controller: API::LeaguesController, action: show
+    get   "/leagues/:league_id", controller: API::LeaguesController, action: show
+
+    post  "/matches/create", controller: API::MatchesController, action: create
   end
 
 

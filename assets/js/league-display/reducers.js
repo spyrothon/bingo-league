@@ -5,7 +5,11 @@ import {
 
 const initialState = {
   loading: true,
-  league: null
+  league: null,
+  matchesById: {},
+  playersById: {},
+  playsById: {},
+  teamsById: {}
 };
 
 export default function(state = initialState, action) {
@@ -20,8 +24,12 @@ export default function(state = initialState, action) {
       if(action.data) {
         return {
           ...state,
-          league: action.data.league,
-          loading: false
+          loading:      false,
+          league:       action.data.league,
+          matchesById:  action.data.matches,
+          playersById:  action.data.players,
+          playsById:    action.data.plays,
+          teamsById:    action.data.teams,
         };
       } else {
         return state;

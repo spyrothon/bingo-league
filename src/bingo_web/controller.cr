@@ -36,6 +36,14 @@ class BingoWeb::Controller
     @body_params ||= HTTP::Params.parse(raw_request_body).to_h
   end
 
+  def json_params
+    @json_params ||= JSON.parse(raw_request_body)
+  end
+
+  def structured_params(structure)
+    structure.from_json(raw_request_body)
+  end
+
   def url_params
     @url_params ||= request.path_params.to_h
   end

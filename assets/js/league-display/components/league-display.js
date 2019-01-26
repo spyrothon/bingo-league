@@ -9,14 +9,21 @@ class LeagueDisplay extends Component {
   }
 
   render(props, state) {
-    const { league, loading } = props;
+    const {
+      league,
+      matchesById,
+      teamsById,
+      loading,
+      createMatch
+    } = props;
 
     if(loading) return <h1>Loading</h1>;
 
-    const { name, matches, teams } = league;
+    const matches = Object.values(matchesById);
+    const teams = Object.values(teamsById);
 
     return (
-      <div class="content">
+      <div>
         <h1 class="title is-2 has-margin-bottom-lg">{name}</h1>
 
         <div class="columns">
@@ -35,7 +42,7 @@ class LeagueDisplay extends Component {
 
             <div class="box">
               <h2 class="title">New Match</h2>
-              <MatchForm league={league} />
+              <MatchForm league={league} teams={teams} onSubmit={createMatch} />
             </div>
           </div>
         </div>
