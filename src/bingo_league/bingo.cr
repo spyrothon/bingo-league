@@ -10,15 +10,15 @@ module BingoLeague::Bingo
   ###
 
   def list_matches(query : Query = Query.new)
-    Repo.all(Match, query)
+    Repo.all(Match, query.preload([:plays, :teams]))
   end
 
   def get_match(match_id, query : Query = Query.new)
-    Repo.all(Match, query.where(id: match_id).limit(1)).first?
+    Repo.all(Match, query.where(id: match_id).limit(1).preload([:plays, :teams])).first?
   end
 
   def get_match!(match_id, query : Query = Query.new)
-    Repo.all(Match, query.where(id: match_id).limit(1)).first
+    Repo.all(Match, query.where(id: match_id).limit(1).preload([:plays, :teams])).first
   end
 
   def new_match()

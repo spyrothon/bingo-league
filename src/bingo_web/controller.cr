@@ -13,13 +13,18 @@ class BingoWeb::Controller
     Template.render(@context, template, locals)
   end
 
-  def render_json(value)
-    response.print(value.to_json)
+  def render_json(value, status=200)
+    response.print({ data: value }.to_json)
   end
 
   def render_error(status : Int32, message : String)
     response.status_code = status
     response.print(message)
+  end
+
+  def render_error_json(status : Int32, message)
+    response.status_code = status
+    response.print({ error: message }.to_json)
   end
 
 

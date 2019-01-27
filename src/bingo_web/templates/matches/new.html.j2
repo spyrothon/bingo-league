@@ -1,18 +1,9 @@
 {% extends "layouts/main.html.j2" %}
 
 {% block main %}
-  <h1 class="title">New Match</h1>
+  <div id="match-editor" data-match-id=""></div>
+{% endblock %}
 
-  <form method="POST" action="/matches/create">
-    {% include "matches/_form.html.j2" %}
-
-    <div class="field is-grouped">
-      <div class="control">
-        <input type="submit" value="Create Match" class="button is-link">
-      </div>
-      <div class="control">
-        <a href="/matches" class="button is-text">Cancel</a>
-      </div>
-    </div>
-  </form>
+{% block head %}
+  <script src="/js/match-editor.js"></script>
 {% endblock %}

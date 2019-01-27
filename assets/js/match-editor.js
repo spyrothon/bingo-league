@@ -3,23 +3,27 @@ import thunk from 'redux-thunk';
 import { h, render, Component } from 'preact';
 import { Provider } from 'preact-redux';
 
-import matchReducer from './match-display/reducers';
-import { fetchMatch } from './match-display/actions';
+import matchReducer from './match-editor/reducers';
+import {
+  fetchMatch,
+  fetchTeams
+} from './match-editor/actions';
 
-import MatchContainer from "./match-display/containers/match-container";
+import { MatchEditorContainer } from "./match-editor/containers/match-editor-container";
 
 
 const store = createStore(matchReducer, applyMiddleware(thunk));
 
 document.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector("#match-display");
+  const container = document.querySelector("#match-editor");
   const matchId = container.dataset.matchId;
 
   store.dispatch(fetchMatch(matchId));
+  store.dispatch(fetchTeams());
 
   render(
     <Provider store={store}>
-      <LeagueDisplayContainer />
+      <MatchEditorContainer />
     </Provider>,
     container
   );

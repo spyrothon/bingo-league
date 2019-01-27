@@ -1,58 +1,9 @@
 {% extends "layouts/main.html.j2" %}
 
 {% block main %}
-  <h1 class="title">Edit Match</h1>
+  <div id="match-editor" data-match-id="{{match.id}}"></div>
+{% endblock %}
 
-  <div class="columns">
-    <div class="column is-5-desktop">
-      <form method="POST" action="/matches/{{match.id}}/update">
-        {% include "matches/_form.html.j2" %}
-
-        <div class="field is-grouped">
-          <div class="control">
-            <input type="submit" value="Update Match" class="button is-link">
-          </div>
-          <div class="control">
-            <a href="/matches" class="button is-text">Cancel</a>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div class="column is-7-desktop">
-      <div class="content">
-        <h1>Teams</h1>
-
-        <ul>
-          {% for team in match.teams %}
-            <li>
-              <strong>{{team.name}}</strong>
-              <a href="/matches/{{match.id}}/teams/{{team.id}}/remove">
-                <i class="fas fa-times"></i>
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <form method="POST" action="/matches/{{match.id}}/add_team">
-        <div class="field">
-          <label class="label">Add Team</label>
-          <div class="control">
-            <div class="select">
-              <select name="team_id">
-                {% for team in teams %}
-                  <option value="{{team.id}}">
-                    {{team.name}}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <input class="button is-primary" type="submit" value="Add Team" />
-      </form>
-    </div>
-  </div>
+{% block head %}
+  <script src="/js/match-editor.js"></script>
 {% endblock %}

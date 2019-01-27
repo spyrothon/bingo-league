@@ -2122,7 +2122,7 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
-flatpickr@^4.5.2:
+flatpickr@^4.5.1, flatpickr@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.5.2.tgz#47c8ad472a096e5fb7e74b809b0703535383f20d"
   integrity sha512-jDy4QYGpmiy7+Qk8QvKJ4spjDdxcx9cxMydmq1x427HkKWBw0qizLYeYM2F6tMcvvqGjU5VpJS55j4LnsaBblA==
@@ -4019,12 +4019,19 @@ posthtml@^0.11.2, posthtml@^0.11.3:
     posthtml-parser "^0.3.3"
     posthtml-render "^1.1.0"
 
+preact-flatpickr@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/preact-flatpickr/-/preact-flatpickr-1.0.3.tgz#6388b8cd2ebc5f1bbb84a615101e26e538f50d74"
+  integrity sha512-evCV4hC/mmtelwLafEilN4LKgUBX19zK3pD7a6GYPOPRxOLtFoE11TDpciRlhe4pWMCDIMreS1SnCpzcR/nOgA==
+  dependencies:
+    flatpickr "^4.5.1"
+
 preact-redux@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/preact-redux/-/preact-redux-2.0.3.tgz#960a535c322643cd35998f33f0c2e67bc1e7eaab"
   integrity sha1-lgpTXDImQ801mY8z8MLme8Hn6qs=
 
-preact@^8.4.2:
+preact@*:
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/preact/-/preact-8.4.2.tgz#1263b974a17d1ea80b66590e41ef786ced5d6a23"
   integrity sha512-TsINETWiisfB6RTk0wh3/mvxbGRvx+ljeBccZ4Z6MPFKgu/KFGyf2Bmw3Z/jlXhL5JlNKY6QAbA9PVyzIy9//A==
