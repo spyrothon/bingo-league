@@ -6,14 +6,14 @@ class BingoWeb::TeamsController < BingoWeb::Controller
   private alias Bingo = BingoLeague::Bingo
 
   def index
-    teams = Bingo.list_teams(Query.preload([:league]))
+    teams = Bingo.list_teams()
     render("teams/index.html.j2", {
       "teams" => teams
     })
   end
 
   def show
-    if team = Bingo.get_team(url_params["team_id"], Query.preload([:league]))
+    if team = Bingo.get_team(url_params["team_id"])
       render("teams/show.html.j2", {
         "team" => team
       })
@@ -25,8 +25,7 @@ class BingoWeb::TeamsController < BingoWeb::Controller
   def new
     team = Bingo.new_team()
     render("teams/new.html.j2", {
-      "team" => team,
-      "leagues" => Bingo.list_leagues()
+      "team" => team
     })
   end
 
@@ -39,8 +38,7 @@ class BingoWeb::TeamsController < BingoWeb::Controller
     team_id = url_params["team_id"]
     if team = Bingo.get_team(team_id)
       render("teams/edit.html.j2", {
-        "team" => team,
-        "leagues" => Bingo.list_leagues()
+        "team" => team
       })
     else
       redirect_to teams_path

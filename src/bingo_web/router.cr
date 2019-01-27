@@ -23,13 +23,7 @@ router BingoWeb::Router do
     use AuthenticationHandler
   end
 
-  crud :matches,  "match" do
-    post  "/:match_id/add_team",              to: "matches#add_team"
-    get   "/:match_id/teams/:team_id/remove", to: "matches#remove_team"
-  end
-
-  crud :leagues,  "league"
-  crud :plays,    "play"
+  crud :matches,  "match"
   crud :players,  "player"
   crud :teams,    "team"
 
@@ -37,13 +31,6 @@ router BingoWeb::Router do
   get   "login",  to: "sessions#new", helper: "login"
   post  "login",  to: "sessions#create", helper: "sessions_create"
   get   "logout", to: "sessions#destroy", helper: "logout"
-
-
-  scope "api" do
-    get   "/leagues/:league_id", controller: API::LeaguesController, action: show
-
-    post  "/matches/create", controller: API::MatchesController, action: create
-  end
 
 
   ## Static assets

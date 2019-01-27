@@ -13,7 +13,6 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>League</th>
         <th>Start Date</th>
       </tr>
     </thead>
@@ -22,7 +21,6 @@
       {% for match in matches %}
         <tr>
           <td><a href="/matches/{{match.id}}">{{ match.name }}</a></td>
-          <td>{{ match.league.name }}</td>
           <td>{{ match.start_date }}</td>
         </tr>
       {% endfor %}

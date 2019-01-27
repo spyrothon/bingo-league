@@ -4,17 +4,15 @@ import {
 } from "./constants";
 
 const initialState = {
-  loading: true,
-  league: null,
+  loading: false,
   matchesById: {},
   playersById: {},
-  playsById: {},
   teamsById: {}
 };
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case FETCH_LEAGUE:
+    case FETCH_MATCH:
       return {
         ...state,
         loading: true
@@ -24,12 +22,10 @@ export default function(state = initialState, action) {
       if(action.data) {
         return {
           ...state,
-          loading:      false,
-          league:       action.data.league,
-          matchesById:  action.data.matches,
-          playersById:  action.data.players,
-          playsById:    action.data.plays,
-          teamsById:    action.data.teams,
+          loading: false,
+          matchesById: {},
+          playersById: {},
+          teamsById: {}
         };
       } else {
         return state;

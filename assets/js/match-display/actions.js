@@ -1,37 +1,15 @@
 import {
-  FETCH_LEAGUE,
-  RECEIVE_LEAGUE,
-  CREATE_MATCH
+  FETCH_MATCH,
+  RECEIVE_MATCH
 } from './constants';
 
 const defaultHeaders = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
-  'Authorization': `Bearer ${window.userToken}`,
   'x-expires': window.expiration
 };
 
-
-export function fetchLeague(leagueId) {
-  return dispatch => {
-    fetch(`/api/leagues/${leagueId}`, { headers: defaultHeaders })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then((response) => {
-        return dispatch(receiveLeague(response));
-      });
-  };
-};
-
-export function receiveLeague(data) {
-  return {
-    type: RECEIVE_LEAGUE,
-    data: data
-  };
-};
-
 export function createMatch(matchData) {
-  console.log(matchData);
   return dispatch => {
     fetch('/api/matches/create', {
       headers: defaultHeaders,
@@ -41,7 +19,7 @@ export function createMatch(matchData) {
     .then(checkStatus)
     .then(parseJSON)
     .then((response) => {
-      return dispatch(fetchLeague(matchData.league_id));
+      return dispatch(receiveMatch(response.data));
     });
   };
 }

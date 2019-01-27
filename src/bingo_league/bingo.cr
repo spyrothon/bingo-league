@@ -6,61 +6,8 @@ module BingoLeague::Bingo
   extend self
 
   ###
-  # Leagues
-  ###
-
-  def list_leagues(query : Query = Query.new)
-    Repo.all(League, query)
-  end
-
-  def get_league(league_id, query : Query = Query.new)
-    Repo.all(League, query.where(id: league_id).limit(1)).first?
-  end
-
-  def get_league!(league_id, query : Query = Query.new)
-    Repo.all(League, query.where(id: league_id).limit(1)).first
-  end
-
-  def new_league()
-    League.new
-  end
-
-  def create_league(attrs)
-    league = League.new
-    league = league.cast(attrs)
-    Repo.insert(league)
-  end
-
-  def update_league(league : League, changes)
-    changeset = league.cast(changes)
-    Repo.update(changeset)
-  end
-
-  def delete_league(league : League)
-    Repo.delete(league)
-  end
-
-
-
-  ###
   # Matches
   ###
-
-  struct PlayParams
-    JSON.mapping({
-      team_id: String,
-      score: String?
-    })
-  end
-
-  struct MatchParams
-    JSON.mapping({
-      league_id: Int64,
-      name: String,
-      start_date: Time,
-      plays: Array(PlayParams)
-    })
-  end
 
   def list_matches(query : Query = Query.new)
     Repo.all(Match, query)
@@ -82,21 +29,6 @@ module BingoLeague::Bingo
     match = Match.new
     match = match.cast(attrs)
     changeset = Repo.insert(match)
-  end
-
-  def create_match_from_json(json_string)
-    match = Match.from_json(json_string)
-    plays = match.plays
-    changeset = Repo.insert(match)
-    return changeset unless changeset.valid?
-
-    match = changeset.instance
-    multi = Multi.new
-    plays.each do |play|
-      play.match = match
-      multi.insert(play)
-    end
-    Repo.transaction(multi)
   end
 
   def update_match(match : Match, changes)
