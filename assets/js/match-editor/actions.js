@@ -54,7 +54,8 @@ export function createMatch(matchData) {
     .then(checkStatus)
     .then(parseJSON)
     .then((response) => {
-      return dispatch(receiveMatch(response.data));
+      const matchId = response.data.match.id;
+      window.location.href = `/matches/${matchId}/edit`;
     });
   };
 }

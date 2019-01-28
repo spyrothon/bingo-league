@@ -113,7 +113,9 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
     sorted_params.each do |params|
       params.as_h["won"] = JSON::Any.new(false)
     end
-    sorted_params[0].as_h["won"] = JSON::Any.new(true)
+    if winner = sorted_params[0]?
+      winner.as_h["won"] = JSON::Any.new(true)
+    end
     sorted_params
   end
 end
