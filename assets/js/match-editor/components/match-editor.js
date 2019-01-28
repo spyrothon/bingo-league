@@ -38,6 +38,13 @@ export class MatchEditor extends Component {
     }
   }
 
+  confirmDeleteMatch() {
+    const { match } = this.props;
+    if (window.confirm(`Confirm deletion of match "${match.name}"?`)) {
+      window.location.href = `/matches/${match.id}/delete`;
+    }
+  }
+
   render(props, state) {
     const {
       loading,
@@ -56,6 +63,7 @@ export class MatchEditor extends Component {
     const { plays } = match;
     const teamIds = plays.map((p) => p.team_id);
     const remainingTeams = teams.filter((team) => !teamIds.includes(team.id));
+    const isExisting = !!match.id;
 
     if(loading) return <h1>Loading</h1>;
 
@@ -126,6 +134,12 @@ export class MatchEditor extends Component {
                 </a>
               </div>
             </div>
+
+            { isExisting &&
+              <a class="button is-fullwidth is-danger" onClick={this.confirmDeleteMatch.bind(this)}>
+                Delete Match
+              </a>
+            }
           </div>
 
           <div class="column is-8-desktop">
