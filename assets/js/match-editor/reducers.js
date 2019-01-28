@@ -1,15 +1,20 @@
+import dotProp from 'dot-prop-immutable';
 import {
-  ADD_TEAM,
-  REMOVE_TEAM,
+  ADD_PLAY,
+  REMOVE_PLAY,
   FETCH_MATCH,
   RECEIVE_MATCH,
-  RECEIVE_TEAMS
+  FETCH_TEAMS,
+  RECEIVE_TEAMS,
+  SET_MATCH_INFO
 } from "./constants";
 
 const initialState = {
-  loading: false,
+  loadingMatch: true,
+  loadingTeams: true,
   match: {
-    teams: []
+    teams: [],
+    plays: []
   },
   teams: []
 };
@@ -19,57 +24,52 @@ export default function(state = initialState, action) {
     case FETCH_MATCH:
       return {
         ...state,
-        loading: true
+        loadingMatch: true
       }
-
     case RECEIVE_MATCH:
-      if(action.data) {
-        return {
-          ...state,
-          loading: false,
-          match: action.data.match
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        loadingMatch: false,
+        match: action.data.match
+      };
 
+    case FETCH_TEAMS:
+      return {
+        ...state,
+        loadingTeams: true
+      }
     case RECEIVE_TEAMS:
-      if(action.data) {
-        return {
-          ...state,
-          teams: action.data.teams
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        loadingTeams: false,
+        teams: action.data.teams
+      };
 
-    case ADD_TEAM:
-      const team = state.teams.find((team) => team.id == action.data.teamId);
-      if(team) {
-        return {
-          ...state,
-          match: {
-            ...state.match,
-            teams: [...state.match.teams, team]
-          }
-        };
-      } else {
-        return state;
-      }
-
-    case REMOVE_TEAM:
+    case ADD_PLAY:
+      const play = {
+        team_id: parseInt(action.data.teamId),
+        match_id: state.match.id,
+        score: null
+      };
+      return {
+        ...state,
+        match: {
+          ...state.match,
+          plays: [...state.match.plays, play]
+        }
+      };
+    case REMOVE_PLAY:
       const teamId = action.data.teamId;
-      if(teamId) {
-        return {
-          ...state,
-          match: {
-            ...state.match,
-            teams: state.match.teams.filter((team) => team.id != teamId)
-          }
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        match: {
+          ...state.match,
+          plays: state.match.plays.filter((play) => play.team_id != teamId)
+        }
+      };
+
+    case SET_MATCH_INFO:
+      return dotProp.set(state, action.data.property, action.data.value);
 
     default:
       return state;

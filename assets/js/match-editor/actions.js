@@ -1,10 +1,11 @@
 import {
-  ADD_TEAM,
+  ADD_PLAY,
   FETCH_MATCH,
   FETCH_TEAMS,
   RECEIVE_MATCH,
   RECEIVE_TEAMS,
-  REMOVE_TEAM
+  REMOVE_PLAY,
+  SET_MATCH_INFO
 } from './constants';
 
 const defaultHeaders = {
@@ -58,6 +59,21 @@ export function createMatch(matchData) {
   };
 }
 
+export function updateMatch(matchData) {
+  return dispatch => {
+    fetch(`/api/matches/${matchData.id}/update`, {
+      headers: defaultHeaders,
+      method: 'POST',
+      body: JSON.stringify(matchData)
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((response) => {
+      return dispatch(receiveMatch(response.data));
+    });
+  };
+}
+
 
 export function receiveTeams(data) {
   return {
@@ -66,18 +82,18 @@ export function receiveTeams(data) {
   }
 }
 
-export function addTeam(teamId) {
+export function addPlay(teamId) {
   return {
-    type: ADD_TEAM,
+    type: ADD_PLAY,
     data: {
       teamId
     }
   }
 }
 
-export function removeTeam(teamId) {
+export function removePlay(teamId) {
   return {
-    type: REMOVE_TEAM,
+    type: REMOVE_PLAY,
     data: {
       teamId
     }
@@ -88,6 +104,16 @@ export function receiveMatch(data) {
   return {
     type: RECEIVE_MATCH,
     data: data
+  }
+}
+
+export function setMatchInfo(property, value) {
+  return {
+    type: SET_MATCH_INFO,
+    data: {
+      property,
+      value
+    }
   }
 }
 

@@ -14,24 +14,28 @@ export class MatchEditor extends Component {
     }
   }
 
-  addTeam() {
-    const { onAddTeam } = this.props;
+  addPlay() {
+    const { onAddPlay } = this.props;
     const { teamToAdd } = this.state;
 
-    onAddTeam(teamToAdd);
+    onAddPlay(teamToAdd);
     this.setState({
       teamToAdd: null
     });
   }
 
-  removeTeam(teamId) {
-    const { onRemoveTeam } = this.props;
-    onRemoveTeam(teamId);
+  removePlay(playId) {
+    const { onRemovePlay } = this.props;
+    onRemovePlay(playId);
   }
 
-  createMatch() {
-    const { match, onCreateMatch } = this.props;
-    onCreateMatch(match);
+  saveMatch() {
+    const { match, onCreateMatch, onUpdateMatch } = this.props;
+    if(match.id) {
+      onUpdateMatch(match);
+    } else {
+      onCreateMatch(match);
+    }
   }
 
   render(props, state) {
@@ -40,17 +44,20 @@ export class MatchEditor extends Component {
       match,
       teams,
       onCreateMatch,
-      onAddTeam,
-      onRemoveTeam
+      onUpdateMatch,
+      onAddPlay,
+      onRemovePlay,
+      onSetMatchInfo
     } = props;
     const {
       teamToAdd
     } = state;
 
-    const matchTeams = match.teams;
-    const matchTeamIds = matchTeams.map((t) => t.id);
-    const remainingTeams = teams.filter((team) => !matchTeamIds.includes(team.id));
+    const { plays } = match;
+    const teamIds = plays.map((p) => p.team_id);
+    const remainingTeams = teams.filter((team) => !teamIds.includes(team.id));
 
+    if(loading) return <h1>Loading</h1>;
 
     return (
       <div>
@@ -58,7 +65,7 @@ export class MatchEditor extends Component {
           class="input title is-4 is-content"
           placeholder="Edit Match Name"
           value={match.name}
-          onChange={linkState(this, 'match.start_date')}
+          onChange={(e) => onSetMatchInfo('match.name', e.target.value)}
         />
 
         <div class="columns">
@@ -71,16 +78,49 @@ export class MatchEditor extends Component {
                 <div class="control">
                   <DateTimePicker
                     data-enable-time
-                    class="input"
+                    class="input is-content"
                     value={match.start_date}
-                    onChange={linkState(this, 'match.start_date')}
+                    onChange={([value]) => onSetMatchInfo('match.start_date', value)}
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Description (public)</label>
+                <div class="control">
+                  <textarea
+                    class="textarea"
+                    value={match.description}
+                    onChange={(e) => onSetMatchInfo('match.description', e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Notes (private)</label>
+                <div class="control">
+                  <textarea
+                    class="textarea"
+                    value={match.notes}
+                    onChange={(e) => onSetMatchInfo('match.notes', e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Video Link</label>
+                <div class="control">
+                  <input
+                    class="input is-content"
+                    value={match.video_link}
+                    onChange={(e) => onSetMatchInfo('match.video_link', e.target.value)}
                   />
                 </div>
               </div>
 
               <div class="has-margin-top-lg">
-                <a class="button is-fullwidth is-primary" onClick={this.createMatch.bind(this)}>
-                  Create Match
+                <a class="button is-fullwidth is-primary" onClick={this.saveMatch.bind(this)}>
+                  Save Match
                 </a>
               </div>
             </div>
@@ -93,6 +133,7 @@ export class MatchEditor extends Component {
               <table class="table is-fullwidth">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Team</th>
                     <th>Score</th>
                     <th></th>
@@ -100,19 +141,30 @@ export class MatchEditor extends Component {
                 </thead>
 
                 <tbody>
-                  { matchTeams.map((team) => {
+                  { plays.map((play, index) => {
+                      const team = teams.find((team) => team.id == play.team_id);
+
                       return (
-                        <tr key={team.id}>
-                          <td>{team.name}</td>
+                        <tr>
+                          <td width="20px" class="has-padding-right-none">
+                            { play.won &&
+                              <span class="has-text-primary has-text-right">&#9733;</span>
+                            }
+                          </td>
+                          <td width="60%">
+                            {team.name}
+                          </td>
                           <td>
                             <input
                               type="number"
                               placeholder="Enter Score"
                               class="input is-content"
+                              value={play.score}
+                              onChange={(e) => onSetMatchInfo(`match.plays.${index}.score`, e.target.value)}
                             />
                           </td>
                           <td>
-                            <a class="button is-white" onClick={this.removeTeam.bind(this, team.id)}>
+                            <a class="button is-white" onClick={this.removePlay.bind(this, team.id)}>
                               &#x2716;
                             </a>
                           </td>
@@ -137,7 +189,7 @@ export class MatchEditor extends Component {
                 </div>
 
                 <div class="control">
-                  <button class="button is-primary" onClick={this.addTeam.bind(this)} disabled={!teamToAdd}>Add Team</button>
+                  <button class="button is-primary" onClick={this.addPlay.bind(this)} disabled={!teamToAdd}>Add Team</button>
                 </div>
               </div>
             </div>

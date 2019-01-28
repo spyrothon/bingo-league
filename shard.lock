@@ -10,7 +10,7 @@ shards:
 
   crecto:
     github: faultyserver/crecto
-    commit: eb3a7ecfd9a4a775a3b3e522b8a4b689e8860c76
+    commit: 7ad04d5f5299d15e75836ff8f777ab8c30e538ab
 
   crinja:
     github: straight-shoota/crinja
@@ -31,10 +31,6 @@ shards:
   inflector:
     github: phoffer/inflector.cr
     version: 0.1.8
-
-  keyer:
-    github: danielpclark/keyer_cr
-    commit: a50da4c54dfe759392f86f6143b99df57c3f1bf7
 
   migrate:
     github: vladfaust/migrate.cr

@@ -41,7 +41,6 @@ module BingoLeague::Bingo
   end
 
 
-
   ###
   # Plays
   ###

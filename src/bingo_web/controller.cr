@@ -14,6 +14,7 @@ class BingoWeb::Controller
   end
 
   def render_json(value, status=200)
+    response.headers.add "Content-Type", "application/json"
     response.print({ data: value }.to_json)
   end
 
@@ -23,6 +24,7 @@ class BingoWeb::Controller
   end
 
   def render_error_json(status : Int32, message)
+    response.headers.add "Content-Type", "application/json"
     response.status_code = status
     response.print({ error: message }.to_json)
   end

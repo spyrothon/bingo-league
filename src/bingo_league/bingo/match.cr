@@ -9,6 +9,10 @@ module BingoLeague::Bingo
       field :name, String
       field :start_date, Time
 
+      field :description, String
+      field :notes, String
+      field :video_link, String
+
       has_many :plays, Play
       has_many :teams, Team, through: :plays
     end
