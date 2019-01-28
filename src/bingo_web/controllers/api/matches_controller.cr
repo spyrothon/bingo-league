@@ -35,7 +35,9 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
     plays_params = mark_winning_play(plays_params)
 
     plays_params.each do |play_params|
-      Bingo.create_play(play_params.as_h)
+      play_params = play_params.as_h
+      play_params["match_id"] = JSON::Any.new(match.id.to_s)
+      Bingo.create_play(play_params)
     end
 
     match = Bingo.get_match(match.id)
@@ -108,7 +110,6 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
       end
     end.reverse
 
-    pp sorted_params
     sorted_params.each do |params|
       params.as_h["won"] = JSON::Any.new(false)
     end

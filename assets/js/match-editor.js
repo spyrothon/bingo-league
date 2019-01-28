@@ -16,7 +16,7 @@ const store = createStore(matchReducer, applyMiddleware(thunk));
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector("#match-editor");
-  const matchId = container.dataset.matchId;
+  const matchId = container.dataset.matchId || "new";
 
   store.dispatch(fetchMatch(matchId));
   store.dispatch(fetchTeams());

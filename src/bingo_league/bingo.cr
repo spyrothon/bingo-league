@@ -22,7 +22,10 @@ module BingoLeague::Bingo
   end
 
   def new_match()
-    Match.new
+    match = Match.new
+    match.plays = [] of Play
+    match.teams = [] of Team
+    match
   end
 
   def create_match(attrs)

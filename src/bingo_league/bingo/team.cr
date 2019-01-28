@@ -1,6 +1,7 @@
 require "crinja"
 
 module BingoLeague::Bingo
+  @[JSON::Serializable::Options(emit_nulls: true)]
   @[Crinja::Attributes]
   class Team < Crecto::Model
     include Crinja::Object::Auto

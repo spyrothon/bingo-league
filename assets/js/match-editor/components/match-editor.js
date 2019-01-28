@@ -59,13 +59,15 @@ export class MatchEditor extends Component {
 
     if(loading) return <h1>Loading</h1>;
 
+    const canSubmit = match.name && match.start_date;
+
     return (
       <div>
         <input
           class="input title is-4 is-content"
           placeholder="Edit Match Name"
           value={match.name}
-          onChange={(e) => onSetMatchInfo('match.name', e.target.value)}
+          onInput={(e) => onSetMatchInfo('match.name', e.target.value)}
         />
 
         <div class="columns">
@@ -91,7 +93,7 @@ export class MatchEditor extends Component {
                   <textarea
                     class="textarea"
                     value={match.description}
-                    onChange={(e) => onSetMatchInfo('match.description', e.target.value)}
+                    onInput={(e) => onSetMatchInfo('match.description', e.target.value)}
                   />
                 </div>
               </div>
@@ -102,7 +104,7 @@ export class MatchEditor extends Component {
                   <textarea
                     class="textarea"
                     value={match.notes}
-                    onChange={(e) => onSetMatchInfo('match.notes', e.target.value)}
+                    onInput={(e) => onSetMatchInfo('match.notes', e.target.value)}
                   />
                 </div>
               </div>
@@ -113,13 +115,13 @@ export class MatchEditor extends Component {
                   <input
                     class="input is-content"
                     value={match.video_link}
-                    onChange={(e) => onSetMatchInfo('match.video_link', e.target.value)}
+                    onInput={(e) => onSetMatchInfo('match.video_link', e.target.value)}
                   />
                 </div>
               </div>
 
               <div class="has-margin-top-lg">
-                <a class="button is-fullwidth is-primary" onClick={this.saveMatch.bind(this)}>
+                <a class="button is-fullwidth is-primary" onClick={this.saveMatch.bind(this)} disabled={!canSubmit}>
                   Save Match
                 </a>
               </div>
@@ -160,7 +162,7 @@ export class MatchEditor extends Component {
                               placeholder="Enter Score"
                               class="input is-content"
                               value={play.score}
-                              onChange={(e) => onSetMatchInfo(`match.plays.${index}.score`, e.target.value)}
+                              onInput={(e) => onSetMatchInfo(`match.plays.${index}.score`, e.target.value)}
                             />
                           </td>
                           <td>
