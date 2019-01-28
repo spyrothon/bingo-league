@@ -40,6 +40,8 @@ module BingoLeague::Bingo
   end
 
   def delete_match(match : Match)
+    match_id = match.id
+    Repo.delete_all(Play, Query.where(match_id: match_id))
     Repo.delete(match)
   end
 

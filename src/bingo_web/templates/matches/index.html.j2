@@ -14,6 +14,7 @@
       <tr>
         <th>Name</th>
         <th>Start Date</th>
+        <th></th>
       </tr>
     </thead>
 
@@ -21,7 +22,12 @@
       {% for match in matches %}
         <tr>
           <td><a href="/matches/{{match.id}}">{{ match.name }}</a></td>
-          <td>{{ match.start_date }}</td>
+          <td class="js-date-string js-localized">{{ match.start_date | strftime('%s') }}</td>
+          <td>
+            <a class="button is-white" href="/matches/{{match.id}}/delete">
+              &#x2716;
+            </a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

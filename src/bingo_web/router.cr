@@ -1,16 +1,16 @@
 require "orion"
 
-macro crud(name, singular, *, controller=nil)
+macro crud(name, singular, *, controller=nil, helpers=true)
   {% controller = controller || name %}
 
   scope "{{name.id}}" do
-    get   "",                             to: "{{controller.id}}#index",    helper: "{{name.id}}"
-    get   "/new",                         to: "{{controller.id}}#new",      helper: "{{name.id}}_new"
-    post  "/create",                      to: "{{controller.id}}#create",   helper: "{{name.id}}_create"
-    get   "/:{{singular.id}}_id",         to: "{{controller.id}}#show",     helper: "{{name.id}}_show"
-    get   "/:{{singular.id}}_id/edit",    to: "{{controller.id}}#edit",     helper: "{{name.id}}_edit"
-    post  "/:{{singular.id}}_id/update",  to: "{{controller.id}}#update",   helper: "{{name.id}}_update"
-    get   "/:{{singular.id}}_id/delete",  to: "{{controller.id}}#delete",   helper: "{{name.id}}_delete"
+    get   "",                             to: "{{controller.id}}#index"     {% if helpers %}, helper: "{{name.id}}" {% end %}
+    get   "/new",                         to: "{{controller.id}}#new"       {% if helpers %}, helper: "{{name.id}}_new" {% end %}
+    post  "/create",                      to: "{{controller.id}}#create"    {% if helpers %}, helper: "{{name.id}}_create" {% end %}
+    get   "/:{{singular.id}}_id",         to: "{{controller.id}}#show"      {% if helpers %}, helper: "{{name.id}}_show" {% end %}
+    get   "/:{{singular.id}}_id/edit",    to: "{{controller.id}}#edit"      {% if helpers %}, helper: "{{name.id}}_edit" {% end %}
+    post  "/:{{singular.id}}_id/update",  to: "{{controller.id}}#update"    {% if helpers %}, helper: "{{name.id}}_update" {% end %}
+    get   "/:{{singular.id}}_id/delete",  to: "{{controller.id}}#delete"    {% if helpers %}, helper: "{{name.id}}_delete" {% end %}
 
     {{yield}}
   end
@@ -35,7 +35,7 @@ router BingoWeb::Router do
   get   "logout", to: "sessions#destroy", helper: "logout"
 
   scope "api" do
-    crud :matches, "match", controller: "aPI::Matches"
+    crud :matches, "match", controller: "aPI::Matches", helpers: false
 
     get "/teams", controller: API::TeamsController, action: index
   end

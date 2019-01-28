@@ -7,7 +7,7 @@ class BingoWeb::MatchesController < BingoWeb::Controller
   private alias Bingo = BingoLeague::Bingo
 
   def index
-    matches = Bingo.list_matches()
+    matches = Bingo.list_matches(Query.order_by("start_date ASC"))
     render("matches/index.html.j2", {
       "matches" => matches
     })
