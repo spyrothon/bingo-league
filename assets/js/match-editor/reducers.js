@@ -49,7 +49,8 @@ export default function(state = initialState, action) {
       const play = {
         team_id: parseInt(action.data.teamId),
         match_id: state.match.id,
-        score: null
+        score: null,
+        round: 1
       };
       return {
         ...state,

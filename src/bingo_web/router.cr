@@ -40,6 +40,8 @@ router BingoWeb::Router do
     get "/teams", controller: API::TeamsController, action: index
   end
 
+  get "/", to: "static#index"
+
 
   ## Static assets
   scope "css" do

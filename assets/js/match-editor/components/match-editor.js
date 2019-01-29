@@ -84,7 +84,7 @@ export class MatchEditor extends Component {
               <h2 class="title is-4">Information</h2>
 
               <div class="field">
-                <label class="label">Date</label>
+                <label class="label">Date (local time)</label>
                 <div class="control">
                   <DateTimePicker
                     data-enable-time
