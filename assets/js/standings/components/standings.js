@@ -23,25 +23,21 @@ export class Standings extends Component {
     return (
       <div class="columns">
         <div class="column is-3-desktop">
-          {/*<h2 class="title">Team Standings</h2>*/}
+          <h2 class="title">Standings</h2>
 
           <TeamStandings matches={matches} allTeams={allTeams} />
         </div>
 
         <div class="column is-5-desktop">
-          <div class="box">
-            <h2 class="title">Match History</h2>
+          <h2 class="title">Match History</h2>
 
-            { matches.map((match) => <Match match={match} />) }
-          </div>
+          { matches.map((match) => <Match match={match} />) }
         </div>
 
         <div class="column is-4-desktop">
-          <div class="box">
-            <h2 class="title">Upcoming Matches</h2>
+          <h2 class="title">Upcoming Matches</h2>
 
-            { futureMatches.map((match) => <Match match={match} />) }
-          </div>
+          { futureMatches.map((match) => <Match match={match} />) }
         </div>
       </div>
     );

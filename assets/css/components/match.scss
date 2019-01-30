@@ -1,0 +1,41 @@
+$match-background-color: #eaebec;
+$match-header-color: #5b5e5f;
+$match-border-color: #5b5e5f;
+$match-radius: $radius;
+$match-border: 2px solid $match-border-color;
+$match-border-thin: 1px solid $match-border-color;
+$match-shadow: 0 2px 3px rgba($black, 0.1), 0 0 0 1px rgba($black, 0.1);
+$match-shadow-large: 0 2px 10px rgba($black, 0.2), 0 1px 4px rgba($black, 0.1);
+
+.match {
+  border-radius: $match-radius;
+  box-shadow: $match-shadow;
+  background-color: $match-background-color;
+  font-size: 0.75rem;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: $match-shadow-large;
+  }
+
+  .match-header {
+    border-bottom: $match-border;
+    color: $match-header-color;
+    font-weight: $weight-bold;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+  }
+
+  .match-content {
+    padding: 0.5rem;
+  }
+
+  .match-table {
+    width: 100%;
+  }
+
+  .match-footer {
+    border-top: $match-border-thin;
+    padding: 0.5rem;
+  }
+}

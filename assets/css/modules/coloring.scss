@@ -1,7 +1,7 @@
 @each $name, $value in $radio-colors {
   $bolder: shade($value, 80%);
   $bold: shade($value, 40%);
-  $light: tint($value, 35%);
+  $light: tint($value, 30%);
   $lighter: tint($value, 80%);
 
   $invert: findColorInvert($value);
@@ -27,6 +27,7 @@
   .highlight-#{"" + $name}-text-bolder  { color: $bolder; }
   .highlight-#{"" + $name}-text-bold    { color: $bold; }
   .highlight-#{"" + $name}-text         { color: $value; }
+  .highlight-#{"" + $name}-text-invert  { color: $invert; }
   .highlight-#{"" + $name}-text-muted   { color: $muted; }
   .highlight-#{"" + $name}-text-light   { color: $light; }
   .highlight-#{"" + $name}-text-lighter { color: $lighter; }
