@@ -1,0 +1,32 @@
+@each $name, $value in $radio-colors {
+  $bolder: shade($value, 80%);
+  $bold: shade($value, 40%);
+  $light: tint($value, 35%);
+  $lighter: tint($value, 80%);
+
+  $invert: findColorInvert($value);
+  $muted: shade(desaturate($value, 70%), 30%);
+
+  $shadow: 0 2px 3px rgba($bold, 0.1), 0 0 0 1px rgba($bold, 0.1);
+
+  .highlight-#{"" + $name} {
+    color: $bold;
+    border-bottom: 2px solid $value;
+  }
+
+  .highlight-#{"" + $name}-shadow {
+    box-shadow: $shadow;
+  }
+
+  .highlight-#{"" + $name}-text-bolder  { color: $bolder; }
+  .highlight-#{"" + $name}-text-bold    { color: $bold; }
+  .highlight-#{"" + $name}-text         { color: $value; }
+  .highlight-#{"" + $name}-text-muted   { color: $muted; }
+  .highlight-#{"" + $name}-text-light   { color: $light; }
+  .highlight-#{"" + $name}-text-lighter { color: $lighter; }
+
+  .highlight-#{"" + $name}-bolder   { background-color: $bolder; }
+  .highlight-#{"" + $name}-bold     { background-color: $bold; }
+  .highlight-#{"" + $name}-light    { background-color: $light; }
+  .highlight-#{"" + $name}-lighter  { background-color: $lighter; }
+} // !@each

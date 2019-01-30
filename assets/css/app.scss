@@ -1,8 +1,11 @@
 @import "node_modules/bulma/bulma.sass";
 
+@import "_mixins";
+@import "_vars";
 @import "_spacing";
 
 @import "elements/avatar";
+@import "elements/radio-colors";
 @import "elements/section";
 
 @import "components/box";
@@ -16,6 +19,9 @@
 @import "forms/form-section";
 @import "forms/image-upload";
 @import "forms/input";
+
+@import "modules/coloring";
+@import "modules/rounding";
 
 
 @import "node_modules/flatpickr/dist/flatpickr.min";

@@ -1,0 +1,14 @@
+.has-radius {
+  border-radius: $radius;
+  overflow: auto;
+}
+
+.has-radius-small {
+  border-radius: $radius-small;
+  overflow: auto;
+}
+
+.has-radius-large {
+  border-radius: $radius-large;
+  overflow: auto;
+}
