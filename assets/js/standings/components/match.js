@@ -15,27 +15,46 @@ export class Match extends Component {
       start_date
     } = match;
 
+    const hasFooterContent = match.description || match.video_link;
+
     const teamsById = _.keyBy(teams, 'id');
     const startDate = DateTime.fromISO(start_date);
     const roundCount = _.chain(plays)
         .map('round')
         .max()
         .value();
-    console.log(roundCount)
 
     const teamsFromPlays = _.chain(plays)
         .map((play) => teamsById[play.team_id])
         .uniq()
         .value();
 
+    const teamCount = teamsFromPlays.length;
+    const matchTableColumnSize = 90.0 / teamCount;
+
     return (
       <div class="match has-margin-bottom-md">
         <div class="match-header">
-          <span class="is-pulled-right has-text-weight-normal">
-            {startDate.toLocaleString(DateTime.DATETIME_MED)}
-          </span>
-          <p>{match.name}</p>
+          <div class="level">
+            <div class="level-start">
+              <div class="level-item">
+                <p class="match-title">
+                  {match.name}
+                  <span class="has-text-grey-light"> (#{match.id})</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="level-end">
+              <div class="level-item">
+                <span class="has-text-weight-normal is-pulled-right">
+                  {startDate.toLocaleString(DateTime.DATETIME_MED)}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+
 
         <div class="match-content">
           <table class="match-table">
@@ -51,12 +70,12 @@ export class Match extends Component {
                   const roundNum = roundIndex + 1;
                   return (
                     <tr>
-                      <td width="60px" class="has-text-right">Round {roundNum}</td>
+                      <td style="min-width: 50px" class="has-text-right">Round {roundNum}</td>
                       { _.map(teamsFromPlays, (team) => {
                           const play = _.find(plays, {team_id: team.id, round: roundNum})
 
                           return (
-                            <td class="has-text-centered">
+                            <td width={`${matchTableColumnSize}%`} class="has-text-centered">
                               { play && play.won &&
                                 <span class="has-text-danger has-text-right">&#9733; </span>
                               }
@@ -75,17 +94,29 @@ export class Match extends Component {
             </tbody>
           </table>
         </div>
-        <div class="match-footer">
-          <div class="match-description">
-            <strong>Description: </strong>
-            { match.description }
-          </div>
 
-          <div class="match-video">
-            <strong>Video: </strong>
-            { match.video_link }
+
+        { hasFooterContent &&
+          <div class="match-footer">
+            <div class="match-description">
+              { match.description &&
+                <span>
+                  <strong>Description: </strong>
+                  { match.description }
+                </span>
+              }
+            </div>
+
+            <div class="match-video">
+              { match.video_link &&
+                <span>
+                  <strong>Video: </strong>
+                  { match.video_link }
+                </span>
+              }
+            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }

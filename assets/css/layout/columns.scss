@@ -1,0 +1,8 @@
+.column {
+  &.is-divider {
+    width: 0;
+    padding: 0;
+    margin: 0.5rem;
+    border-right: 2px solid $grey-lighter;
+  }
+}

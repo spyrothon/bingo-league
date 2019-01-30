@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { h, Component } from 'preact';
 import { renderJoined } from '../util';
 import { DateTime } from 'luxon';
@@ -16,28 +17,31 @@ export class Standings extends Component {
 
     if(loading) return <h1>Loading</h1>;
 
-    const futureMatches = matches.filter((match) => {
-      return DateTime.fromISO(match.start_date).toMillis() > DateTime.utc().toMillis()
-    });
+    const [futureMatches, pastMatches] = _.chain(matches)
+        .orderBy(['start_date'], ['desc'])
+        .partition((match) => {
+          return DateTime.fromISO(match.start_date).toMillis() > DateTime.utc().toMillis()
+        })
+        .value();
 
     return (
-      <div class="columns">
-        <div class="column is-3-desktop">
-          <h2 class="title">Standings</h2>
+      <div class="columns is-centered">
+        <div class="column is-4-tablet is-3">
+          <h2 class="title has-text-right">Standings</h2>
 
           <TeamStandings matches={matches} allTeams={allTeams} />
         </div>
 
-        <div class="column is-5-desktop">
-          <h2 class="title">Match History</h2>
+        <div class="column is-narrow is-divider"></div>
 
-          { matches.map((match) => <Match match={match} />) }
-        </div>
+        <div class="column is-8-tablet is-7">
+          <h2 class="title">Matches</h2>
 
-        <div class="column is-4-desktop">
-          <h2 class="title">Upcoming Matches</h2>
-
+          <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">Upcoming</p>
           { futureMatches.map((match) => <Match match={match} />) }
+
+          <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">History</p>
+          { pastMatches.map((match) => <Match match={match} />) }
         </div>
       </div>
     );

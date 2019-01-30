@@ -1,3 +1,10 @@
+@import "node_modules/bulma/sass/utilities/initial-variables";
+$background: $white-ter;
+$navbar-background-color: $background;
+$table-background-color: $background;
+$body-background-color: $background;
+$fullhd-enabled: false;
+
 @import "node_modules/bulma/bulma.sass";
 
 @import "_mixins";
@@ -20,6 +27,8 @@
 @import "forms/form-section";
 @import "forms/image-upload";
 @import "forms/input";
+
+@import "layout/columns";
 
 @import "modules/coloring";
 @import "modules/rounding";
