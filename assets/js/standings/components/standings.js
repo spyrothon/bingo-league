@@ -20,16 +20,12 @@ export class Standings extends Component {
       return DateTime.fromISO(match.start_date).toMillis() > DateTime.utc().toMillis()
     });
 
-    console.log(futureMatches)
-
     return (
       <div class="columns">
         <div class="column is-3-desktop">
-          <div class="box">
-            <h2 class="title">Team Standings</h2>
+          {/*<h2 class="title">Team Standings</h2>*/}
 
-            <TeamStandings matches={matches} allTeams={allTeams} />
-          </div>
+          <TeamStandings matches={matches} allTeams={allTeams} />
         </div>
 
         <div class="column is-5-desktop">

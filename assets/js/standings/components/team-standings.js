@@ -26,14 +26,14 @@ export class TeamStandings extends Component {
             const matchCount = plays.length;
 
             return (
-              <div class={`has-radius has-margin-top-sm has-margin-bottom-sm highlight-${team.color}-lighter highlight-${team.color}-shadow`}>
+              <div class={`has-radius has-margin-top-md has-margin-bottom-md highlight-${team.color}-lighter highlight-${team.color}-shadow`}>
                 <p class={`has-padding-xxs has-text-weight-bold highlight-${team.color}`}>
                   <span class="is-pulled-right has-margin-right-sm">{points}</span>
                   <span class="has-margin-left-sm">{team.name}</span>
                 </p>
                 <div class="has-padding-sm is-size-7">
-                  <p class={`highlight-${team.color}-text-muted`}>{matchCount} Matches Played</p>
-                  <p class={`highlight-${team.color}-text-muted`}>{wins.length} Wins - {losses.length} Losses - {totalGoals} Total Goals</p>
+                  <p class={`highlight-${team.color}-text-muted`}><strong>{matchCount}</strong> Matches Played</p>
+                  <p class={`highlight-${team.color}-text-muted`}><strong>{wins.length}</strong> Wins - <strong>{losses.length}</strong> Losses - <strong>{totalGoals}</strong> Total Goals</p>
                 </div>
               </div>
             );
