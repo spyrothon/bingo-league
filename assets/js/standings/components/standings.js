@@ -28,8 +28,6 @@ export class Standings extends Component {
     return (
       <div class="columns is-centered">
         <div class="column is-4-tablet is-3">
-          <h2 class="title has-text-right">Standings</h2>
-
           <TeamStandings matches={matches} allTeams={allTeams} />
           <OverallStats matches={matches} allTeams={allTeams} />
         </div>
@@ -37,18 +35,16 @@ export class Standings extends Component {
         <div class="column is-narrow is-divider"></div>
 
         <div class="column is-8-tablet is-7 is-7-widescreen">
-          <h2 class="title">Matches</h2>
-
           { futureMatches.length > 0 &&
-            <div>
-              <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">Upcoming</p>
+            <div class="has-margin-bottom-lg">
+              <p class="is-uppercase has-text-grey has-margin-bottom-md">Upcoming Matches</p>
               { futureMatches.map((match) => <Match match={match} />) }
             </div>
           }
 
           { pastMatches.length > 0 &&
-            <div>
-              <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">History</p>
+            <div class="has-margin-bottom-lg">
+              <p class="is-uppercase has-text-grey has-margin-bottom-md">Past Matches</p>
               { pastMatches.map((match) => <Match match={match} />) }
             </div>
           }
