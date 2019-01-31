@@ -85,7 +85,7 @@ export class Match extends Component {
                           return (
                             <td width={`${matchTableColumnSize}%`} class="has-text-centered">
                               { play && play.won &&
-                                <span class="has-text-danger has-text-right">&#9733; </span>
+                                <FontAwesomeIcon icon="star" size="sm" className="has-text-danger has-margin-right-xs" />
                               }
                               { play
                                 ? play.score
