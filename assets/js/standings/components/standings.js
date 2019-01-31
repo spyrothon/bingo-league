@@ -27,9 +27,16 @@ export class Standings extends Component {
 
     return (
       <div class="columns is-centered">
-        <div class="column is-4-tablet is-3">
-          <TeamStandings matches={matches} allTeams={allTeams} />
-          <OverallStats matches={matches} allTeams={allTeams} />
+        <div class="column is-4-tablet is-4-desktop is-3-widescreen">
+          <div class="has-margin-bottom-lg">
+            <p class="is-uppercase has-text-grey has-margin-bottom-md">Team Standings</p>
+            <TeamStandings matches={matches} allTeams={allTeams} />
+          </div>
+
+          <div class="has-margin-bottom-lg">
+            <p class="is-uppercase has-text-grey has-margin-bottom-md">League Statistics</p>
+            <OverallStats matches={matches} allTeams={allTeams} />
+          </div>
         </div>
 
         <div class="column is-narrow is-divider"></div>

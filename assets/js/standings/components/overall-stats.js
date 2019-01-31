@@ -24,8 +24,6 @@ export class OverallStats extends Component {
 
     return (
       <div class="overall-stats">
-        <p class="is-uppercase has-text-grey has-margin-bottom-sm">League Statistics</p>
-
         <p class="is-size-7">
           <strong> {teamCount} </strong>
           teams have played in

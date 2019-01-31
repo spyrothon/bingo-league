@@ -49,8 +49,14 @@ export class TeamStandings extends Component {
                   <span>{team.name}</span>
                 </p>
                 <div class="has-padding-sm is-size-7">
-                  <p class={`highlight-${team.color}-text-muted`}><strong>{wins.length}-{losses.length}</strong> after <strong>{matchCount}</strong> Matches</p>
-                  <p class={`highlight-${team.color}-text-muted`}>Total Goals: <strong>{totalGoals}</strong></p>
+                  <p class={`highlight-${team.color}-text-muted`}>
+                    <strong> {wins.length}-{losses.length} </strong>
+                    after
+                    <strong> {matchCount} </strong>
+                    matches and
+                    <strong> {totalGoals} </strong>
+                    goals.
+                  </p>
                 </div>
               </div>
             );
