@@ -1,9 +1,72 @@
-{% extends "layouts/main.html.j2" %}
-
-{% block main %}
-  <div id="standings"></div>
-{% endblock %}
+{% extends "layouts/base.html.j2" %}
 
 {% block head %}
   <script src="/js/standings.js"></script>
+{% endblock %}
+
+
+{% block main %}
+  <div class="hero is-dark is-bold is-small">
+    <div class="hero-head">
+      {% include "layouts/_navbar.html.j2" %}
+    </div>
+
+    <div class="hero-body">
+      <div class="container content">
+        <h1 class="title">Spyro 2 Bingo League</h1>
+        <p class="is-size-5">
+          In Bingo races, everybody gets the same randomly generated 5x5 card of objectives. To finish the race, you must complete objectives in a line. Once you get a full row, column, or diagonal, you are done.
+        </p>
+
+        <p class="is-size-5">
+          You get to choose which objectives you want to complete, and avoid the ones you do not want to do. Several games have Bingo. Bingo tends to work well for games that can be open-ended and require route planning.
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-foot">
+      <nav class="tabs is-centered is-boxed">
+        <div class="container">
+          <ul>
+            <li class="is-active">
+              <a>
+                <span class="icon is-small"><i class="fa fa-trophy"></i></span>
+                <span>Standings</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="icon is-small"><i class="fa fa-gavel"></i></span>
+                <span>Rules</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="icon is-small"><i class="fab fa-twitch"></i></span>
+                <span>Twitch</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="icon is-small"><i class="fab fa-discord"></i></span>
+                <span>Discord</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  {% block wrapper %}
+    <main class="main">
+      <section class="section">
+        <div class="container">
+          <div id="standings"></div>
+        </div>
+      </section>
+    </main>
+  {% endblock %}
+
+  {% include "layouts/_footer.html.j2" %}
 {% endblock %}
