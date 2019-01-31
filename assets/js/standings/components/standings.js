@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import linkState from 'linkstate';
 
 import { TeamStandings } from './team-standings';
+import { OverallStats } from './overall-stats';
 import { Match } from './match';
 
 export class Standings extends Component {
@@ -30,6 +31,7 @@ export class Standings extends Component {
           <h2 class="title has-text-right">Standings</h2>
 
           <TeamStandings matches={matches} allTeams={allTeams} />
+          <OverallStats matches={matches} allTeams={allTeams} />
         </div>
 
         <div class="column is-narrow is-divider"></div>
