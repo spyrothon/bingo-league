@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { h, Component } from 'preact';
 import { renderJoined } from '../util';
 import { DateTime } from 'luxon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class Match extends Component {
   render(props) {
@@ -55,6 +56,13 @@ export class Match extends Component {
           </div>
         </div>
 
+        { match.is_featured &&
+          <div class="match-banner">
+            <FontAwesomeIcon icon="bell" size="sm" className="has-margin-right-xs" />
+            This match will be featured on the
+            <a href="https://twitch.tv/spyrothon"> Spyrothon Twitch channel.</a>
+          </div>
+        }
 
         <div class="match-content">
           <table class="match-table">

@@ -34,14 +34,22 @@ export class Standings extends Component {
 
         <div class="column is-narrow is-divider"></div>
 
-        <div class="column is-8-tablet is-7">
+        <div class="column is-8-tablet is-7 is-7-widescreen">
           <h2 class="title">Matches</h2>
 
-          <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">Upcoming</p>
-          { futureMatches.map((match) => <Match match={match} />) }
+          { futureMatches.length > 0 &&
+            <div>
+              <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">Upcoming</p>
+              { futureMatches.map((match) => <Match match={match} />) }
+            </div>
+          }
 
-          <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">History</p>
-          { pastMatches.map((match) => <Match match={match} />) }
+          { pastMatches.length > 0 &&
+            <div>
+              <p class="is-uppercase has-text-grey has-margin-top-lg has-margin-bottom-md">History</p>
+              { pastMatches.map((match) => <Match match={match} />) }
+            </div>
+          }
         </div>
       </div>
     );

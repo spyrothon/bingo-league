@@ -72,11 +72,23 @@ export class MatchEditor extends Component {
     return (
       <div>
         <input
-          class="input title is-4 is-content"
+          class="input is-size-4 is-content"
           placeholder="Edit Match Name"
           value={match.name}
           onInput={(e) => onSetMatchInfo('match.name', e.target.value)}
         />
+
+        <div class="has-margin-top-sm has-margin-bottom-md">
+          <label class="label">
+            <input
+              type="checkbox"
+              name="is_featured"
+              checked={match.is_featured}
+              onChange={(e) => onSetMatchInfo('match.is_featured', e.target.checked)}
+            /> This match will be featured on stream.
+          </label>
+        </div>
+
 
         <div class="columns">
           <div class="column is-4-desktop">

@@ -14,6 +14,8 @@ module BingoLeague::Bingo
       field :notes, String
       field :video_link, String
 
+      field :is_featured, Bool, default: false
+
       has_many :plays, Play
       has_many :teams, Team, through: :plays
     end

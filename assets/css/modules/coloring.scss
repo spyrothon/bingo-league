@@ -1,7 +1,7 @@
 @each $name, $value in $radio-colors {
   $bolder: shade($value, 80%);
   $bold: shade($value, 40%);
-  $light: tint($value, 30%);
+  $light: tint($value, 0%);
   $lighter: tint($value, 80%);
 
   $invert: findColorInvert($value);

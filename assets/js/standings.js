@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { h, render, Component } from 'preact';
 import { Provider } from 'preact-redux';
+import './fontawesome-library';
 
 import standingsReducer from './standings/reducers';
 import {
