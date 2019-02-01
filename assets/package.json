@@ -2,7 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "build": "parcel build --no-hmr css/app.scss js/*.js --out-dir ../public/ --public-url /js",
+    "build": "parcel build css/app.scss js/*.js --out-dir ../public/ --public-url /js",
     "watch": "parcel watch --no-hmr css/app.scss js/*.js --out-dir ../public/ --public-url /js"
   },
   "dependencies": {
