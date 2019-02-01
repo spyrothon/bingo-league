@@ -21,13 +21,10 @@ router BingoWeb::Router do
   use HTTP::LogHandler.new(STDOUT)
   use SessionHandler
 
-  concern :authenticated do
+  concern :authorized_as_admin do
     use AuthenticationHandler
+    use AuthorizationHandler
   end
-
-  crud :matches,  "match"
-  crud :players,  "player"
-  crud :teams,    "team"
 
 
   get   "login",  to: "sessions#new", helper: "login"
@@ -40,7 +37,18 @@ router BingoWeb::Router do
     get "/teams", controller: API::TeamsController, action: index
   end
 
-  get "/", to: "static#index"
+  get "/",      to: "static#index"
+
+
+  scope do
+    implements :authorized_as_admin
+
+    get "/admin", to: "static#admin"
+
+    crud :matches,  "match"
+    crud :players,  "player"
+    crud :teams,    "team"
+  end
 
 
   ## Static assets

@@ -3,6 +3,8 @@ require "crypto/bcrypt/password"
 module BingoLeague::Accounts
   @[Crinja::Attributes]
   class User < Crecto::Model
+    include Crinja::Object::Auto
+
     schema "acc_users" do
       field :name, String
       field :discord, String
@@ -14,6 +16,7 @@ module BingoLeague::Accounts
 
       @[Crinja::Attribute(ignore: true)]
       field :password, String, virtual: true
+      @[Crinja::Attribute(ignore: true)]
       field :encrypted_password, String
     end
 
