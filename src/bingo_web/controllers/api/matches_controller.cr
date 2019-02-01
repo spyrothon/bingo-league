@@ -5,7 +5,9 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
   private alias Bingo = BingoLeague::Bingo
 
   def index
-    matches = Bingo.list_matches()
+    matches = Bingo.list_matches(
+      Query.where(is_public: "true").order_by("start_date ASC")
+    )
     render_json({
       matches: matches
     })
@@ -99,7 +101,7 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
       if score = params["score"]?
         case raw = score.raw
         when String
-          raw.to_i
+          raw.empty? ? raw.to_i : 0
         when Int
           raw
         else

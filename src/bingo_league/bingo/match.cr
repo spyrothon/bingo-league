@@ -15,6 +15,8 @@ module BingoLeague::Bingo
       field :video_link, String
 
       field :is_featured, Bool, default: false
+      field :is_finalized, Bool, default: false
+      field :is_public, Bool, default: true
 
       has_many :plays, Play
       has_many :teams, Team, through: :plays

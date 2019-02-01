@@ -64,44 +64,49 @@ export class Match extends Component {
           </div>
         }
 
-        <div class="match-content">
-          <table class="match-table">
-            <thead>
-              <tr>
-                <th></th>
-                { teamsFromPlays.map((team) => <th class="has-text-centered">{team.name}</th>) }
-              </tr>
-            </thead>
+        { match.is_finalized
+          ? <div class="match-content">
+              <table class="match-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    { teamsFromPlays.map((team) => <th class="has-text-centered">{team.name}</th>) }
+                  </tr>
+                </thead>
 
-            <tbody>
-              { _.times(roundCount, (roundIndex) => {
-                  const roundNum = roundIndex + 1;
-                  return (
-                    <tr>
-                      <td style="min-width: 50px" class="has-text-right">Round {roundNum}</td>
-                      { _.map(teamsFromPlays, (team) => {
-                          const play = _.find(plays, {team_id: team.id, round: roundNum})
+                <tbody>
+                  { _.times(roundCount, (roundIndex) => {
+                      const roundNum = roundIndex + 1;
+                      return (
+                        <tr>
+                          <td style="min-width: 50px" class="has-text-right">Round {roundNum}</td>
+                          { _.map(teamsFromPlays, (team) => {
+                              const play = _.find(plays, {team_id: team.id, round: roundNum})
 
-                          return (
-                            <td width={`${matchTableColumnSize}%`} class="has-text-centered">
-                              { play && play.won &&
-                                <FontAwesomeIcon icon="star" size="sm" className="has-text-danger has-margin-right-xs" />
-                              }
-                              { play
-                                ? play.score
-                                : <span>&ndash;</span>
-                              }
-                            </td>
-                          );
-                        })
-                      }
-                    </tr>
-                  );
-                })
-              }
-            </tbody>
-          </table>
-        </div>
+                              return (
+                                <td width={`${matchTableColumnSize}%`} class="has-text-centered">
+                                  { play && play.won &&
+                                    <FontAwesomeIcon icon="star" size="sm" className="has-text-danger has-margin-right-xs" />
+                                  }
+                                  { play
+                                    ? play.score
+                                    : <span>&ndash;</span>
+                                  }
+                                </td>
+                              );
+                            })
+                          }
+                        </tr>
+                      );
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
+          : <div class="has-padding-sm">
+              <p class="is-italic has-text-centered">This match has not yet been finalized.</p>
+            </div>
+        }
 
 
         { hasFooterContent &&

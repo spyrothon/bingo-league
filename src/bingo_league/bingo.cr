@@ -69,6 +69,10 @@ module BingoLeague::Bingo
   def create_play(attrs)
     play = Play.new
     play = play.cast(attrs)
+    # Ensure that when plays have no score, they don't count as `won`.
+    if play.instance.score.nil?
+      play.instance.won = false
+    end
     Repo.insert(play)
   end
 

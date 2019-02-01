@@ -6,7 +6,7 @@ import linkState from 'linkstate';
 
 import { TeamStandings } from './team-standings';
 import { OverallStats } from './overall-stats';
-import { Match } from './match';
+import { MatchList } from './match-list';
 
 export class League extends Component {
   render(props) {
@@ -45,14 +45,14 @@ export class League extends Component {
           { futureMatches.length > 0 &&
             <div class="has-margin-bottom-lg">
               <p class="is-uppercase has-text-grey has-margin-bottom-md">Upcoming Matches</p>
-              { futureMatches.reverse().map((match) => <Match match={match} />) }
+              <MatchList matches={futureMatches} maxInitialDisplayed={3} />
             </div>
           }
 
           { pastMatches.length > 0 &&
             <div class="has-margin-bottom-lg">
               <p class="is-uppercase has-text-grey has-margin-bottom-md">Past Matches</p>
-              { pastMatches.map((match) => <Match match={match} />) }
+              <MatchList matches={pastMatches} maxInitialDisplayed={30} />
             </div>
           }
         </div>

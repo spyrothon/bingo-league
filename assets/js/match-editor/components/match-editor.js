@@ -60,7 +60,7 @@ export class MatchEditor extends Component {
       teamToAdd
     } = state;
 
-    const { plays } = match;
+    const { plays, name, is_featured, is_finalized, is_public } = match;
     const teamIds = plays.map((p) => p.team_id);
     const remainingTeams = teams.filter((team) => !teamIds.includes(team.id));
     const isExisting = !!match.id;
@@ -74,7 +74,7 @@ export class MatchEditor extends Component {
         <input
           class="input is-size-4 is-content"
           placeholder="Edit Match Name"
-          value={match.name}
+          value={name}
           onInput={(e) => onSetMatchInfo('match.name', e.target.value)}
         />
 
@@ -83,9 +83,17 @@ export class MatchEditor extends Component {
             <input
               type="checkbox"
               name="is_featured"
-              checked={match.is_featured}
+              checked={is_featured}
               onChange={(e) => onSetMatchInfo('match.is_featured', e.target.checked)}
             /> This match will be featured on stream.
+          </label>
+          <label class="label">
+            <input
+              type="checkbox"
+              name="is_public"
+              checked={is_public}
+              onChange={(e) => onSetMatchInfo('match.is_public', e.target.checked)}
+            /> This match is publicly visible.
           </label>
         </div>
 
@@ -202,6 +210,17 @@ export class MatchEditor extends Component {
                   }
                 </tbody>
               </table>
+
+              <div class="field">
+                <label class="label">
+                  <input
+                    type="checkbox"
+                    name="is_finalized"
+                    checked={is_finalized}
+                    onChange={(e) => onSetMatchInfo('match.is_finalized', e.target.checked)}
+                  /> This match is finalized (Scores will be made publicly visible).
+                </label>
+              </div>
 
               <div class="field is-grouped">
                 <div class="control">
