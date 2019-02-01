@@ -1,7 +1,7 @@
 import { connect } from 'preact-redux';
 import { h, Component } from 'preact';
 
-import { Standings } from '../components/standings';
+import { League } from '../components/league';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export const StandingsContainer = connect(
+export const LeagueContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Standings);
+)(League);

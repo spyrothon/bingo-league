@@ -4,26 +4,25 @@ import { h, render, Component } from 'preact';
 import { Provider } from 'preact-redux';
 import './fontawesome-library';
 
-import standingsReducer from './standings/reducers';
+import leagueReducer from './league/reducers';
 import {
   fetchMatches,
   fetchTeams
-} from './standings/actions';
+} from './league/actions';
 
-import { StandingsContainer } from "./standings/containers/standings-container";
+import { App } from './league/app';
 
-
-const store = createStore(standingsReducer, applyMiddleware(thunk));
+const store = createStore(leagueReducer, applyMiddleware(thunk));
 
 document.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector("#standings");
+  const container = document.querySelector("#league");
 
   store.dispatch(fetchMatches());
   store.dispatch(fetchTeams());
 
   render(
     <Provider store={store}>
-      <StandingsContainer />
+      <App />
     </Provider>,
     container
   );

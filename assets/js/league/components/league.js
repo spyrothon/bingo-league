@@ -8,7 +8,7 @@ import { TeamStandings } from './team-standings';
 import { OverallStats } from './overall-stats';
 import { Match } from './match';
 
-export class Standings extends Component {
+export class League extends Component {
   render(props) {
     const {
       loading,
@@ -45,7 +45,7 @@ export class Standings extends Component {
           { futureMatches.length > 0 &&
             <div class="has-margin-bottom-lg">
               <p class="is-uppercase has-text-grey has-margin-bottom-md">Upcoming Matches</p>
-              { futureMatches.map((match) => <Match match={match} />) }
+              { futureMatches.reverse().map((match) => <Match match={match} />) }
             </div>
           }
 
