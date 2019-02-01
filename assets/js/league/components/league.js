@@ -42,19 +42,15 @@ export class League extends Component {
         <div class="column is-narrow is-divider"></div>
 
         <div class="column is-8-tablet is-7 is-7-widescreen">
-          { futureMatches.length > 0 &&
-            <div class="has-margin-bottom-lg">
-              <p class="is-uppercase has-text-grey has-margin-bottom-md">Upcoming Matches</p>
-              <MatchList matches={futureMatches} maxInitialDisplayed={3} />
-            </div>
-          }
+          <div class="has-margin-bottom-lg">
+            <p class="is-uppercase has-text-grey has-margin-bottom-md">Upcoming Matches</p>
+            <MatchList matches={futureMatches} maxInitialDisplayed={3} />
+          </div>
 
-          { pastMatches.length > 0 &&
-            <div class="has-margin-bottom-lg">
-              <p class="is-uppercase has-text-grey has-margin-bottom-md">Past Matches</p>
-              <MatchList matches={pastMatches} maxInitialDisplayed={30} />
-            </div>
-          }
+          <div class="has-margin-bottom-lg">
+            <p class="is-uppercase has-text-grey has-margin-bottom-md">Past Matches</p>
+            <MatchList matches={pastMatches} maxInitialDisplayed={30} />
+          </div>
         </div>
       </div>
     );

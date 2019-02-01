@@ -19,10 +19,15 @@ export class MatchList extends Component {
     const { matches, maxInitialDisplayed } = props;
     const { isExpanded } = state;
 
+    if(!matches || matches.length == 0) {
+      return (
+        <div class="has-text-centered">
+          <p class="is-italic has-text-grey">No matches to display</p>
+        </div>
+      );
+    }
+
     const displayedMatches = isExpanded ? matches : _.take(matches, maxInitialDisplayed);
-
-    console.log(displayedMatches)
-
     const hiddenMatchesCount = matches.length - displayedMatches.length;
 
     return (
