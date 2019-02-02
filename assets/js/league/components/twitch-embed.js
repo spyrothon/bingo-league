@@ -18,15 +18,13 @@ export class TwitchEmbed extends Component {
 
     return (
       <iframe
-          src={`https://player.twitch.tv/?channel=${channel}`}
-          height={height}
-          width={width}
-          frameborder={frameBorder}
-          scrolling={enableScrolling ? "yes" : "no"}
-          allowfullscreen={allowFullscreen ? true : false}
-          muted={muted}
-          time={time}
-        ></iframe>
+        src={`https://player.twitch.tv/?channel=${channel}`}
+        frameborder={frameBorder}
+        scrolling={enableScrolling ? "yes" : "no"}
+        allowfullscreen={allowFullscreen ? true : false}
+        muted={muted}
+        time={time}
+      ></iframe>
     );
   }
 };

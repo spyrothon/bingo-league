@@ -30,10 +30,12 @@ export class StreamDisplay extends Component {
 
     return (
       <div class="stream-display has-margin-top-lg">
-        <div class="stream-banner">
+        <div class="stream-banner has-padding-left-sm">
           {user_name} is streaming right now!
         </div>
-        <TwitchEmbed channel={channelName} layout="video" />
+        <div class="stream-video">
+          <TwitchEmbed channel={channelName} layout="video" />
+        </div>
       </div>
     );
   }

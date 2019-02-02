@@ -1,14 +1,26 @@
-$stream-display-shadow: 0 2px 30px rgba($black, 0.6), 0 0 10px rgba($black, 0.1);
+$stream-display-shadow: 0 2px 40px rgba($black, 1), 0 0 10px rgba($black, 0.4);
 
 .stream-display {
   box-shadow: $stream-display-shadow;
   border-radius: $radius-large;
   overflow: auto;
 
-  iframe {
-    // iframes are `inline` by default, meaning they have `line-height`,
-    // which messes up sizing for containers.
-    display: block;
+  .stream-video {
+    position: relative;
+    // Enforce a 16:9 aspect ratio;
+    padding-top: 56.25%;
+    overflow: hidden;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      // iframes are `inline` by default, meaning they have `line-height`,
+      // which messes up sizing for containers.
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .stream-banner {
