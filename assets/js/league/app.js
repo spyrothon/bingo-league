@@ -7,7 +7,6 @@ import { LeagueContainer } from "./containers/league-container";
 
 import { RulesScreen } from './screens/rules-screen';
 
-import { Header } from './components/header';
 import { Navbar } from './components/navbar';
 
 
@@ -49,20 +48,6 @@ export class App extends Component {
                       <span>Rules</span>
                     </a>
                   </Tab>
-                  <li>
-                    <a href="https://twitch.tv/spyrothon" target="_blank" rel="nofollow noopener">
-                      <span class="icon is-small"><FontAwesomeIcon icon={['fab', "twitch"]} /></span>
-                      <span>Twitch</span>
-                      <FontAwesomeIcon className="has-margin-left-sm" icon="external-link-alt" size="xs" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://discord.gg/fCvfnfk" target="_blank" rel="nofollow noopener">
-                      <span class="icon is-small"><FontAwesomeIcon icon={['fab', "discord"]} /></span>
-                      <span>Discord</span>
-                      <FontAwesomeIcon className="has-margin-left-sm" icon="external-link-alt" size="xs" />
-                    </a>
-                  </li>
                 </TabList>
               </div>
             </nav>

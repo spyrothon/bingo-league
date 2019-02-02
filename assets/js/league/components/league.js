@@ -44,7 +44,7 @@ export class League extends Component {
         <div class="column is-8-tablet is-7 is-7-widescreen">
           <div class="has-margin-bottom-lg">
             <p class="is-uppercase has-text-grey has-margin-bottom-md">Upcoming Matches</p>
-            <MatchList matches={futureMatches} maxInitialDisplayed={3} />
+            <MatchList matches={futureMatches.reverse()} maxInitialDisplayed={3} />
           </div>
 
           <div class="has-margin-bottom-lg">
