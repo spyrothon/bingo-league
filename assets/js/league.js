@@ -20,14 +20,9 @@ const store = createStore(leagueReducer, applyMiddleware(thunk));
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector("#league");
 
-  function updateAllData() {
-    store.dispatch(fetchChannelStatus(TWITCH_CHANNEL));
-    store.dispatch(fetchMatches());
-    store.dispatch(fetchTeams());
-  }
-  // Set all data to automatically refresh every 2 minutes.
-  setInterval(updateAllData, 2 * 60 * 1000);
-  updateAllData();
+  store.dispatch(fetchChannelStatus(TWITCH_CHANNEL));
+  store.dispatch(fetchMatches());
+  store.dispatch(fetchTeams());
 
   render(
     <Provider store={store}>
