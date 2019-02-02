@@ -4,14 +4,18 @@ import {
   FETCH_MATCHES,
   RECEIVE_MATCHES,
   FETCH_TEAMS,
-  RECEIVE_TEAMS
+  RECEIVE_TEAMS,
+  FETCH_CHANNEL_STATUS,
+  RECEIVE_CHANNEL_STATUS
 } from "./constants";
 
 const initialState = {
   loadingMatches: true,
   loadingTeams: true,
+  loadingChannelStatus: true,
   matches: [],
-  allTeams: {}
+  allTeams: {},
+  twitchChannels: {}
 };
 
 export default function(state = initialState, action) {
@@ -38,6 +42,21 @@ export default function(state = initialState, action) {
         ...state,
         loadingTeams: false,
         allTeams: _.keyBy(action.data.teams, 'id')
+      };
+
+    case FETCH_CHANNEL_STATUS:
+      return {
+        ...state,
+        loadingChannelStatus: true
+      };
+    case RECEIVE_CHANNEL_STATUS:
+      const channelData = _.keyBy(action.data, (data) => data.user_name.toLowerCase());
+      return {
+        ...state,
+        twitchChannels: {
+          ...state.twitchChannels,
+          ...channelData
+        }
       };
 
     default:

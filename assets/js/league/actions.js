@@ -1,14 +1,22 @@
 import {
   FETCH_MATCHES,
-  FETCH_TEAMS,
   RECEIVE_MATCHES,
-  RECEIVE_TEAMS
+  FETCH_TEAMS,
+  RECEIVE_TEAMS,
+  FETCH_CHANNEL_STATUS,
+  RECEIVE_CHANNEL_STATUS
 } from './constants';
 
 const defaultHeaders = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
   'x-expires': window.expiration
+};
+
+const twitchHeaders = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  'Client-ID': 'evlfk8nv841bnxba71g9837vyjh51q'
 };
 
 
@@ -41,6 +49,20 @@ export function fetchMatches() {
   };
 }
 
+export function fetchChannelStatus(channel) {
+  return dispatch => {
+    fetch(`https://api.twitch.tv/helix/streams?user_login=${channel}`, {
+      headers: twitchHeaders,
+      method: 'GET'
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((response) => {
+      return dispatch(receiveChannelStatus(channel, response.data));
+    });
+  }
+}
+
 
 export function receiveTeams(data) {
   return {
@@ -52,6 +74,14 @@ export function receiveTeams(data) {
 export function receiveMatches(data) {
   return {
     type: RECEIVE_MATCHES,
+    data: data
+  }
+}
+
+export function receiveChannelStatus(channel, data) {
+  return {
+    type: RECEIVE_CHANNEL_STATUS,
+    channel: channel,
     data: data
   }
 }

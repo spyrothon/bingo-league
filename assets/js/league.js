@@ -4,21 +4,30 @@ import { h, render, Component } from 'preact';
 import { Provider } from 'preact-redux';
 import './fontawesome-library';
 
+import { TWITCH_CHANNEL } from './league/constants';
 import leagueReducer from './league/reducers';
 import {
   fetchMatches,
-  fetchTeams
+  fetchTeams,
+  fetchChannelStatus
 } from './league/actions';
 
 import { App } from './league/app';
+
 
 const store = createStore(leagueReducer, applyMiddleware(thunk));
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector("#league");
 
-  store.dispatch(fetchMatches());
-  store.dispatch(fetchTeams());
+  function updateAllData() {
+    store.dispatch(fetchChannelStatus(TWITCH_CHANNEL));
+    store.dispatch(fetchMatches());
+    store.dispatch(fetchTeams());
+  }
+  // Set all data to automatically refresh every 2 minutes.
+  setInterval(updateAllData, 2 * 60 * 1000);
+  updateAllData();
 
   render(
     <Provider store={store}>

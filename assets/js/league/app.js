@@ -3,7 +3,10 @@ import { h, Component } from 'preact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import { TWITCH_CHANNEL } from './constants';
+
 import { LeagueContainer } from "./containers/league-container";
+import { StreamContainer } from "./containers/stream-container";
 
 import { RulesScreen } from './screens/rules-screen';
 
@@ -29,6 +32,12 @@ export class App extends Component {
               <p class="is-size-5">
                 You get to choose which objectives you want to complete, and avoid the ones you do not want to do. Several games have Bingo. Bingo tends to work well for games that can be open-ended and require route planning.
               </p>
+
+              <div class="columns is-centered">
+                <div class="column is-narrow">
+                  <StreamContainer channelName={TWITCH_CHANNEL} />
+                </div>
+              </div>
             </div>
           </div>
 

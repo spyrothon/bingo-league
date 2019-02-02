@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import { h, Component } from 'preact';
-import { renderJoined } from '../util';
 import { DateTime } from 'luxon';
-import linkState from 'linkstate';
 
 import { TeamStandings } from './team-standings';
 import { OverallStats } from './overall-stats';

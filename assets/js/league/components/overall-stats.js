@@ -1,7 +1,5 @@
 import _ from 'lodash';
 import { h, Component } from 'preact';
-import { renderJoined } from '../util';
-import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class OverallStats extends Component {

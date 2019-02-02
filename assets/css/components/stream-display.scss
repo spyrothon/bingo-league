@@ -1,0 +1,21 @@
+$stream-display-shadow: 0 2px 30px rgba($black, 0.6), 0 0 10px rgba($black, 0.1);
+
+.stream-display {
+  box-shadow: $stream-display-shadow;
+  border-radius: $radius-large;
+  overflow: auto;
+
+  iframe {
+    // iframes are `inline` by default, meaning they have `line-height`,
+    // which messes up sizing for containers.
+    display: block;
+  }
+
+  .stream-banner {
+    font-size: 0.8rem;
+    background-color: #e8dfee;
+    color: #543867;
+    border-bottom: 2px solid #8c5eac;
+    padding: 0.25rem 0.5rem;
+  }
+}
