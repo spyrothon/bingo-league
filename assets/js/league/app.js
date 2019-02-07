@@ -25,14 +25,17 @@ export class App extends Component {
 
           <div class="hero-body">
             <div class="container content">
-              <h1 class="title header">Spyro 2 Bingo League</h1>
-              <p class="is-size-5">
-                In Bingo races, everybody gets the same randomly generated 5x5 card of objectives. To finish the race, you must complete objectives in a line. Once you get a full row, column, or diagonal, you are done.
-              </p>
+              <h1 class="title header">Spyrothon Bingo League</h1>
 
               <p class="is-size-5">
-                You get to choose which objectives you want to complete, and avoid the ones you do not want to do. Several games have Bingo. Bingo tends to work well for games that can be open-ended and require route planning.
+                The Spyrothon Bingo League is a 2v2 Lockout Bingo League based on <em>Spyro 2: Ripto's Rage</em> with a $250 prize pool. The League will run from March until May 2019. All skill levels are welcome. Signups are open until Feburary 21st!
               </p>
+
+              <div class="columns is-centered has-margin-top-lg">
+                <div class="column is-narrow has-text-centered">
+                  <a class="button is-white is-large has-header-shadow" href="https://goo.gl/forms/ukKffjDoHugEoXTd2" target="_blank" rel="nofollow noopener">Sign up Now</a>
+                </div>
+              </div>
 
               <div class="columns is-centered">
                 <div class="column is-10-tablet is-8-desktop">
@@ -48,14 +51,14 @@ export class App extends Component {
                 <TabList>
                   <Tab>
                     <a>
-                      <span class="icon is-small"><FontAwesomeIcon icon="trophy" /></span>
-                      <span>Matches</span>
+                      <span class="icon is-small"><FontAwesomeIcon icon="info-circle" /></span>
+                      <span>Details</span>
                     </a>
                   </Tab>
                   <Tab>
                     <a>
-                      <span class="icon is-small"><FontAwesomeIcon icon="info-circle" /></span>
-                      <span>Details</span>
+                      <span class="icon is-small"><FontAwesomeIcon icon="trophy" /></span>
+                      <span>Matches</span>
                     </a>
                   </Tab>
                   <Tab>
@@ -74,10 +77,10 @@ export class App extends Component {
           <section class="section">
             <div class="container">
               <TabPanel>
-                <LeagueContainer />
+                <DetailsScreen />
               </TabPanel>
               <TabPanel>
-                <DetailsScreen />
+                <LeagueContainer />
               </TabPanel>
               <TabPanel>
                 <RulesScreen />
