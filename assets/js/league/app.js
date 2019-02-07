@@ -9,6 +9,7 @@ import { LeagueContainer } from "./containers/league-container";
 import { StreamContainer } from "./containers/stream-container";
 
 import { RulesScreen } from './screens/rules-screen';
+import { DetailsScreen } from './screens/details-screen';
 
 import { Navbar } from './components/navbar';
 
@@ -53,6 +54,12 @@ export class App extends Component {
                   </Tab>
                   <Tab>
                     <a>
+                      <span class="icon is-small"><FontAwesomeIcon icon="info-circle" /></span>
+                      <span>Details</span>
+                    </a>
+                  </Tab>
+                  <Tab>
+                    <a>
                       <span class="icon is-small"><FontAwesomeIcon icon="gavel" /></span>
                       <span>Rules</span>
                     </a>
@@ -68,6 +75,9 @@ export class App extends Component {
             <div class="container">
               <TabPanel>
                 <LeagueContainer />
+              </TabPanel>
+              <TabPanel>
+                <DetailsScreen />
               </TabPanel>
               <TabPanel>
                 <RulesScreen />

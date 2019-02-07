@@ -2,9 +2,10 @@
 import { DateTime } from "luxon";
 
 document.addEventListener('DOMContentLoaded', () => {
-  const elements = document.querySelectorAll(".js-date-string.js-localized");
+  const dateElements = document.querySelectorAll(".js-date-string.js-localized");
+  const timeElements = document.querySelectorAll(".js-time-string.js-localized");
 
-  elements.forEach((element) => {
+  dateElements.forEach((element) => {
     const timeSeconds = parseInt(element.innerHTML.trim());
     if(isNaN(timeSeconds)) return;
 
@@ -20,4 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
       timeZoneName: 'short'
     });
   });
+
+  timeElements.forEach((element) => {
+    const timeSeconds = parseInt(element.innerHTML.trim());
+    if(isNaN(timeSeconds)) return;
+
+    const dateTime = DateTime.fromFormat(timeSeconds, 'HH:mm');
+    element.dataset.originalTimeSeconds = timeSeconds;
+
+    element.innerHTML = dateTime.toLocaleString(DateTime.TIME_SIMPLE); //=> '11:32 AM'
+  })
 });
