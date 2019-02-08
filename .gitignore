@@ -16,8 +16,9 @@ ssl/
 node_modules/
 public/
 
-# Database dump files from heroku
+# Databases
 *.dump
+data/
 
 # Executables
 bin/
