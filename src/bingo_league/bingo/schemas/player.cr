@@ -1,5 +1,5 @@
 require "crinja"
-require "../accounts"
+require "../../accounts"
 
 module BingoLeague::Bingo
   @[JSON::Serializable::Options(emit_nulls: true)]

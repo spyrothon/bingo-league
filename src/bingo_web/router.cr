@@ -35,6 +35,9 @@ router BingoWeb::Router do
     crud :matches, "match", controller: "aPI::Matches", helpers: false
 
     get "/teams", controller: API::TeamsController, action: index
+    get "/rooms",           controller: API::RoomsController, action: index
+    get "/rooms/create",    controller: API::RoomsController, action: create
+    get "/rooms/:room_id",  controller: API::RoomsController, action: show
   end
 
   get "/",      to: "static#index"

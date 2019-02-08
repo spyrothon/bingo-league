@@ -1,5 +1,5 @@
 require "./repo.cr"
-require "./bingo/**"
+require "./bingo/schemas/**"
 require "crecto"
 
 module BingoLeague::Bingo

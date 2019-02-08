@@ -15,6 +15,7 @@ class BingoWeb::Controller
 
   def render_json(value, status=200)
     response.headers.add "Content-Type", "application/json"
+    response.headers.add "Access-Control-Allow-Origin", "*"
     response.print({ data: value }.to_json)
   end
 
@@ -25,6 +26,7 @@ class BingoWeb::Controller
 
   def render_error_json(status : Int32, message)
     response.headers.add "Content-Type", "application/json"
+    response.headers.add "Access-Control-Allow-Origin", "*"
     response.status_code = status
     response.print({ error: message }.to_json)
   end
