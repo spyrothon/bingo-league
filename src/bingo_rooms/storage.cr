@@ -5,7 +5,7 @@ require "./room.cr"
 module BingoRooms::Storage
   extend self
 
-  STORE = Nuummite.new("./data/")
+  STORE = Nuummite.new("./data/", "db.nuummite")
 
   CACHE = {} of String => Room
 
@@ -23,7 +23,12 @@ module BingoRooms::Storage
     end
   end
 
-  def list_rooms()
+  def list_rooms(cache_only=false)
+    unless cache_only
+      STORE.each("rooms/") do |id, room_json|
+        CACHE[id] = Room.from_json(room_json)
+      end
+    end
     CACHE.values
   end
 
