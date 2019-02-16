@@ -1,12 +1,16 @@
-require "../../bingo_league/bingo"
+require "../../bingo_league/league"
 
 class BingoWeb::StaticController < BingoWeb::Controller
   private alias Query = BingoLeague::Query
-  private alias Bingo = BingoLeague::Bingo
+  private alias League = BingoLeague::League
 
   def index
-    teams = Bingo.list_teams()
+    teams = League.list_teams()
     render("static/index.html.j2")
+  end
+
+  def play
+    render("static/play.html.j2")
   end
 
   def admin

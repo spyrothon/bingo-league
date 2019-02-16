@@ -1,20 +1,20 @@
-require "../../bingo_league/bingo"
+require "../../bingo_league/league"
 require "../util/date_time.cr"
 
 class BingoWeb::MatchesController < BingoWeb::Controller
   private alias Query = BingoLeague::Query
   private alias Multi = BingoLeague::Multi
-  private alias Bingo = BingoLeague::Bingo
+  private alias League = BingoLeague::League
 
   def index
-    matches = Bingo.list_matches(Query.order_by("start_date ASC"))
+    matches = League.list_matches(Query.order_by("start_date ASC"))
     render("matches/index.html.j2", {
       "matches" => matches
     })
   end
 
   def show
-    match = Bingo.get_match(url_params["match_id"])
+    match = League.get_match(url_params["match_id"])
 
     if match
       render("matches/show.html.j2", {
@@ -26,10 +26,10 @@ class BingoWeb::MatchesController < BingoWeb::Controller
   end
 
   def new
-    match = Bingo.new_match()
+    match = League.new_match()
     render("matches/new.html.j2", {
       "match" => match,
-      "teams" => Bingo.list_teams()
+      "teams" => League.list_teams()
     })
   end
 
@@ -37,17 +37,17 @@ class BingoWeb::MatchesController < BingoWeb::Controller
     params = body_params.merge({
       "start_date" => Util.maybe_parse_date_time(body_params["start_date"])
     })
-    Bingo.create_match(params)
+    League.create_match(params)
     redirect_to matches_path
   end
 
   def edit
-    match = Bingo.get_match(url_params["match_id"])
+    match = League.get_match(url_params["match_id"])
 
     if match
       render("matches/edit.html.j2", {
         "match" => match,
-        "teams" => Bingo.list_teams()
+        "teams" => League.list_teams()
       })
     else
       redirect_to matches_path
@@ -56,11 +56,11 @@ class BingoWeb::MatchesController < BingoWeb::Controller
 
   def update
     match_id = url_params["match_id"]
-    if match = Bingo.get_match(match_id)
+    if match = League.get_match(match_id)
       params = body_params.merge({
         "start_date" => Util.maybe_parse_date_time(body_params["start_date"])
       })
-      Bingo.update_match(match, params)
+      League.update_match(match, params)
     end
 
     redirect_to matches_path
@@ -68,8 +68,8 @@ class BingoWeb::MatchesController < BingoWeb::Controller
 
   def delete
     match_id = url_params["match_id"]
-    if match = Bingo.get_match(match_id)
-      Bingo.delete_match(match)
+    if match = League.get_match(match_id)
+      League.delete_match(match)
     end
 
     redirect_to matches_path

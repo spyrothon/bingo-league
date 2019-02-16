@@ -27,21 +27,11 @@ router BingoWeb::Router do
   end
 
 
+  get "/",      to: "static#index"
+
   get   "login",  to: "sessions#new", helper: "login"
   post  "login",  to: "sessions#create", helper: "sessions_create"
   get   "logout", to: "sessions#destroy", helper: "logout"
-
-  scope "api" do
-    crud :matches, "match", controller: "aPI::Matches", helpers: false
-
-    get "/teams", controller: API::TeamsController, action: index
-    get "/rooms",           controller: API::RoomsController, action: index
-    get "/rooms/create",    controller: API::RoomsController, action: create
-    get "/rooms/:room_id",  controller: API::RoomsController, action: show
-  end
-
-  get "/",      to: "static#index"
-
 
   scope do
     implements :authorized_as_admin
@@ -51,6 +41,13 @@ router BingoWeb::Router do
     crud :matches,  "match"
     crud :players,  "player"
     crud :teams,    "team"
+  end
+
+
+  scope "api" do
+    crud :matches, "match", controller: "aPI::Matches", helpers: false
+
+    get "/teams", controller: API::TeamsController, action: index
   end
 
 

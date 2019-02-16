@@ -22,7 +22,5 @@ require "./bingo_web/**"
 
 
 visor = Honcho::Visor.new(strategy: Honcho::Strategy::ISOLATED)
-
 visor.start_supervised("bingo_web[router]", &->BingoWeb.start)
-
 visor.run

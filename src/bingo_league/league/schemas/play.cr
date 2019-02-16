@@ -1,6 +1,6 @@
 require "crinja"
 
-module BingoLeague::Bingo
+module BingoLeague::League
   @[JSON::Serializable::Options(emit_nulls: true)]
   @[Crinja::Attributes]
   class Play < Crecto::Model

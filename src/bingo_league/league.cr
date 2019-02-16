@@ -1,8 +1,8 @@
 require "./repo.cr"
-require "./bingo/schemas/**"
+require "./league/schemas/**"
 require "crecto"
 
-module BingoLeague::Bingo
+module BingoLeague::League
   extend self
 
   ###

@@ -1,19 +1,19 @@
-require "../../bingo_league/bingo"
+require "../../bingo_league/league"
 require "../util/date_time.cr"
 
 class BingoWeb::TeamsController < BingoWeb::Controller
   private alias Query = BingoLeague::Query
-  private alias Bingo = BingoLeague::Bingo
+  private alias League = BingoLeague::League
 
   def index
-    teams = Bingo.list_teams()
+    teams = League.list_teams()
     render("teams/index.html.j2", {
       "teams" => teams
     })
   end
 
   def show
-    if team = Bingo.get_team(url_params["team_id"])
+    if team = League.get_team(url_params["team_id"])
       render("teams/show.html.j2", {
         "team" => team
       })
@@ -23,20 +23,20 @@ class BingoWeb::TeamsController < BingoWeb::Controller
   end
 
   def new
-    team = Bingo.new_team()
+    team = League.new_team()
     render("teams/new.html.j2", {
       "team" => team
     })
   end
 
   def create
-    Bingo.create_team(body_params)
+    League.create_team(body_params)
     redirect_to teams_path
   end
 
   def edit
     team_id = url_params["team_id"]
-    if team = Bingo.get_team(team_id)
+    if team = League.get_team(team_id)
       render("teams/edit.html.j2", {
         "team" => team
       })
@@ -47,8 +47,8 @@ class BingoWeb::TeamsController < BingoWeb::Controller
 
   def update
     team_id = url_params["team_id"]
-    if team = Bingo.get_team(team_id)
-      Bingo.update_team(team, body_params)
+    if team = League.get_team(team_id)
+      League.update_team(team, body_params)
     end
 
     redirect_to teams_path
@@ -56,8 +56,8 @@ class BingoWeb::TeamsController < BingoWeb::Controller
 
   def delete
     team_id = url_params["team_id"]
-    if team = Bingo.get_team(team_id)
-      Bingo.delete_team(team)
+    if team = League.get_team(team_id)
+      League.delete_team(team)
     end
 
     redirect_to teams_path

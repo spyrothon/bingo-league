@@ -1,0 +1,7 @@
+display_name: Bingo Test
+info: true
+build: time crystal build ./src/test.cr --no-debug
+run: ./test
+watch:
+  - src/bingo_league/**/*.cr
+  - src/test.cr

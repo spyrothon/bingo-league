@@ -1,22 +1,22 @@
-require "../../bingo_league/bingo"
+require "../../bingo_league/league"
 require "../util/date_time.cr"
 
 class BingoWeb::PlayersController < BingoWeb::Controller
   private alias Query = BingoLeague::Query
-  private alias Bingo = BingoLeague::Bingo
+  private alias League = BingoLeague::League
 
   def index
-    players = Bingo.list_players(Query.preload(:team))
+    players = League.list_players(Query.preload(:team))
     render("players/index.html.j2", {
       "players" => players
     })
   end
 
   def show
-    if player = Bingo.get_player(url_params["player_id"], Query.preload(:team))
+    if player = League.get_player(url_params["player_id"], Query.preload(:team))
       render("players/show.html.j2", {
         "player" => player,
-        "teams" => Bingo.list_teams()
+        "teams" => League.list_teams()
       })
     else
       redirect_to players_path
@@ -24,24 +24,24 @@ class BingoWeb::PlayersController < BingoWeb::Controller
   end
 
   def new
-    player = Bingo.new_player()
+    player = League.new_player()
     render("players/new.html.j2", {
       "player" => player,
-      "teams" => Bingo.list_teams()
+      "teams" => League.list_teams()
     })
   end
 
   def create
-    Bingo.create_player(body_params)
+    League.create_player(body_params)
     redirect_to players_path
   end
 
   def edit
     player_id = url_params["player_id"]
-    if player = Bingo.get_player(player_id)
+    if player = League.get_player(player_id)
       render("players/edit.html.j2", {
         "player" => player,
-        "teams" => Bingo.list_teams()
+        "teams" => League.list_teams()
       })
     else
       redirect_to players_path
@@ -50,8 +50,8 @@ class BingoWeb::PlayersController < BingoWeb::Controller
 
   def update
     player_id = url_params["player_id"]
-    if player = Bingo.get_player(player_id)
-      Bingo.update_player(player, body_params)
+    if player = League.get_player(player_id)
+      League.update_player(player, body_params)
     end
 
     redirect_to players_path
@@ -59,8 +59,8 @@ class BingoWeb::PlayersController < BingoWeb::Controller
 
   def delete
     player_id = url_params["player_id"]
-    if player = Bingo.get_player(player_id)
-      Bingo.delete_player(player)
+    if player = League.get_player(player_id)
+      League.delete_player(player)
     end
 
     redirect_to players_path

@@ -1,11 +1,11 @@
-require "../../../bingo_league/bingo"
+require "../../../bingo_league/league"
 
 class BingoWeb::API::MatchesController < BingoWeb::Controller
   private alias Query = BingoLeague::Query
-  private alias Bingo = BingoLeague::Bingo
+  private alias League = BingoLeague::League
 
   def index
-    matches = Bingo.list_matches(
+    matches = League.list_matches(
       Query.where(is_public: "true").order_by("start_date ASC")
     )
     render_json({
@@ -14,17 +14,17 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
   end
 
   def show
-    match = Bingo.get_match(url_params["match_id"])
+    match = League.get_match(url_params["match_id"])
     render_json({ match: match })
   end
 
   def new
-    match = Bingo.new_match()
+    match = League.new_match()
     render_json({ match: match })
   end
 
   def create
-    changeset = Bingo.create_match(json_params.as_h)
+    changeset = League.create_match(json_params.as_h)
 
     unless changeset.valid?
       render_error_json(422, "Couldn't create match")
@@ -39,15 +39,15 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
     plays_params.each do |play_params|
       play_params = play_params.as_h
       play_params["match_id"] = JSON::Any.new(match.id.to_s)
-      Bingo.create_play(play_params)
+      League.create_play(play_params)
     end
 
-    match = Bingo.get_match(match.id)
+    match = League.get_match(match.id)
     render_json({ match: match })
   end
 
   def edit
-    match = Bingo.get_match(url_params["match_id"])
+    match = League.get_match(url_params["match_id"])
 
     if match
       render_json({ match: match })
@@ -58,37 +58,37 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
 
   def update
     match_id = url_params["match_id"]
-    unless match = Bingo.get_match(match_id)
+    unless match = League.get_match(match_id)
       render_error_json(404, "Couldn't find match")
       return
     end
 
-    changeset = Bingo.update_match(match, json_params.as_h)
+    changeset = League.update_match(match, json_params.as_h)
     unless changeset.valid?
       render_error_json(422, "Couldn't update match")
       return
     end
 
-    existing_plays = Bingo.list_plays(Query.where(match_id: match_id))
+    existing_plays = League.list_plays(Query.where(match_id: match_id))
     existing_plays.each do |play|
-      Bingo.delete_play(play)
+      League.delete_play(play)
     end
 
     plays_params = json_params["plays"].as_a
     plays_params = mark_winning_play(plays_params)
     plays_params.each do |play_params|
-      Bingo.create_play(play_params.as_h)
+      League.create_play(play_params.as_h)
     end
 
     match = changeset.instance
-    match = Bingo.get_match(match.id)
+    match = League.get_match(match.id)
     render_json({ match: match })
   end
 
   def delete
     match_id = url_params["match_id"]
-    if match = Bingo.get_match(match_id)
-      Bingo.delete_match(match)
+    if match = League.get_match(match_id)
+      League.delete_match(match)
     end
 
     render_json(nil)
