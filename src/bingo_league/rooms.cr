@@ -34,4 +34,8 @@ struct RoomAggregate
   def do_apply(data : PlayerAddedEvent)
     self.players << data.player
   end
+
+  def do_apply(data : PlayerRemovedEvent)
+    self.players.delete(data.player)
+  end
 end

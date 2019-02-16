@@ -64,4 +64,14 @@ struct RoomEvent
       }
     )
   end
+
+  def RoomEvent.player_removed(room_id : Int64, player : String)
+    new(
+      type: "player_removed",
+      room_id: room_id,
+      data: {
+        player: player
+      }
+    )
+  end
 end

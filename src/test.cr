@@ -7,15 +7,17 @@ players = [] of String
 
 events = [
   RoomEvent.room_created(room_id, cells, players),
-  RoomEvent.player_added(room_id, "faulty"),
   RoomEvent.player_added(room_id, "shark"),
+  RoomEvent.player_added(room_id, "drashed"),
   RoomEvent.board_changed(room_id, cells2),
   RoomEvent.board_changed(room_id, cells),
   RoomEvent.board_changed(room_id, cells2),
   RoomEvent.player_added(room_id, "art"),
-  RoomEvent.player_added(room_id, "drashed"),
+  RoomEvent.player_removed(room_id, "shark"),
   RoomEvent.player_added(room_id, "shaw"),
+  RoomEvent.player_added(room_id, "faulty"),
   RoomEvent.player_added(room_id, "wally"),
+  RoomEvent.player_removed(room_id, "faulty")
 ]
 
 agg = RoomAggregate.from_events(room_id, events)
