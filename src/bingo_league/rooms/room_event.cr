@@ -34,13 +34,12 @@ struct RoomEvent
   # Events
   ###
 
-  def RoomEvent.room_created(room_id : Int64, board : Array(String), players : Array(String))
+  def RoomEvent.room_created(room_id : Int64, name : String)
     new(
       type: "room_created",
       room_id: room_id,
       data: {
-        board: board,
-        players: players
+        name: name
       }
     )
   end

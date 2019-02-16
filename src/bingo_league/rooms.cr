@@ -4,10 +4,12 @@ require "./rooms/events/*"
 struct RoomAggregate
   property version : Int64
   property id : Int64
+  property name : String
   property board : Array(String)?
   property players : Array(String)
 
   def initialize(@id : Int64, @version = 1_i64)
+    @name = "Room #{@id}"
     @board = nil
     @players = [] of String
   end
@@ -24,7 +26,7 @@ struct RoomAggregate
   end
 
   def do_apply(data : RoomCreatedEvent)
-    self.board = data.board
+    self.name = data.name
   end
 
   def do_apply(data : BoardChangedEvent)

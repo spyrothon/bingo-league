@@ -2,8 +2,7 @@ require "../room_event"
 
 struct RoomCreatedEvent < EventData
   JSON.mapping(
-    board: Array(String),
-    players: Array(String)
+    name: String
   )
 end
 
