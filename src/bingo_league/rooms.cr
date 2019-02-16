@@ -1,43 +1,42 @@
+require "./repo.cr"
+require "crecto"
+
 require "./rooms/*"
-require "./rooms/events/*"
 
-struct RoomAggregate
-  property version : Int64
-  property id : Int64
-  property name : String
-  property board : Array(String)?
-  property players : Array(String)
 
-  def initialize(@id : Int64, @version = 1_i64)
-    @name = "Room #{@id}"
-    @board = nil
-    @players = [] of String
+class Rooms::Context
+  alias RoomID = Int64
+  alias Repo = BingoLeague::Repo
+  alias Query = BingoLeague::Query
+  # In-memory cache of aggregates
+  property rooms : Hash(RoomID, Room)
+
+  def initialize
+    @rooms = {} of RoomID => Room
   end
 
-  def self.from_events(room_id, events)
-    agg = self.new(room_id)
-    events.reduce(agg){ |agg, event| agg.apply(event) }
+  # Return the Room with the given ID.
+  #
+  # Checks the in-memory cache first, otherwise builds the state back from
+  # the stored events for that ID.
+  def get_room(room_id : RoomID)
+    if rooms.has_key?(room_id)
+      rooms[room_id]
+    else
+      events = events_for_room(room_id)
+      room = Room.from_events(room_id, events)
+      update_cache(room_id, room)
+      room
+    end
   end
 
-  def apply(event : RoomEvent)
-    do_apply(event.data)
-    self.version += 1
-    self
+  def events_for_room(room_id)
+    stored_events = Repo.all(RoomEventStore, Query.where(room_id: room_id))
+    stored_events.map(&.to_event)
   end
 
-  def do_apply(data : RoomCreatedEvent)
-    self.name = data.name
-  end
 
-  def do_apply(data : BoardChangedEvent)
-    self.board = data.board
-  end
-
-  def do_apply(data : PlayerAddedEvent)
-    self.players << data.player
-  end
-
-  def do_apply(data : PlayerRemovedEvent)
-    self.players.delete(data.player)
+  private def update_cache(room_id : RoomID, room : Room)
+    rooms[room_id] = room
   end
 end

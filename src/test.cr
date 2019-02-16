@@ -1,18 +1,22 @@
+require "dotenv"
+Dotenv.load!
+
 require "./bingo_league/rooms"
 
 room_id = 123_i64
 board = ["goal1", "goal2", "goal3"]
 board2 = ["goal1", "goal2", "goal3", "goal4", "goal5"]
-players = [] of String
 
 events = [
-  RoomEvent.room_created(room_id, "Room 2"),
-  RoomEvent.board_changed(room_id, board),
-  RoomEvent.player_added(room_id, "shark"),
-  RoomEvent.player_added(room_id, "faulty"),
-  RoomEvent.board_changed(room_id, board2)
+  Rooms::RoomEvent.room_created(room_id, "Room 2"),
+  Rooms::RoomEvent.board_changed(room_id, board),
+  Rooms::RoomEvent.player_added(room_id, "shark"),
+  Rooms::RoomEvent.player_added(room_id, "faulty"),
+  Rooms::RoomEvent.board_changed(room_id, board2)
 ]
 
-agg = RoomAggregate.from_events(room_id, events)
+context = Rooms::Context.new
+
+agg = context.get_room(room_id)
 
 pp! agg

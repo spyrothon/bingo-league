@@ -22,7 +22,10 @@ data/
 
 # Executables
 bin/
-/fifteenfortyfive
+/bingo_web
+/bingo_league
+/tool
 /sentry
+/test
 /*.dwarf
 /bingo_web

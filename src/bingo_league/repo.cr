@@ -1,3 +1,6 @@
+require "pg"
+require "crecto"
+
 module BingoLeague
   module Repo
     extend Crecto::Repo

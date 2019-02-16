@@ -1,9 +1,11 @@
 require "../room_event"
 
-struct BoardChangedEvent < EventData
-  JSON.mapping(
-    board: Array(String)
-  )
-end
+module Rooms
+  struct BoardChangedEvent < EventData
+    JSON.mapping(
+      board: Array(String)
+    )
+  end
 
-RoomEvent.register_type("board_changed", BoardChangedEvent)
+  RoomEvent.register_type("board_changed", BoardChangedEvent)
+end
