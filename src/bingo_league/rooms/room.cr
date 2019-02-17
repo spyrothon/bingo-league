@@ -8,12 +8,12 @@ module Rooms
     property room_id : Int64
     property name : String
     property board : Board
-    property players : Array(String)
+    property players : Set(String)
 
     def initialize(@room_id : Int64, @version = 1_i64)
       @name = "Room #{@room_id}"
       @board = Board.new
-      @players = [] of String
+      @players = Set(String).new
     end
 
     def self.from_events(room_id, events)
@@ -28,7 +28,7 @@ module Rooms
 
     def process(command : Commands::BaseCommand)
       events = do_process(command)
-      events
+      events || [] of RoomEvent
     end
 
     def do_process(command : Commands::UpdateBoard)
@@ -40,6 +40,7 @@ module Rooms
 
     def do_process(command : Commands::AddPlayer)
       player = command.player
+      return nil if self.players.includes?(player)
       [
         Rooms::RoomEvent.player_added(room_id, player)
       ]
@@ -47,6 +48,7 @@ module Rooms
 
     def do_process(command : Commands::RemovePlayer)
       player = command.player
+      return nil unless self.players.includes?(player)
       [
         Rooms::RoomEvent.player_removed(room_id, player)
       ]
@@ -55,7 +57,7 @@ module Rooms
     def do_process(command : Commands::MarkGoal)
       goal_idx = command.goal_idx
       player = command.player
-      unless board.goals[goal_idx]?
+      unless goal = board.goals[goal_idx]?
         raise "Board does not have the requested goal"
       end
       [

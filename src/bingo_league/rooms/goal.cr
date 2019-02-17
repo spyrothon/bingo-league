@@ -6,10 +6,10 @@ class Rooms::Goal
     name: String,
     difficulty: Int32,
     types: Array(String),
-    marked_by: Array(String)
+    marked_by: Set(String)
   )
 
 
-  def initialize(@name, @difficulty = 1, @types = [] of String, @marked_by = [] of String)
+  def initialize(@name, @difficulty = 1, @types = [] of String, @marked_by = Set(String).new)
   end
 end
