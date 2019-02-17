@@ -1,9 +1,10 @@
 require "auto_initialize"
+require "../board"
 
 module Rooms::Commands
-  struct GenerateBoard < BaseCommand
+  struct UpdateBoard < BaseCommand
     include AutoInitialize
 
-    property board : Array(String)
+    property board : Board
   end
 end

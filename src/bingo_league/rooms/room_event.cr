@@ -1,5 +1,8 @@
 require "json"
 
+require "./board"
+
+
 module Rooms
   abstract struct EventData
   end
@@ -54,9 +57,9 @@ module Rooms
       )
     end
 
-    def RoomEvent.board_changed(room_id : Int64, board : Array(String))
+    def RoomEvent.board_updated(room_id : Int64, board : Board)
       new(
-        type: "board_changed",
+        type: "board_updated",
         room_id: room_id,
         data: {
           board: board

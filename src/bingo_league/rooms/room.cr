@@ -7,12 +7,12 @@ module Rooms
     property version : Int64
     property room_id : Int64
     property name : String
-    property board : Array(String)?
+    property board : Board
     property players : Array(String)
 
     def initialize(@room_id : Int64, @version = 1_i64)
       @name = "Room #{@room_id}"
-      @board = nil
+      @board = Board.new
       @players = [] of String
     end
 
@@ -31,10 +31,10 @@ module Rooms
       events
     end
 
-    def do_process(command : Commands::GenerateBoard)
+    def do_process(command : Commands::UpdateBoard)
       new_board = command.board
       [
-        Rooms::RoomEvent.board_changed(room_id, new_board)
+        Rooms::RoomEvent.board_updated(room_id, new_board)
       ]
     end
 
@@ -71,7 +71,7 @@ module Rooms
       self.name = data.name
     end
 
-    def do_apply(data : BoardChangedEvent)
+    def do_apply(data : BoardUpdatedEvent)
       self.board = data.board
     end
 
