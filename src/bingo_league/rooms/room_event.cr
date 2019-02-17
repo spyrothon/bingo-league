@@ -20,9 +20,14 @@ module Rooms
       {% EVENT_TYPES[type] = structure %}
     end
 
-
     def initialize(*, @type : String, @room_id : Int64, data, @timestamp=Time.utc_now())
-      @raw_data = data.to_json
+      @raw_data =
+        case data
+        when String
+          data
+        else
+          data.to_json
+        end
     end
 
     @parsed_data : EventData?
