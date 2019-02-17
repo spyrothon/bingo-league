@@ -52,6 +52,28 @@ module Rooms
       ]
     end
 
+    def do_process(command : Commands::MarkGoal)
+      goal_idx = command.goal_idx
+      player = command.player
+      unless board.goals[goal_idx]?
+        raise "Board does not have the requested goal"
+      end
+      [
+        Rooms::RoomEvent.goal_marked(room_id, goal_idx, player)
+      ]
+    end
+
+    def do_process(command : Commands::UnmarkGoal)
+      goal_idx = command.goal_idx
+      player = command.player
+      unless board.goals[goal_idx]?
+        raise "Board does not have the requested goal"
+      end
+      [
+        Rooms::RoomEvent.goal_unmarked(room_id, goal_idx, player)
+      ]
+    end
+
     def do_process(command : Commands::BaseCommand)
       raise "Unknown command #{command}"
     end
@@ -81,6 +103,22 @@ module Rooms
 
     def do_apply(data : PlayerRemovedEvent)
       self.players.delete(data.player)
+    end
+
+    def do_apply(data : GoalMarkedEvent)
+      goal_idx = data.goal_idx
+      player = data.player
+
+      goal = self.board.goals[goal_idx]
+      goal.marked_by << player
+    end
+
+    def do_apply(data : GoalUnmarkedEvent)
+      goal_idx = data.goal_idx
+      player = data.player
+
+      goal = self.board.goals[goal_idx]
+      goal.marked_by.delete(player)
     end
   end
 end

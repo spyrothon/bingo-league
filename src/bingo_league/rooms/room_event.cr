@@ -86,5 +86,27 @@ module Rooms
         }
       )
     end
+
+    def RoomEvent.goal_marked(room_id : Int64, goal_idx : Int32, player : String)
+      new(
+        type: "goal_marked",
+        room_id: room_id,
+        data: {
+          goal_idx: goal_idx,
+          player: player
+        }
+      )
+    end
+
+    def RoomEvent.goal_unmarked(room_id : Int64, goal_idx : Int32, player : String)
+      new(
+        type: "goal_unmarked",
+        room_id: room_id,
+        data: {
+          goal_idx: goal_idx,
+          player: player
+        }
+      )
+    end
   end
 end

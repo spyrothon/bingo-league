@@ -16,7 +16,11 @@ board = Rooms::Board.new(
 
 context = Rooms::Context.new
 # commands = [
-#   Rooms::Commands::UpdateBoard.new(board: board)
+#   Rooms::Commands::MarkGoal.new(goal_idx: 1, player: "faulty"),
+#   Rooms::Commands::MarkGoal.new(goal_idx: 3, player: "shark"),
+#   Rooms::Commands::MarkGoal.new(goal_idx: 0, player: "shark"),
+#   Rooms::Commands::UnmarkGoal.new(goal_idx: 1, player: "faulty"),
+#   Rooms::Commands::MarkGoal.new(goal_idx: 2, player: "faulty")
 # ]
 # commands.map do |command|
 #   agg = context.get_room(room_id)
