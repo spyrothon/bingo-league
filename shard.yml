@@ -37,3 +37,5 @@ dependencies:
   nuummite:
     github: codesteak/nuummite
     version: ~> 0.1.4
+  auto_initialize:
+    github: kostya/auto_initialize

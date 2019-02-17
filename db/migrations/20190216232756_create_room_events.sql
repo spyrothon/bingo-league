@@ -2,8 +2,9 @@
 CREATE TABLE IF NOT EXISTS "public"."room_events" (
   "id" serial,
   "room_id" integer,
+  "type" text,
   "data" text,
-  "timestamp" time without time zone,
+  "timestamp" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 

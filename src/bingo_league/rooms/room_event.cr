@@ -8,7 +8,7 @@ module Rooms
     JSON.mapping(
       type: String,
       room_id: Int64,
-      data: String,
+      raw_data: String,
       timestamp: Time
     )
 
@@ -22,12 +22,16 @@ module Rooms
 
 
     def initialize(*, @type : String, @room_id : Int64, data, @timestamp=Time.utc_now())
-      @data = data.to_json
+      @raw_data = data.to_json
     end
 
     @parsed_data : EventData?
     def data
-      @parsed_data ||= EVENT_TYPES[@type].from_json(@data)
+      @parsed_data ||= EVENT_TYPES[@type].from_json(@raw_data)
+    end
+
+    def room_id : Int64
+      @room_id.as(Int64)
     end
 
 

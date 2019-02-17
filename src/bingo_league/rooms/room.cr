@@ -1,16 +1,17 @@
 require "./*"
 require "./events/*"
+require "./commands/*"
 
 module Rooms
   struct Room # < Aggregate
     property version : Int64
-    property id : Int64
+    property room_id : Int64
     property name : String
     property board : Array(String)?
     property players : Array(String)
 
-    def initialize(@id : Int64, @version = 1_i64)
-      @name = "Room #{@id}"
+    def initialize(@room_id : Int64, @version = 1_i64)
+      @name = "Room #{@room_id}"
       @board = nil
       @players = [] of String
     end
@@ -19,6 +20,46 @@ module Rooms
       agg = self.new(room_id)
       events.reduce(agg){ |agg, event| agg.apply(event) }
     end
+
+
+    ###
+    # Processes
+    ###
+
+    def process(command : Commands::BaseCommand)
+      events = do_process(command)
+      events
+    end
+
+    def do_process(command : Commands::GenerateBoard)
+      new_board = command.board
+      [
+        Rooms::RoomEvent.board_changed(room_id, new_board)
+      ]
+    end
+
+    def do_process(command : Commands::AddPlayer)
+      player = command.player
+      [
+        Rooms::RoomEvent.player_added(room_id, player)
+      ]
+    end
+
+    def do_process(command : Commands::RemovePlayer)
+      player = command.player
+      [
+        Rooms::RoomEvent.player_removed(room_id, player)
+      ]
+    end
+
+    def do_process(command : Commands::BaseCommand)
+      raise "Unknown command #{command}"
+    end
+
+
+    ###
+    # Applications
+    ###
 
     def apply(event : RoomEvent)
       do_apply(event.data)

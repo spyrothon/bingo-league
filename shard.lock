@@ -1,5 +1,9 @@
 version: 1.0
 shards:
+  auto_initialize:
+    github: kostya/auto_initialize
+    version: 0.1.0
+
   awscr-s3:
     github: taylorfinnell/awscr-s3
     version: 0.3.3

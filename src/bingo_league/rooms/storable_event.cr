@@ -1,5 +1,7 @@
+require "json"
+
 module Rooms
-  class RoomEventStore < Crecto::Model
+  class StorableEvent < Crecto::Model
     schema "room_events" do
       field :room_id, Int64
       field :type, String
@@ -14,10 +16,19 @@ module Rooms
     validate_required :room_id
     validate_required :data
 
+    def self.from_event(event : RoomEvent)
+      storage = self.new
+      storage.room_id   = event.room_id
+      storage.type      = event.type
+      storage.data      = event.raw_data
+      storage.timestamp = event.timestamp
+      storage
+    end
 
     def to_event
+      room_id = self.room_id.not_nil!.to_i64
       RoomEvent.new(
-        room_id: self.room_id!,
+        room_id: room_id,
         type: self.type!,
         data: self.data!,
         timestamp: self.timestamp!
