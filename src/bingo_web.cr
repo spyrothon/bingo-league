@@ -19,8 +19,10 @@ end
 require "./bingo_web/router.cr"
 require "./bingo_web/controller.cr"
 require "./bingo_web/**"
+require "./bingo_league/rooms.cr"
 
 
 visor = Honcho::Visor.new(strategy: Honcho::Strategy::ISOLATED)
+visor.start_supervised("rooms_supervisor"){ Rooms::Context.start }
 visor.start_supervised("bingo_web[router]", &->BingoWeb.start)
 visor.run

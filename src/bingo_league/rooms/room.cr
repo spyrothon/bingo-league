@@ -4,6 +4,7 @@ require "./commands/*"
 
 module Rooms
   struct Room # < Aggregate
+    include JSON::Serializable
     property version : Int64
     property room_id : Int64
     property name : String

@@ -2,6 +2,7 @@ require "dotenv"
 Dotenv.load!
 
 require "./bingo_league/rooms"
+Rooms::Context.start
 
 room_id = 125_i64
 board = Rooms::Board.new(
@@ -14,7 +15,6 @@ board = Rooms::Board.new(
 )
 
 
-context = Rooms::Context.new
 [
 #   Rooms::Commands::MarkGoal.new(goal_idx: 1, player: "faulty"),
 #   Rooms::Commands::MarkGoal.new(goal_idx: 3, player: "shark"),
@@ -23,11 +23,15 @@ context = Rooms::Context.new
 #   Rooms::Commands::MarkGoal.new(goal_idx: 2, player: "faulty")
   Rooms::Commands::AddPlayer.new(player: "faulty")
 ].map do |command|
-  agg = context.get_room(room_id)
+  agg = Rooms::Context.get_room(room_id)
   events = agg.process(command)
-  context.emit(events)
+  Rooms::Context.emit(events)
 end
 
 
-agg = context.list_rooms()
+agg = Rooms::Context.list_rooms()
 pp! agg
+
+loop do
+  sleep
+end

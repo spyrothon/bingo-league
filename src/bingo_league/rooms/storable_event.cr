@@ -1,4 +1,5 @@
 require "json"
+require "crecto"
 
 module Rooms
   class StorableEvent < Crecto::Model

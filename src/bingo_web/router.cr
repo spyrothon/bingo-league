@@ -48,6 +48,8 @@ router BingoWeb::Router do
     crud :matches, "match", controller: "aPI::Matches", helpers: false
 
     get "/teams", controller: API::TeamsController, action: index
+
+    get "/rooms", controller: API::RoomsController, action: index
   end
 
 
