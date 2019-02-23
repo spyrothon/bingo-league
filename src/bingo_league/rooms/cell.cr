@@ -1,6 +1,6 @@
 require "auto_initialize"
 
-class Rooms::Goal
+class Rooms::Cell
   include AutoInitialize
   JSON.mapping(
     name: String,
@@ -8,7 +8,6 @@ class Rooms::Goal
     types: Array(String),
     marked_by: Set(String)
   )
-
 
   def initialize(@name, @difficulty = 1, @types = [] of String, @marked_by = Set(String).new)
   end

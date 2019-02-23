@@ -7,7 +7,8 @@ require "./handlers/*"
 
 class Rooms::Supervisor
   alias RoomID = Int64
-  alias Repo = BingoLeague::Repo
+  alias Repo  = BingoLeague::Repo
+  alias Multi = BingoLeague::Multi
   alias Query = BingoLeague::Query
 
   # Central bus for propogating events
@@ -64,6 +65,16 @@ class Rooms::Supervisor
   def events_for_room(room_id)
     stored_events = Repo.all(StorableEvent, Query.where(room_id: room_id))
     stored_events.map(&.to_event)
+  end
+
+  def process_and_save(room : Room, command : Commands::BaseCommand)
+    events = room.process(command)
+    multi = Multi.new
+    events.each do |event|
+      storable = StorableEvent.from_event(event)
+      multi.insert(storable)
+    end
+    Repo.transaction(multi)
   end
 
 

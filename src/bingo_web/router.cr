@@ -47,9 +47,12 @@ router BingoWeb::Router do
   scope "api" do
     crud :matches, "match", controller: "aPI::Matches", helpers: false
 
-    get "/teams", controller: API::TeamsController, action: index
+    get   "/teams", controller: API::TeamsController, action: index
+    get   "/rooms", controller: API::RoomsController, action: index
 
-    get "/rooms", controller: API::RoomsController, action: index
+    scope "/rooms/socket" do
+      use HTTP::WebSocketHandler.new(&->RoomSocket.add(HTTP::WebSocket, HTTP::Server::Context))
+    end
   end
 
 

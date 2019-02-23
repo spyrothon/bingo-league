@@ -1,10 +1,10 @@
 require "auto_initialize"
 
 module Rooms::Commands
-  struct UnmarkGoal < BaseCommand
+  struct UnmarkCell < BaseCommand
     include AutoInitialize
 
-    property goal_idx : Int32
+    property cell_index : Int32
     property player : String
   end
 end

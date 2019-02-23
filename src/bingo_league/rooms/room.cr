@@ -55,25 +55,25 @@ module Rooms
       ]
     end
 
-    def do_process(command : Commands::MarkGoal)
-      goal_idx = command.goal_idx
+    def do_process(command : Commands::MarkCell)
+      cell_index = command.cell_index
       player = command.player
-      unless goal = board.goals[goal_idx]?
-        raise "Board does not have the requested goal"
+      unless cell = board.cells[cell_index]?
+        raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.goal_marked(room_id, goal_idx, player)
+        Rooms::RoomEvent.cell_marked(room_id, cell_index, player)
       ]
     end
 
-    def do_process(command : Commands::UnmarkGoal)
-      goal_idx = command.goal_idx
+    def do_process(command : Commands::UnmarkCell)
+      cell_index = command.cell_index
       player = command.player
-      unless board.goals[goal_idx]?
-        raise "Board does not have the requested goal"
+      unless board.cells[cell_index]?
+        raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.goal_unmarked(room_id, goal_idx, player)
+        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, player)
       ]
     end
 
@@ -108,20 +108,20 @@ module Rooms
       self.players.delete(data.player)
     end
 
-    def do_apply(data : GoalMarkedEvent)
-      goal_idx = data.goal_idx
+    def do_apply(data : CellMarkedEvent)
+      cell_index = data.cell_index
       player = data.player
 
-      goal = self.board.goals[goal_idx]
-      goal.marked_by << player
+      cell = self.board.cells[cell_index]
+      cell.marked_by << player
     end
 
-    def do_apply(data : GoalUnmarkedEvent)
-      goal_idx = data.goal_idx
+    def do_apply(data : CellUnmarkedEvent)
+      cell_index = data.cell_index
       player = data.player
 
-      goal = self.board.goals[goal_idx]
-      goal.marked_by.delete(player)
+      cell = self.board.cells[cell_index]
+      cell.marked_by.delete(player)
     end
   end
 end

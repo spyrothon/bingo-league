@@ -1,12 +1,12 @@
 require "auto_initialize"
 
-require "./goal.cr"
+require "./cell.cr"
 
 class Rooms::Board
   JSON.mapping(
-    goals: Array(Goal)
+    cells: Array(Cell)
   )
 
-  def initialize(@goals = [] of Goal)
+  def initialize(@cells = [] of Cell)
   end
 end

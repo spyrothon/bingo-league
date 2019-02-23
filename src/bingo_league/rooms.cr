@@ -23,6 +23,7 @@ module Rooms::Context
     :get_room,
     :events_for_room,
     :emit,
+    :process_and_save,
     to: supervisor
   )
 end
