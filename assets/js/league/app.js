@@ -28,14 +28,8 @@ export class App extends Component {
               <h1 class="title header">Spyrothon Bingo League</h1>
 
               <p class="is-size-5">
-                The Spyrothon Bingo League is a 2v2 Lockout Bingo League based on <em>Spyro 2: Ripto's Rage</em> with a $250 prize pool. The League will run from March until May 2019. All skill levels are welcome. Signups are open until Feburary 21st!
+                The Spyrothon Bingo League is a 2v2 Lockout Bingo League based on <em>Spyro 2: Ripto's Rage</em> with a $250 prize pool. The League will run from March 3rd until May 2019, with some matches featured on the Spyrothon Twitch Channel.
               </p>
-
-              <div class="columns is-centered has-margin-top-lg">
-                <div class="column is-narrow has-text-centered">
-                  <a class="button is-white is-large has-header-shadow" href="https://goo.gl/forms/ukKffjDoHugEoXTd2" target="_blank" rel="nofollow noopener">Sign up Now</a>
-                </div>
-              </div>
 
               <div class="columns is-centered">
                 <div class="column is-10-tablet is-8-desktop">
@@ -51,14 +45,14 @@ export class App extends Component {
                 <TabList>
                   <Tab>
                     <a>
-                      <span class="icon is-small"><FontAwesomeIcon icon="info-circle" /></span>
-                      <span>Details</span>
+                      <span class="icon is-small"><FontAwesomeIcon icon="trophy" /></span>
+                      <span>Matches</span>
                     </a>
                   </Tab>
                   <Tab>
                     <a>
-                      <span class="icon is-small"><FontAwesomeIcon icon="trophy" /></span>
-                      <span>Matches</span>
+                      <span class="icon is-small"><FontAwesomeIcon icon="info-circle" /></span>
+                      <span>Details</span>
                     </a>
                   </Tab>
                   <Tab>
@@ -77,10 +71,10 @@ export class App extends Component {
           <section class="section">
             <div class="container">
               <TabPanel>
-                <DetailsScreen />
+                <LeagueContainer />
               </TabPanel>
               <TabPanel>
-                <LeagueContainer />
+                <DetailsScreen />
               </TabPanel>
               <TabPanel>
                 <RulesScreen />
