@@ -28,7 +28,7 @@ export class League extends Component {
         <div class="column is-4-tablet is-4-desktop is-3-widescreen">
           <div class="has-margin-bottom-lg">
             <p class="is-uppercase has-text-grey has-margin-bottom-md">Team Standings</p>
-            <TeamStandings matches={matches} allTeams={allTeams} />
+            <TeamStandings matches={pastMatches} allTeams={allTeams} />
           </div>
 
           <div class="has-margin-bottom-lg">
