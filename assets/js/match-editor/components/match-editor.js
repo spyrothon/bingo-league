@@ -2,8 +2,10 @@ import { h, Component } from 'preact';
 import { renderJoined } from '../util';
 import { DateTime } from 'luxon';
 import linkState from 'linkstate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DateTimePicker from '../../ext/preact-flatpickr';
+
 
 export class MatchEditor extends Component {
   constructor(props) {
@@ -184,7 +186,7 @@ export class MatchEditor extends Component {
                         <tr>
                           <td width="20px" class="has-padding-right-none">
                             { play.won &&
-                              <span class="has-text-primary has-text-right">&#9733;</span>
+                              <span class="has-text-primary has-text-right"><FontAwesomeIcon icon="star"/></span>
                             }
                           </td>
                           <td width="60%">
@@ -201,7 +203,7 @@ export class MatchEditor extends Component {
                           </td>
                           <td>
                             <a class="button is-white" onClick={this.removePlay.bind(this, team.id)}>
-                              &#x2716;
+                              <FontAwesomeIcon icon="times"/>
                             </a>
                           </td>
                         </tr>
