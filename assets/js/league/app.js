@@ -28,7 +28,7 @@ export class App extends Component {
               <h1 class="title header">Spyrothon Bingo League</h1>
 
               <p class="is-size-5">
-                The Spyrothon Bingo League is a 2v2 Lockout Bingo League based on <em>Spyro 2: Ripto's Rage</em> with a $250 prize pool. The League will run from March 3rd until May 2019, with some matches featured on the Spyrothon Twitch Channel.
+                The Spyrothon Bingo League is a 2v2 Lockout Bingo League based on <em>Spyro 2: Ripto's Rage</em> with a $250 prize pool. The League will run from March 3rd until May 2019, with most matches featured on the Spyrothon Twitch Channel.
               </p>
 
               <div class="columns is-centered">

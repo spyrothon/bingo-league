@@ -77,6 +77,7 @@ class BingoWeb::API::MatchesController < BingoWeb::Controller
     plays_params = json_params["plays"].as_a
     plays_params = mark_winning_play(plays_params)
     plays_params.each do |play_params|
+      puts play_params
       League.create_play(play_params.as_h)
     end
 

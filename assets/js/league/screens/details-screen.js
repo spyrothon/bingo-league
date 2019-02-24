@@ -41,7 +41,7 @@ export class DetailsScreen extends Component {
           <div class="column is-6">
             <h1 class="title header">Match Dates</h1>
 
-            <p>Matches will be held on Wednesdays and Sundays in one of 4 time slots, depending on players' availability.</p>
+            <p>Matches will be held on Wednesdays and Sundays in one of 5 time slots, depending on players' availability.</p>
 
             <table class="table is-fullwidth">
               <thead>
@@ -54,19 +54,23 @@ export class DetailsScreen extends Component {
               <tbody>
                 <tr>
                   <td>6:00 PM UTC</td>
+                  <td>7:15 PM UTC</td>
+                </tr>
+                <tr>
                   <td>7:30 PM UTC</td>
+                  <td>8:45 PM UTC</td>
                 </tr>
                 <tr>
-                  <td>7:45 PM UTC</td>
-                  <td>8:15 PM UTC</td>
-                </tr>
-                <tr>
-                  <td>8:30 PM UTC</td>
-                  <td>10:00 PM UTC</td>
-                </tr>
-                <tr>
+                  <td>9:00 PM UTC</td>
                   <td>10:15 PM UTC</td>
+                </tr>
+                <tr>
+                  <td>10:30 PM UTC</td>
                   <td>11:45 PM UTC</td>
+                </tr>
+                <tr>
+                  <td>12:00 AM UTC</td>
+                  <td>01:15 AM UTC</td>
                 </tr>
               </tbody>
             </table>
