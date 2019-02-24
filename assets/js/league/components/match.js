@@ -3,6 +3,15 @@ import { h, Component } from 'preact';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+const DATETIME_CONFIG = {
+  weekday: 'short',
+  month: 'short',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZoneName: 'short'
+};
+
 export class Match extends Component {
   render(props) {
     const {
@@ -48,7 +57,7 @@ export class Match extends Component {
             <div class="level-end">
               <div class="level-item">
                 <span class="has-text-weight-normal is-pulled-right">
-                  {startDate.toLocaleString(DateTime.DATETIME_MED)}
+                  {startDate.toLocaleString(DATETIME_CONFIG)}
                 </span>
               </div>
             </div>
