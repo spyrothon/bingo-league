@@ -33,7 +33,7 @@ export class League extends Component {
 
           <div class="has-margin-bottom-lg">
             <p class="is-uppercase has-text-grey has-margin-bottom-md">League Statistics</p>
-            <OverallStats matches={matches} allTeams={allTeams} />
+            <OverallStats matches={pastMatches} allTeams={allTeams} />
           </div>
         </div>
 
