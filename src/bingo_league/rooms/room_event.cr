@@ -87,23 +87,25 @@ module Rooms
       )
     end
 
-    def RoomEvent.cell_marked(room_id : Int64, cell_index : Int32, player : String)
+    def RoomEvent.cell_marked(room_id : Int64, cell_index : Int32, team : String, player : String)
       new(
         type: "cell_marked",
         room_id: room_id,
         data: {
           cell_index: cell_index,
-          player: player
+          team: team,
+          player: player,
         }
       )
     end
 
-    def RoomEvent.cell_unmarked(room_id : Int64, cell_index : Int32, player : String)
+    def RoomEvent.cell_unmarked(room_id : Int64, cell_index : Int32, team : String, player : String)
       new(
         type: "cell_unmarked",
         room_id: room_id,
         data: {
           cell_index: cell_index,
+          team: team,
           player: player
         }
       )
