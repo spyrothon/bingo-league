@@ -1,0 +1,18 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">New Goal</h1>
+
+  <form method="POST" action="/goals/create">
+    {% include "goals/_form.html.j2" %}
+
+    <div class="field is-grouped">
+      <div class="control">
+        <input type="submit" value="Create Goal" class="button is-link">
+      </div>
+      <div class="control">
+        <a href="/goals" class="button is-text">Cancel</a>
+      </div>
+    </div>
+  </form>
+{% endblock %}

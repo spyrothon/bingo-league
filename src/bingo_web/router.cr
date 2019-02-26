@@ -41,6 +41,7 @@ router BingoWeb::Router do
     crud :matches,  "match"
     crud :players,  "player"
     crud :teams,    "team"
+    crud :goals,    "goal"
   end
 
 

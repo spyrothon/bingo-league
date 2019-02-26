@@ -1,11 +1,9 @@
 require "auto_initialize"
 
 module Rooms::Commands
-  struct UnmarkCell < BaseCommand
+  struct RemoveTeam < BaseCommand
     include AutoInitialize
 
-    property cell_index : Int32
     property team : String
-    property player : String
   end
 end

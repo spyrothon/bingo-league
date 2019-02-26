@@ -1,0 +1,31 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">Bingo Goals</h1>
+
+  <div class="field is-grouped">
+    <p class="control">
+      <a href="/goals/new" class="button is-primary">New Goal</a>
+    </p>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Types</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for goal in goals %}
+        <tr>
+          <td>{{goal.id}}</td>
+          <td><a href="/goals/{{goal.id}}/edit">{{ goal.name }}</a></td>
+          <td>{{goal.types}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

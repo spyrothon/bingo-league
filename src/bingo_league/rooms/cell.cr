@@ -1,14 +1,11 @@
 require "auto_initialize"
 
 class Rooms::Cell
-  include AutoInitialize
   JSON.mapping(
-    name: String,
-    difficulty: Int32,
-    types: Array(String),
+    goal_id: Int32,
     marked_by: Set(String)
   )
 
-  def initialize(@name, @difficulty = 1, @types = [] of String, @marked_by = Set(String).new)
+  def initialize(@goal_id, @marked_by = Set(String).new)
   end
 end

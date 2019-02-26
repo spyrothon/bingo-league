@@ -10,11 +10,13 @@ module Rooms
     property name : String
     property board : Board
     property players : Set(String)
+    property teams : Set(String)
 
     def initialize(@room_id : Int64, @version = 1_i64)
       @name = "Room #{@room_id}"
       @board = Board.new
       @players = Set(String).new
+      @teams = Set(String).new
     end
 
     def self.from_events(room_id, events)
@@ -52,6 +54,22 @@ module Rooms
       return nil unless self.players.includes?(player)
       [
         Rooms::RoomEvent.player_removed(room_id, player)
+      ]
+    end
+
+    def do_process(command : Commands::AddTeam)
+      team = command.team
+      return nil if self.teams.includes?(team)
+      [
+        Rooms::RoomEvent.team_added(room_id, team)
+      ]
+    end
+
+    def do_process(command : Commands::RemoveTeam)
+      team = command.team
+      return nil unless self.teams.includes?(team)
+      [
+        Rooms::RoomEvent.team_removed(room_id, team)
       ]
     end
 
@@ -106,6 +124,14 @@ module Rooms
 
     def do_apply(data : PlayerRemovedEvent)
       self.players.delete(data.player)
+    end
+
+    def do_apply(data : TeamAddedEvent)
+      self.teams << data.team
+    end
+
+    def do_apply(data : TeamRemovedEvent)
+      self.teams.delete(data.team)
     end
 
     def do_apply(data : CellMarkedEvent)

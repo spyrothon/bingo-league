@@ -1,0 +1,27 @@
+<div class="field">
+  <label class="label" for="name">Name</label>
+  <div class="control">
+    <input class="input" type="text" name="name" placeholder="Goal name" value="{{goal.name|d('')}}">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="clarification">Clarification</label>
+  <div class="control">
+    <input class="input" type="text" name="clarification" placeholder="Clarification" value="{{goal.clarification|d('')}}">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="difficulty">Difficulty</label>
+  <div class="control">
+    <input class="input" type="number" name="difficulty" step="1" min="1" max="25" placeholder="0-25" value="{{goal.difficulty|d('')}}">
+  </div>
+</div>
+
+<div class="field">
+  <label class="label" for="types">Types</label>
+  <div class="control">
+    <input class="input" type="text" name="types" placeholder="Types (comma separated)" value="{{goal.types|d('')}}">
+  </div>
+</div>

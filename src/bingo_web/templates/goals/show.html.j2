@@ -1,0 +1,11 @@
+{% extends "layouts/main.html.j2" %}
+
+{% block main %}
+  <h1 class="title">{{ goal.name }}</h1>
+  <p class="subtitle">{{ goal.types }} | {{ goal.difficulty }}</p>
+  <p class="subtitle">{{ goal.clarification }}</p>
+  <p>
+    <a class="button" href="/goals/{{goal.id}}/edit">Edit</a>
+  </p>
+  </div>
+{% endblock %}
