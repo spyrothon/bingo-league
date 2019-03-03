@@ -16,6 +16,18 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
+  def create
+    room_id = Random.rand(Int32::MAX).to_i64
+    seed = Random.rand(Int32::MAX)
+    if room = Rooms::Context.create_room(room_id, seed)
+      render_json({
+        room: room
+      })
+    else
+      render_error_json(422, "Could not create room")
+    end
+  end
+
 
   def mark_goal
     if room = get_room(url_params["room_id"])

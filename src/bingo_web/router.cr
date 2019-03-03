@@ -50,6 +50,7 @@ router BingoWeb::Router do
 
     get   "/teams", controller: API::TeamsController, action: index
     get   "/rooms", controller: API::RoomsController, action: index
+    post  "/rooms", controller: API::RoomsController, action: create
 
     scope "/rooms/socket" do
       use HTTP::WebSocketHandler.new(&->RoomSocket.add(HTTP::WebSocket, HTTP::Server::Context))

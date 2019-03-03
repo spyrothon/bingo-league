@@ -87,6 +87,26 @@ module Rooms
       )
     end
 
+    def RoomEvent.team_added(room_id : Int64, team : String)
+      new(
+        type: "team_added",
+        room_id: room_id,
+        data: {
+          team: team
+        }
+      )
+    end
+
+    def RoomEvent.team_removed(room_id : Int64, team : String)
+      new(
+        type: "team_removed",
+        room_id: room_id,
+        data: {
+          team: team
+        }
+      )
+    end
+
     def RoomEvent.cell_marked(room_id : Int64, cell_index : Int32, team : String, player : String)
       new(
         type: "cell_marked",

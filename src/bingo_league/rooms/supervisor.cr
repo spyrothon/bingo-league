@@ -62,6 +62,10 @@ class Rooms::Supervisor
     end
   end
 
+  def new_room(room_id : RoomID)
+    Room.new(room_id)
+  end
+
   def events_for_room(room_id)
     stored_events = Repo.all(StorableEvent, Query.where(room_id: room_id))
     stored_events.map(&.to_event)
@@ -75,6 +79,7 @@ class Rooms::Supervisor
       multi.insert(storable)
     end
     Repo.transaction(multi)
+    room
   end
 
 

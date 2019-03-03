@@ -29,9 +29,17 @@ module Rooms
     # Processes
     ###
 
+
     def process(command : Commands::BaseCommand)
       events = do_process(command)
       events || [] of RoomEvent
+    end
+
+    def do_process(command : Commands::CreateRoom)
+      name = command.name
+      [
+        Rooms::RoomEvent.room_created(room_id, name)
+      ]
     end
 
     def do_process(command : Commands::UpdateBoard)
@@ -76,6 +84,7 @@ module Rooms
     def do_process(command : Commands::MarkCell)
       cell_index = command.cell_index
       team = command.team
+      player = command.player
       unless cell = board.cells[cell_index]?
         raise "Board does not have the requested cell"
       end
@@ -87,6 +96,7 @@ module Rooms
     def do_process(command : Commands::UnmarkCell)
       cell_index = command.cell_index
       team = command.team
+      player = command.player
       unless board.cells[cell_index]?
         raise "Board does not have the requested cell"
       end

@@ -5,6 +5,7 @@ class BingoWeb::GoalsController < BingoWeb::Controller
 
   def index
     goals = Rooms::Context.list_goals()
+
     render("goals/index.html.j2", {
       "goals" => goals
     })

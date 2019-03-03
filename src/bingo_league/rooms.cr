@@ -1,4 +1,5 @@
 require "./repo"
+require "./rooms/board_generator"
 require "./rooms/supervisor.cr"
 require "./rooms/goal"
 
@@ -26,11 +27,32 @@ module Rooms::Context
   delegate(
     :list_rooms,
     :get_room,
+    :new_room,
     :events_for_room,
     :emit,
     :process_and_save,
     to: supervisor
   )
+
+  ###
+  # Rooms
+  ###
+
+  def create_room(room_id, seed)
+    goals = list_goals()
+    board = generate_board(goals, seed)
+
+    if room = new_room(room_id)
+      commands = [
+        Rooms::Commands::CreateRoom.new(name: "A Room"),
+        Rooms::Commands::UpdateBoard.new(board: board)
+      ].reduce(room) do |agg, command|
+        process_and_save(agg, command)
+      end
+
+      room
+    end
+  end
 
 
   ###
@@ -66,5 +88,15 @@ module Rooms::Context
 
   def delete_goal(goal : Goal)
     Repo.delete(goal)
+  end
+
+
+
+  ###
+  # Boards
+  ###
+
+  def generate_board(goals : Array(Goal), seed : Int32? = nil)
+    BoardGenerator.new(5, goals, seed).generate
   end
 end

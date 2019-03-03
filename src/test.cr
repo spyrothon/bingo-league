@@ -2,36 +2,18 @@ require "dotenv"
 Dotenv.load!
 
 require "./bingo_league/rooms"
-Rooms::Context.start
 
-room_id = 125_i64
-board = Rooms::Board.new(
-  goals: [
-    Rooms::Goal.new(name: "Goal 1", difficulty: 2, types: ["gems", "orbs"]),
-    Rooms::Goal.new(name: "Goal 2", difficulty: 15),
-    Rooms::Goal.new(name: "Goal 3", difficulty: 3),
-    Rooms::Goal.new(name: "Goal 4", difficulty: 7)
-  ]
-)
+require "./goals.cr"
 
-
-[
-#   Rooms::Commands::MarkGoal.new(goal_idx: 1, player: "faulty"),
-#   Rooms::Commands::MarkGoal.new(goal_idx: 3, player: "shark"),
-#   Rooms::Commands::MarkGoal.new(goal_idx: 0, player: "shark"),
-#   Rooms::Commands::UnmarkGoal.new(goal_idx: 1, player: "faulty"),
-#   Rooms::Commands::MarkGoal.new(goal_idx: 2, player: "faulty")
-  Rooms::Commands::AddPlayer.new(player: "faulty")
-].map do |command|
-  agg = Rooms::Context.get_room(room_id)
-  events = agg.process(command)
-  Rooms::Context.emit(events)
+GOALS.each do |difficulty, goals|
+  goals.each do |g|
+    g = Rooms::Context.create_goal({
+      name: g["name"],
+      types: g["types"].as(Array(String)).join(","),
+      difficulty: difficulty,
+      clarification: nil
+    })
+    puts g
+  end
 end
 
-
-agg = Rooms::Context.list_rooms()
-pp! agg
-
-loop do
-  sleep
-end

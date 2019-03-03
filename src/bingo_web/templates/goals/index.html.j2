@@ -15,6 +15,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Types</th>
+        <th>Clarification</th>
       </tr>
     </thead>
 
@@ -24,6 +25,7 @@
           <td>{{goal.id}}</td>
           <td><a href="/goals/{{goal.id}}/edit">{{ goal.name }}</a></td>
           <td>{{goal.types}}</td>
+          <td>{{goal.description}}</td>
         </tr>
       {% endfor %}
     </tbody>
