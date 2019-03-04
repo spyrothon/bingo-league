@@ -32,7 +32,7 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
   end
 
 
-  def mark_goal
+  def mark_cell
     if room = get_room(url_params["room_id"])
       command = Rooms::Commands::MarkCell.from_params(json_params)
       Rooms::Context.process_and_save(room, command)
