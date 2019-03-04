@@ -44,6 +44,17 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
+  def events
+    if room_id = url_params["room_id"]?
+      events = Rooms::Context.events_for_room(room_id)
+      render_json({
+        events: events
+      })
+    else
+      render_error_json(404, "Room does not exist")
+    end
+  end
+
 
   private def get_room(id : String)
     if room_id = id.to_i?

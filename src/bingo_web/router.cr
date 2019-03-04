@@ -50,12 +50,15 @@ router BingoWeb::Router do
 
 
   scope "api" do
+    use OptionsHandler
+
     crud :matches, "match", controller: "aPI::Matches", helpers: false
 
     get   "/teams", controller: API::TeamsController, action: index
     get   "/rooms", controller: API::RoomsController, action: index
     post  "/rooms", controller: API::RoomsController, action: create
     get   "/rooms/:room_id", controller: API::RoomsController, action: show
+    get   "/rooms/:room_id/events", controller: API::RoomsController, action: events
 
     scope "/rooms/socket" do
       use HTTP::WebSocketHandler.new(&->RoomSocket.add(HTTP::WebSocket, HTTP::Server::Context))
