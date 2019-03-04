@@ -18,8 +18,11 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
 
   def create
     room_id = Random.rand(Int32::MAX).to_i64
-    seed = Random.rand(Int32::MAX)
-    if room = Rooms::Context.create_room(room_id, seed)
+    params = structured_params(Params::CreateRoom)
+    name = params.name || "Room ##{room_id}"
+    seed = params.seed || Random.rand(Int32::MAX)
+
+    if room = Rooms::Context.create_room(room_id, name, seed)
       render_json({
         room: room
       })

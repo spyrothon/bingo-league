@@ -1,4 +1,6 @@
 require "./util/template.cr"
+require "./param_schemas/params.cr"
+require "./param_schemas/*"
 
 class BingoWeb::Controller
   include Orion::ControllerHelper
@@ -38,7 +40,13 @@ class BingoWeb::Controller
   property! raw_request_body : String
 
   def raw_request_body
-    @raw_request_body ||= request.body.not_nil!.gets_to_end
+    @raw_request_body ||= begin
+      if body = request.body
+        body.not_nil!.gets_to_end
+      else
+        ""
+      end
+    end
   end
 
   def body_params
@@ -50,7 +58,12 @@ class BingoWeb::Controller
   end
 
   def structured_params(structure)
-    structure.from_json(raw_request_body)
+    body = raw_request_body
+    unless body.empty?
+      structure.from_json(body)
+    else
+      structure.from_json("{}")
+    end
   end
 
   def url_params

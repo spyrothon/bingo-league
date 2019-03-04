@@ -28,6 +28,10 @@ router BingoWeb::Router do
 
 
   get "/",      to: "static#index"
+  scope "play" do
+    match "",          to: "static#play"
+    match "/:room_id",  to: "static#play"
+  end
 
   get   "login",  to: "sessions#new", helper: "login"
   post  "login",  to: "sessions#create", helper: "sessions_create"
@@ -51,6 +55,7 @@ router BingoWeb::Router do
     get   "/teams", controller: API::TeamsController, action: index
     get   "/rooms", controller: API::RoomsController, action: index
     post  "/rooms", controller: API::RoomsController, action: create
+    get   "/rooms/:room_id", controller: API::RoomsController, action: show
 
     scope "/rooms/socket" do
       use HTTP::WebSocketHandler.new(&->RoomSocket.add(HTTP::WebSocket, HTTP::Server::Context))

@@ -6,6 +6,7 @@ module Rooms
   struct Room # < Aggregate
     include JSON::Serializable
     property version : Int64
+    property last_updated : Time
     property room_id : Int64
     property name : String
     property board : Board
@@ -17,6 +18,7 @@ module Rooms
       @board = Board.new
       @players = Set(String).new
       @teams = Set(String).new
+      @last_updated = Time.new
     end
 
     def self.from_events(room_id, events)
@@ -117,6 +119,7 @@ module Rooms
     def apply(event : RoomEvent)
       do_apply(event.data)
       self.version += 1
+      self.last_updated = event.timestamp
       self
     end
 

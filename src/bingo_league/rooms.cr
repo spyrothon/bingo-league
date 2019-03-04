@@ -38,13 +38,13 @@ module Rooms::Context
   # Rooms
   ###
 
-  def create_room(room_id, seed)
+  def create_room(room_id, name, seed)
     goals = list_goals()
     board = generate_board(goals, seed)
 
     if room = new_room(room_id)
       commands = [
-        Rooms::Commands::CreateRoom.new(name: "A Room"),
+        Rooms::Commands::CreateRoom.new(name: name),
         Rooms::Commands::UpdateBoard.new(board: board)
       ].reduce(room) do |agg, command|
         process_and_save(agg, command)
