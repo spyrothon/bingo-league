@@ -30,7 +30,7 @@ module Rooms
         Cell.new(goal)
       end
 
-      Board.new(cells)
+      Board.new(size, seed, cells)
     end
 
 

@@ -9,13 +9,12 @@ module Rooms
     property last_updated : Time
     property room_id : Int64
     property name : String
-    property board : Board
     property players : Set(String)
     property teams : Set(String)
+    property! board : Board?
 
     def initialize(@room_id : Int64, @version = 1_i64)
       @name = "Room #{@room_id}"
-      @board = Board.new
       @players = Set(String).new
       @teams = Set(String).new
       @last_updated = Time.new

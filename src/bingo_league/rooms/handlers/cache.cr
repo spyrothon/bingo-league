@@ -22,7 +22,8 @@ class Rooms::Cache < Rooms::EventHandler
   def handle(event : RoomEvent)
     # New state
     room_id = event.room_id
-    room = rooms[room_id].apply(event)
+    room = rooms[room_id]? || Room.new(room_id)
+    room = room.apply(event)
     # Update cache
     rooms[room_id] = room
   end
