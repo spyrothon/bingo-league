@@ -13,8 +13,8 @@ class Rooms::Notifier < Rooms::EventHandler
 
     BingoWeb::SocketSupervisor.broadcast(room_id.to_s, {
       type: "room_update",
-      event: event,
-      room: room
+      room: room,
+      events: [event]
     })
   end
 end
