@@ -1,6 +1,7 @@
 require "json"
 
 require "./board"
+require "./cell"
 
 
 module Rooms
@@ -107,24 +108,26 @@ module Rooms
       )
     end
 
-    def RoomEvent.cell_marked(room_id : Int64, cell_index : Int32, team : String, player : String)
+    def RoomEvent.cell_marked(room_id : Int64, cell_index : Int32, cell : Cell, team : String, player : String)
       new(
         type: "cell_marked",
         room_id: room_id,
         data: {
           cell_index: cell_index,
+          cell: cell,
           team: team,
           player: player,
         }
       )
     end
 
-    def RoomEvent.cell_unmarked(room_id : Int64, cell_index : Int32, team : String, player : String)
+    def RoomEvent.cell_unmarked(room_id : Int64, cell_index : Int32, cell : Cell, team : String, player : String)
       new(
         type: "cell_unmarked",
         room_id: room_id,
         data: {
           cell_index: cell_index,
+          cell: cell,
           team: team,
           player: player
         }

@@ -67,7 +67,7 @@ class Rooms::Supervisor
   end
 
   def events_for_room(room_id)
-    stored_events = Repo.all(StorableEvent, Query.where(room_id: room_id))
+    stored_events = Repo.all(StorableEvent, Query.where(room_id: room_id).order_by("timestamp ASC"))
     stored_events.map(&.to_event)
   end
 

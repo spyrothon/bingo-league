@@ -90,7 +90,7 @@ module Rooms
         raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.cell_marked(room_id, cell_index, team, player)
+        Rooms::RoomEvent.cell_marked(room_id, cell_index, cell, team, player)
       ]
     end
 
@@ -98,11 +98,11 @@ module Rooms
       cell_index = command.cell_index
       team = command.team
       player = command.player
-      unless board.cells[cell_index]?
+      unless cell = board.cells[cell_index]?
         raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, team, player)
+        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, player)
       ]
     end
 
@@ -148,18 +148,18 @@ module Rooms
 
     def do_apply(data : CellMarkedEvent)
       cell_index = data.cell_index
-      player = data.player
+      team = data.team
 
       cell = self.board.cells[cell_index]
-      cell.marked_by << player
+      cell.marked_by << team
     end
 
     def do_apply(data : CellUnmarkedEvent)
       cell_index = data.cell_index
-      player = data.player
+      team = data.team
 
       cell = self.board.cells[cell_index]
-      cell.marked_by.delete(player)
+      cell.marked_by.delete(team)
     end
   end
 end

@@ -69,7 +69,7 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
 
   def unmark_cell
     room_command(url_params["room_id"]) do |room|
-      command = Rooms::Commands::MarkCell.from_params(json_params)
+      command = Rooms::Commands::UnmarkCell.from_params(json_params)
     end
   end
 
