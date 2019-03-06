@@ -57,12 +57,15 @@ router BingoWeb::Router do
     get   "/teams", controller: API::TeamsController, action: index
     get   "/rooms", controller: API::RoomsController, action: index
     post  "/rooms", controller: API::RoomsController, action: create
+
     post  "/rooms/:room_id/mark_cell", controller: API::RoomsController, action: mark_cell
     get   "/rooms/:room_id", controller: API::RoomsController, action: show
     get   "/rooms/:room_id/events", controller: API::RoomsController, action: events
 
-    scope "/rooms/socket" do
-      use HTTP::WebSocketHandler.new(&->RoomSocket.add(HTTP::WebSocket, HTTP::Server::Context))
+    scope "/socket" do
+      use HTTP::WebSocketHandler.new{ |socket, context|
+        BingoWeb::SocketSupervisor.add(BingoWeb::Socket.new(socket, context))
+      }
     end
   end
 

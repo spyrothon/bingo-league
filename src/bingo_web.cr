@@ -25,4 +25,5 @@ require "./bingo_league/rooms.cr"
 visor = Honcho::Visor.new(strategy: Honcho::Strategy::ISOLATED)
 visor.start_supervised("rooms_supervisor"){ Rooms::Context.start }
 visor.start_supervised("bingo_web[router]", &->BingoWeb.start)
+visor.start_supervised("socket_keepalive", &->BingoWeb::SocketSupervisor.start)
 visor.run
