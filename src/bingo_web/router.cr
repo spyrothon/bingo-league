@@ -58,9 +58,10 @@ router BingoWeb::Router do
     get   "/rooms", controller: API::RoomsController, action: index
     post  "/rooms", controller: API::RoomsController, action: create
 
-    post  "/rooms/:room_id/mark_cell", controller: API::RoomsController, action: mark_cell
     get   "/rooms/:room_id", controller: API::RoomsController, action: show
-    get   "/rooms/:room_id/events", controller: API::RoomsController, action: events
+    {% for command in [:mark_cell, :unmark_cell, :add_player, :remove_player, :add_team, :remove_team] %}
+      post  "/rooms/:room_id/{{command.id}}", controller: API::RoomsController, action: {{command.id}}
+    {% end %}
 
     scope "/socket" do
       use HTTP::WebSocketHandler.new{ |socket, context|

@@ -32,26 +32,44 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
   end
 
 
-  def mark_cell
-    if room = get_room(url_params["room_id"])
-      command = Rooms::Commands::MarkCell.from_params(json_params)
-      Rooms::Context.process_and_save(room, command)
-      render_json({
-        data: :accepted
-      })
-    else
-      render_error_json(404, "Room does not exist")
+  ###
+  # Commands
+  ###
+
+  def add_player
+    room_command(url_params["room_id"]) do |room|
+      Rooms::Commands::AddPlayer.from_params(json_params)
     end
   end
 
-  def events
-    if room_id = url_params["room_id"]?
-      events = Rooms::Context.events_for_room(room_id)
-      render_json({
-        events: events
-      })
-    else
-      render_error_json(404, "Room does not exist")
+  def remove_player
+    room_command(url_params["room_id"]) do |room|
+      Rooms::Commands::RemovePlayer.from_params(json_params)
+    end
+  end
+
+  def add_team
+    room_command(url_params["room_id"]) do |room|
+      Rooms::Commands::AddTeam.from_params(json_params)
+    end
+  end
+
+  def remove_team
+    room_command(url_params["room_id"]) do |room|
+      Rooms::Commands::RemoveTeam.from_params(json_params)
+    end
+  end
+
+
+  def mark_cell
+    room_command(url_params["room_id"]) do |room|
+      command = Rooms::Commands::MarkCell.from_params(json_params)
+    end
+  end
+
+  def unmark_cell
+    room_command(url_params["room_id"]) do |room|
+      command = Rooms::Commands::MarkCell.from_params(json_params)
     end
   end
 
@@ -61,6 +79,18 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
       Rooms::Context.get_room(room_id.to_i64)
     else
       nil
+    end
+  end
+
+  private def room_command(room_id)
+    if room = get_room(room_id)
+      command = yield room
+      Rooms::Context.process_and_save(room, command)
+      render_json({
+        data: :accepted
+      })
+    else
+      render_error_json(404, "Room does not exist")
     end
   end
 end

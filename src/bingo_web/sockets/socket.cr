@@ -18,15 +18,17 @@ class BingoWeb::Socket
     when "subscribe"
       if topic = payload["topic"]
         SocketSupervisor.subscribe(topic.as_s, self)
-        room = Rooms::Context.get_room(topic.as_s.to_i64)
+        room_id = topic.as_s.to_i64
+        room = Rooms::Context.get_room(room_id)
         send({ type: "room_update", room: room })
+        send_event_history(room_id)
       else
         send({ error: "no such topic", topic: topic })
       end
     when "unsubscribe"
       if topic = payload["topic"]
         SocketSupervisor.unsubscribe(topic.as_s, self)
-        send({ status: "ok", topic: topic })
+        send({ type: "ok", status: "ok", topic: topic })
       else
         send({ error: "no such topic", topic: topic })
       end
@@ -35,6 +37,16 @@ class BingoWeb::Socket
     end
 
     nil
+  end
+
+
+  def send_event_history(room_id)
+    events = Rooms::Context.events_for_room(room_id)
+    send({
+      type: "event_history",
+      room_id: room_id,
+      events: events
+    })
   end
 
 

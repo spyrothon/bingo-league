@@ -15,7 +15,7 @@ class Rooms::Supervisor
   property event_bus : EventBus
   # In-memory cache of aggregates
   property cache : Cache
-  property event_store : EventStore
+  # property event_store : EventStore
   property notifier : Notifier
   property workers : Array(Fiber)
 
@@ -23,9 +23,9 @@ class Rooms::Supervisor
     @event_bus = EventBus.new
     @workers = [] of Fiber
     @cache = Cache.new(event_bus)
-    @event_store = EventStore.new(event_bus)
+    # @event_store = EventStore.new(event_bus)
     @notifier = Notifier.new(event_bus)
-    @workers = start_workers([cache, event_store, notifier])
+    @workers = start_workers([cache, notifier])
   end
 
   def start_workers(workers) : Array(Fiber)
@@ -79,6 +79,8 @@ class Rooms::Supervisor
       multi.insert(storable)
     end
     Repo.transaction(multi)
+
+    emit(events)
     room
   end
 
