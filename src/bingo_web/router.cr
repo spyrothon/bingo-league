@@ -68,6 +68,9 @@ router BingoWeb::Router do
         BingoWeb::SocketSupervisor.add(BingoWeb::Socket.new(socket, context))
       }
     end
+
+    post "/sessions", controller: API::SessionsController, action: create
+    post "/sessions/delete", controller: API::SessionsController, action: destroy
   end
 
 

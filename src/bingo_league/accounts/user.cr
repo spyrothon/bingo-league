@@ -4,6 +4,7 @@ module BingoLeague::Accounts
   @[Crinja::Attributes]
   class User < Crecto::Model
     include Crinja::Object::Auto
+    include JSON::Serializable
 
     schema "acc_users" do
       field :name, String
@@ -15,8 +16,10 @@ module BingoLeague::Accounts
       field :avatar_object_id, String
 
       @[Crinja::Attribute(ignore: true)]
+      @[JSON::Field(ignore: true)]
       field :password, String, virtual: true
       @[Crinja::Attribute(ignore: true)]
+      @[JSON::Field(ignore: true)]
       field :encrypted_password, String
     end
 
