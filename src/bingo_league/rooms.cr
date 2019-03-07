@@ -38,7 +38,7 @@ module Rooms::Context
   # Rooms
   ###
 
-  def create_room(room_id, name, seed)
+  def create_room(room_id, name, seed, user)
     goals = list_goals()
     board = generate_board(goals, seed)
 
@@ -47,7 +47,7 @@ module Rooms::Context
         Rooms::Commands::CreateRoom.new(name: name),
         Rooms::Commands::UpdateBoard.new(board: board)
       ].reduce(room) do |agg, command|
-        process_and_save(agg, command)
+        process_and_save(agg, command.with_meta(user, user.id))
       end
 
       room

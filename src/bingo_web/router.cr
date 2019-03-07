@@ -17,62 +17,38 @@ macro crud(name, singular, *, controller=nil, helpers=true)
 end
 
 router BingoWeb::Router do
-  use HTTP::ErrorHandler
-  use HTTP::LogHandler.new(STDOUT)
-  use SessionHandler
+  scope "" do
+    use HTTP::ErrorHandler
+    use HTTP::LogHandler.new(STDOUT)
+    use SessionHandler
 
-  concern :authorized_as_admin do
-    use AuthenticationHandler
-    use AuthorizationHandler
-  end
-
-
-  get "/",      to: "static#index"
-  scope "play" do
-    match "",          to: "static#play"
-    match "/:room_id",  to: "static#play"
-  end
-
-  get   "login",  to: "sessions#new", helper: "login"
-  post  "login",  to: "sessions#create", helper: "sessions_create"
-  get   "logout", to: "sessions#destroy", helper: "logout"
-
-  scope do
-    implements :authorized_as_admin
-
-    get "/admin", to: "static#admin"
-
-    crud :matches,  "match"
-    crud :players,  "player"
-    crud :teams,    "team"
-    crud :goals,    "goal"
-  end
-
-
-  scope "api" do
-    use OptionsHandler
-
-    crud :matches, "match", controller: "aPI::Matches", helpers: false
-
-    get   "/teams", controller: API::TeamsController, action: index
-    get   "/rooms", controller: API::RoomsController, action: index
-    post  "/rooms", controller: API::RoomsController, action: create
-
-    get   "/rooms/:room_id", controller: API::RoomsController, action: show
-    {% for command in [:mark_cell, :unmark_cell, :add_player, :remove_player, :add_team, :remove_team] %}
-      post  "/rooms/:room_id/{{command.id}}", controller: API::RoomsController, action: {{command.id}}
-    {% end %}
-
-    scope "/socket" do
-      use HTTP::WebSocketHandler.new{ |socket, context|
-        BingoWeb::SocketSupervisor.add(BingoWeb::Socket.new(socket, context))
-      }
+    concern :authorized_as_admin do
+      use AuthenticationHandler
+      use AuthorizationHandler
     end
 
-    post "/sessions", controller: API::SessionsController, action: create
-    post "/sessions/delete", controller: API::SessionsController, action: destroy
-  end
 
+    get "/",      to: "static#index"
+    scope "play" do
+      match "",          to: "static#play"
+      match "/:room_id",  to: "static#play"
+    end
+
+    get   "login",  to: "sessions#new", helper: "login"
+    post  "login",  to: "sessions#create", helper: "sessions_create"
+    get   "logout", to: "sessions#destroy", helper: "logout"
+
+    scope do
+      implements :authorized_as_admin
+
+      get "/admin", to: "static#admin"
+
+      crud :matches,  "match"
+      crud :players,  "player"
+      crud :teams,    "team"
+      crud :goals,    "goal"
+    end
+  end
 
   ## Static assets
   scope "css" do
@@ -80,5 +56,43 @@ router BingoWeb::Router do
   end
   scope "js" do
     use HTTP::StaticFileHandler.new("public/", fallthrough: false, directory_listing: false)
+  end
+
+
+
+  scope "api" do
+    use OptionsHandler
+    use HTTP::ErrorHandler
+    use HTTP::LogHandler.new(STDOUT)
+    use API::SessionHandler
+
+    # bingo.spyrothon.org
+    crud :matches, "match", controller: "aPI::Matches", helpers: false
+
+    get   "/teams", controller: API::TeamsController, action: index
+
+
+    # play.spyrothon.org
+    scope "play" do
+      # public
+      get   "/rooms", controller: API::RoomsController, action: index
+      post  "/rooms", controller: API::RoomsController, action: create
+      get   "/rooms/:room_id", controller: API::RoomsController, action: show
+      scope "/socket" do
+        use HTTP::WebSocketHandler.new{ |socket, context|
+          BingoWeb::SocketSupervisor.add(BingoWeb::Socket.new(socket, context))
+        }
+      end
+
+      post "/sessions", controller: API::SessionsController, action: create
+      post "/sessions/delete", controller: API::SessionsController, action: destroy
+
+
+      # Authenticed
+      use API::AuthenticationHandler
+      {% for command in [:mark_cell, :unmark_cell, :add_player, :remove_player, :add_team, :remove_team] %}
+        post  "/rooms/:room_id/{{command.id}}", controller: API::RoomsController, action: {{command.id}}
+      {% end %}
+    end
   end
 end

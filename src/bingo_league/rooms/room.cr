@@ -2,8 +2,12 @@ require "./*"
 require "./events/*"
 require "./commands/*"
 
+require "../accounts"
+
 module Rooms
   struct Room # < Aggregate
+    private alias User = BingoLeague::Accounts::User
+
     include JSON::Serializable
     property version : Int64
     property last_updated : Time
@@ -11,6 +15,7 @@ module Rooms
     property name : String
     property players : Set(String)
     property teams : Set(String)
+    property! owner : User?
     property! board : Board?
 
     def initialize(@room_id : Int64, @version = 1_i64)
@@ -38,51 +43,58 @@ module Rooms
 
     def do_process(command : Commands::CreateRoom)
       name = command.name
+      meta = command.meta
       [
-        Rooms::RoomEvent.room_created(room_id, name)
+        Rooms::RoomEvent.room_created(room_id, name, meta)
       ]
     end
 
     def do_process(command : Commands::UpdateBoard)
       new_board = command.board
+      meta = command.meta
       [
-        Rooms::RoomEvent.board_updated(room_id, new_board)
+        Rooms::RoomEvent.board_updated(room_id, new_board, meta)
       ]
     end
 
     def do_process(command : Commands::AddPlayer)
       player = command.player
+      meta = command.meta
       return nil if self.players.includes?(player)
       [
-        Rooms::RoomEvent.player_added(room_id, player)
+        Rooms::RoomEvent.player_added(room_id, player, meta)
       ]
     end
 
     def do_process(command : Commands::RemovePlayer)
       player = command.player
+      meta = command.meta
       return nil unless self.players.includes?(player)
       [
-        Rooms::RoomEvent.player_removed(room_id, player)
+        Rooms::RoomEvent.player_removed(room_id, player, meta)
       ]
     end
 
     def do_process(command : Commands::AddTeam)
       team = command.team
+      meta = command.meta
       return nil if self.teams.includes?(team)
       [
-        Rooms::RoomEvent.team_added(room_id, team)
+        Rooms::RoomEvent.team_added(room_id, team, meta)
       ]
     end
 
     def do_process(command : Commands::RemoveTeam)
       team = command.team
+      meta = command.meta
       return nil unless self.teams.includes?(team)
       [
-        Rooms::RoomEvent.team_removed(room_id, team)
+        Rooms::RoomEvent.team_removed(room_id, team, meta)
       ]
     end
 
     def do_process(command : Commands::MarkCell)
+      meta = command.meta
       cell_index = command.cell_index
       team = command.team
       player = command.player
@@ -90,7 +102,7 @@ module Rooms
         raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.cell_marked(room_id, cell_index, cell, team, player)
+        Rooms::RoomEvent.cell_marked(room_id, cell_index, cell, team, player, meta)
       ]
     end
 
@@ -98,11 +110,12 @@ module Rooms
       cell_index = command.cell_index
       team = command.team
       player = command.player
+      meta = command.meta
       unless cell = board.cells[cell_index]?
         raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, player)
+        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, player, meta)
       ]
     end
 
@@ -116,37 +129,38 @@ module Rooms
     ###
 
     def apply(event : RoomEvent)
-      do_apply(event.data)
+      do_apply(event.data, event.meta)
       self.version += 1
       self.last_updated = event.timestamp
       self
     end
 
-    def do_apply(data : RoomCreatedEvent)
+    def do_apply(data : RoomCreatedEvent, meta)
       self.name = data.name
+      self.owner = meta.user
     end
 
-    def do_apply(data : BoardUpdatedEvent)
+    def do_apply(data : BoardUpdatedEvent, meta)
       self.board = data.board
     end
 
-    def do_apply(data : PlayerAddedEvent)
+    def do_apply(data : PlayerAddedEvent, meta)
       self.players << data.player
     end
 
-    def do_apply(data : PlayerRemovedEvent)
+    def do_apply(data : PlayerRemovedEvent, meta)
       self.players.delete(data.player)
     end
 
-    def do_apply(data : TeamAddedEvent)
+    def do_apply(data : TeamAddedEvent, meta)
       self.teams << data.team
     end
 
-    def do_apply(data : TeamRemovedEvent)
+    def do_apply(data : TeamRemovedEvent, meta)
       self.teams.delete(data.team)
     end
 
-    def do_apply(data : CellMarkedEvent)
+    def do_apply(data : CellMarkedEvent, meta)
       cell_index = data.cell_index
       team = data.team
 
@@ -154,7 +168,7 @@ module Rooms
       cell.marked_by << team
     end
 
-    def do_apply(data : CellUnmarkedEvent)
+    def do_apply(data : CellUnmarkedEvent, meta)
       cell_index = data.cell_index
       team = data.team
 

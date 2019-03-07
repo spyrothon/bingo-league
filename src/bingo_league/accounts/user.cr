@@ -16,10 +16,9 @@ module BingoLeague::Accounts
       field :avatar_object_id, String
 
       @[Crinja::Attribute(ignore: true)]
-      @[JSON::Field(ignore: true)]
       field :password, String, virtual: true
+
       @[Crinja::Attribute(ignore: true)]
-      @[JSON::Field(ignore: true)]
       field :encrypted_password, String
     end
 
@@ -35,6 +34,17 @@ module BingoLeague::Accounts
 
     def password_matches?(other_password : String)
       Crypto::Bcrypt::Password.new(@encrypted_password.not_nil!) == other_password
+    end
+
+    def to_json(json)
+      json.object do
+        json.field "name", name
+        json.field "discord", discord
+        json.field "twitch", twitch
+        json.field "twitter", twitter
+        json.field "timezone", timezone
+        json.field "avatar_object_id", avatar_object_id
+      end
     end
   end
 end

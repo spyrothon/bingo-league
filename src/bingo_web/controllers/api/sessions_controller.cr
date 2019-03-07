@@ -14,8 +14,10 @@ class BingoWeb::API::SessionsController < BingoWeb::Controller
     end
 
     if session = Accounts.create_session(account, password)
+      user = Accounts.get_user(session.instance.user_id)
       render_json({
-        session_id: session.instance.key!
+        session_id: session.instance.key!,
+        user: user
       })
     else
       render_error_json(422, "Invalid username/password")

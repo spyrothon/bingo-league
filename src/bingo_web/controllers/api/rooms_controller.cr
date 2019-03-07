@@ -16,13 +16,18 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
+
+  ###
+  # Commands
+  ###
+
   def create
     room_id = Random.rand(Int32::MAX).to_i64
     params = structured_params(Params::CreateRoom)
     name = params.name || "Room ##{room_id}"
     seed = params.seed || Random.rand(Int32::MAX)
 
-    if room = Rooms::Context.create_room(room_id, name, seed)
+    if room = Rooms::Context.create_room(room_id, name, seed, @context.current_user)
       render_json({
         room: room
       })
@@ -30,11 +35,6 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
       render_error_json(422, "Could not create room")
     end
   end
-
-
-  ###
-  # Commands
-  ###
 
   def add_player
     room_command(url_params["room_id"]) do |room|
@@ -85,6 +85,7 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
   private def room_command(room_id)
     if room = get_room(room_id)
       command = yield room
+      command = set_meta(command)
       Rooms::Context.process_and_save(room, command)
       render_json({
         data: :accepted
@@ -92,5 +93,12 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     else
       render_error_json(404, "Room does not exist")
     end
+  end
+
+  private def set_meta(command)
+    command.with_meta(
+      user: @context.current_user,
+      user_id: @context.current_user.id
+    )
   end
 end
