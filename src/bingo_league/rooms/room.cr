@@ -94,28 +94,26 @@ module Rooms
     end
 
     def do_process(command : Commands::MarkCell)
-      meta = command.meta
       cell_index = command.cell_index
       team = command.team
-      player = command.player
+      meta = command.meta
       unless cell = board.cells[cell_index]?
         raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.cell_marked(room_id, cell_index, cell, team, player, meta)
+        Rooms::RoomEvent.cell_marked(room_id, cell_index, cell, team, meta)
       ]
     end
 
     def do_process(command : Commands::UnmarkCell)
       cell_index = command.cell_index
       team = command.team
-      player = command.player
       meta = command.meta
       unless cell = board.cells[cell_index]?
         raise "Board does not have the requested cell"
       end
       [
-        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, player, meta)
+        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, meta)
       ]
     end
 

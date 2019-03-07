@@ -4,8 +4,7 @@ module Rooms
   struct CellMarkedEvent < EventData
     JSON.mapping(
       cell_index: Int32,
-      team: String,
-      player: String
+      team: String
     )
   end
 
