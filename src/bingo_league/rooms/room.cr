@@ -11,21 +11,21 @@ module Rooms
     include JSON::Serializable
     property version : Int64
     property last_updated : Time
-    property room_id : Int64
+    property room_id : String
     property name : String
     property players : Set(String)
     property teams : Set(String)
     property! owner : User?
     property! board : Board?
 
-    def initialize(@room_id : Int64, @version = 1_i64)
+    def initialize(@room_id : String, @version = 1_i64)
       @name = "Room #{@room_id}"
       @players = Set(String).new
       @teams = Set(String).new
       @last_updated = Time.new
     end
 
-    def self.from_events(room_id, events)
+    def self.from_events(room_id : String, events)
       agg = self.new(room_id)
       events.reduce(agg){ |agg, event| agg.apply(event) }
     end

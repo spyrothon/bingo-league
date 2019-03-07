@@ -18,7 +18,7 @@ class BingoWeb::Socket
     when "subscribe"
       if topic = payload["topic"]
         SocketSupervisor.subscribe(topic.as_s, self)
-        room_id = topic.as_s.to_i64
+        room_id = topic.as_s
         room = Rooms::Context.get_room(room_id)
         events = Rooms::Context.events_for_room(room_id)
         send({ type: "room_update", room: room, events: events })

@@ -38,7 +38,7 @@ module Rooms::Context
   # Rooms
   ###
 
-  def create_room(room_id, name, seed, user)
+  def create_room(room_id : String, name : String, seed, user)
     goals = list_goals()
     board = generate_board(goals, seed)
 

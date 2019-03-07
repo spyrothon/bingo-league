@@ -9,7 +9,7 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
   end
 
   def show
-    if room = get_room(url_params["room_id"])
+    if room = Rooms::Context.get_room(url_params["room_id"])
       render_json({
         room: room
       })
@@ -22,7 +22,7 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
   ###
 
   def create
-    room_id = Random.rand(Int32::MAX).to_i64
+    room_id = Random::Secure.urlsafe_base64(8)
     params = structured_params(Params::CreateRoom)
     name = params.name || "Room ##{room_id}"
     seed = params.seed || Random.rand(Int32::MAX)
@@ -73,17 +73,8 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
-
-  private def get_room(id : String)
-    if room_id = id.to_i?
-      Rooms::Context.get_room(room_id.to_i64)
-    else
-      nil
-    end
-  end
-
   private def room_command(room_id)
-    if room = get_room(room_id)
+    if room = Rooms::Context.get_room(room_id)
       command = yield room
       command = set_meta(command)
       Rooms::Context.process_and_save(room, command)

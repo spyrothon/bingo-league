@@ -4,7 +4,7 @@ require "crecto"
 module Rooms
   class StorableEvent < Crecto::Model
     schema "room_events" do
-      field :room_id, Int64
+      field :room_id, String
       field :type, String
       field :data, String
       field :meta, String
@@ -30,9 +30,8 @@ module Rooms
     end
 
     def to_event
-      room_id = self.room_id.not_nil!.to_i64
       RoomEvent.new(
-        room_id: room_id,
+        room_id: self.room_id!,
         type: self.type!,
         data: self.data!,
         meta: self.meta,

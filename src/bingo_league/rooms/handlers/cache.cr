@@ -1,7 +1,7 @@
 require "../event_handler.cr"
 
 class Rooms::Cache < Rooms::EventHandler
-  property rooms = Hash(Int64, Room).new
+  property rooms = Hash(String, Room).new
 
   ###
   # Accessors
@@ -9,7 +9,7 @@ class Rooms::Cache < Rooms::EventHandler
 
   delegate :[], :[]?, to: rooms
 
-  def manual_update(room_id : Int64, room : Room)
+  def manual_update(room_id : String, room : Room)
     rooms[room_id] = room
   end
 

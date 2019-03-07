@@ -6,7 +6,7 @@ require "./handlers/*"
 
 
 class Rooms::Supervisor
-  alias RoomID = Int64
+  alias RoomID = String
   alias Repo  = BingoLeague::Repo
   alias Multi = BingoLeague::Multi
   alias Query = BingoLeague::Query
@@ -42,7 +42,7 @@ class Rooms::Supervisor
     results = Repo.query("SELECT DISTINCT room_id FROM room_events")
     room_ids = [] of RoomID
     results.each do
-      room_ids << results.read(Int32).to_i64
+      room_ids << results.read(RoomID)
     end
     room_ids.map(&->get_room(RoomID))
   end

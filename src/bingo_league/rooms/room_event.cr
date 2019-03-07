@@ -18,7 +18,7 @@ module Rooms
   struct RoomEvent
     JSON.mapping(
       type: String,
-      room_id: Int64,
+      room_id: String,
       raw_data: String,
       raw_meta: String,
       timestamp: Time
@@ -32,7 +32,7 @@ module Rooms
       {% EVENT_TYPES[type] = structure %}
     end
 
-    def initialize(*, @type : String, @room_id : Int64, data, meta, @timestamp=Time.utc_now())
+    def initialize(*, @type : String, @room_id : String, data, meta, @timestamp=Time.utc_now())
       @raw_data =
         case data
         when String
@@ -60,16 +60,12 @@ module Rooms
       @parsed_meta ||= EventMeta.from_json(@raw_meta)
     end
 
-    def room_id : Int64
-      @room_id.as(Int64)
-    end
-
 
     ###
     # Events
     ###
 
-    def RoomEvent.room_created(room_id : Int64, name : String, meta)
+    def RoomEvent.room_created(room_id : String, name : String, meta)
       new(
         type: "room_created",
         room_id: room_id,
@@ -80,7 +76,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.board_updated(room_id : Int64, board : Board, meta)
+    def RoomEvent.board_updated(room_id : String, board : Board, meta)
       new(
         type: "board_updated",
         room_id: room_id,
@@ -91,7 +87,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.player_added(room_id : Int64, player : String, meta)
+    def RoomEvent.player_added(room_id : String, player : String, meta)
       new(
         type: "player_added",
         room_id: room_id,
@@ -102,7 +98,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.player_removed(room_id : Int64, player : String, meta)
+    def RoomEvent.player_removed(room_id : String, player : String, meta)
       new(
         type: "player_removed",
         room_id: room_id,
@@ -113,7 +109,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.team_added(room_id : Int64, team : String, meta)
+    def RoomEvent.team_added(room_id : String, team : String, meta)
       new(
         type: "team_added",
         room_id: room_id,
@@ -124,7 +120,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.team_removed(room_id : Int64, team : String, meta)
+    def RoomEvent.team_removed(room_id : String, team : String, meta)
       new(
         type: "team_removed",
         room_id: room_id,
@@ -135,7 +131,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.cell_marked(room_id : Int64, cell_index : Int32, cell : Cell, team : String, meta)
+    def RoomEvent.cell_marked(room_id : String, cell_index : Int32, cell : Cell, team : String, meta)
       new(
         type: "cell_marked",
         room_id: room_id,
@@ -148,7 +144,7 @@ module Rooms
       )
     end
 
-    def RoomEvent.cell_unmarked(room_id : Int64, cell_index : Int32, cell : Cell, team : String, meta)
+    def RoomEvent.cell_unmarked(room_id : String, cell_index : Int32, cell : Cell, team : String, meta)
       new(
         type: "cell_unmarked",
         room_id: room_id,
