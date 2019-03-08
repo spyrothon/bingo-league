@@ -109,23 +109,25 @@ module Rooms
       )
     end
 
-    def RoomEvent.team_added(room_id : String, team : String, meta)
+    def RoomEvent.team_added(room_id : String, team_id : String, name : String, color : String, meta)
       new(
         type: "team_added",
         room_id: room_id,
         data: {
-          team: team
+          team_id: team_id,
+          name: name,
+          color: color
         },
         meta: meta
       )
     end
 
-    def RoomEvent.team_removed(room_id : String, team : String, meta)
+    def RoomEvent.team_removed(room_id : String, team_id : String, meta)
       new(
         type: "team_removed",
         room_id: room_id,
         data: {
-          team: team
+          team_id: team_id
         },
         meta: meta
       )
@@ -152,6 +154,17 @@ module Rooms
           cell_index: cell_index,
           cell: cell,
           team: team
+        },
+        meta: meta
+      )
+    end
+
+    def RoomEvent.chat_message_sent(room_id : String, content : String, meta)
+      new(
+        type: "chat_message_sent",
+        room_id: room_id,
+        data: {
+          content: content
         },
         meta: meta
       )

@@ -1,8 +1,9 @@
+require "../accounts"
+
 require "./*"
 require "./events/*"
 require "./commands/*"
 
-require "../accounts"
 
 module Rooms
   struct Room # < Aggregate
@@ -14,15 +15,17 @@ module Rooms
     property room_id : String
     property name : String
     property players : Set(String)
-    property teams : Set(String)
+    property teams : Set(Team)
     property! owner : User?
     property! board : Board?
+    property chat : Array(String)
 
     def initialize(@room_id : String, @version = 1_i64)
       @name = "Room #{@room_id}"
       @players = Set(String).new
-      @teams = Set(String).new
+      @teams = Set(Team).new
       @last_updated = Time.new
+      @chat = [] of String
     end
 
     def self.from_events(room_id : String, events)
@@ -76,20 +79,20 @@ module Rooms
     end
 
     def do_process(command : Commands::AddTeam)
-      team = command.team
+      name = command.name
+      color = command.color
+      team_id = Random::Secure.hex(2)
       meta = command.meta
-      return nil if self.teams.includes?(team)
       [
-        Rooms::RoomEvent.team_added(room_id, team, meta)
+        Rooms::RoomEvent.team_added(room_id, team_id, name, color, meta)
       ]
     end
 
     def do_process(command : Commands::RemoveTeam)
-      team = command.team
+      team_id = command.team_id
       meta = command.meta
-      return nil unless self.teams.includes?(team)
       [
-        Rooms::RoomEvent.team_removed(room_id, team, meta)
+        Rooms::RoomEvent.team_removed(room_id, team_id, meta)
       ]
     end
 
@@ -114,6 +117,14 @@ module Rooms
       end
       [
         Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, meta)
+      ]
+    end
+
+    def do_process(command : Commands::SendChatMessage)
+      content = command.content
+      meta = command.meta
+      [
+        Rooms::RoomEvent.chat_message_sent(room_id, content, meta)
       ]
     end
 
@@ -151,11 +162,17 @@ module Rooms
     end
 
     def do_apply(data : TeamAddedEvent, meta)
-      self.teams << data.team
+      team = Team.new(
+        id: data.team_id,
+        name: data.name,
+        color: data.color
+      )
+
+      self.teams << team
     end
 
     def do_apply(data : TeamRemovedEvent, meta)
-      self.teams.delete(data.team)
+      self.teams.reject{ |t| t.id == data.team_id }
     end
 
     def do_apply(data : CellMarkedEvent, meta)
@@ -172,6 +189,11 @@ module Rooms
 
       cell = self.board.cells[cell_index]
       cell.marked_by.delete(team)
+    end
+
+    def do_apply(data : ChatMessageSentEvent, meta)
+      message = data.content
+      self.chat << message
     end
   end
 end

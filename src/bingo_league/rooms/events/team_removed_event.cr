@@ -3,7 +3,7 @@ require "../room_event"
 module Rooms
   struct TeamRemovedEvent < EventData
     JSON.mapping(
-      team: String
+      team_id: String
     )
   end
 

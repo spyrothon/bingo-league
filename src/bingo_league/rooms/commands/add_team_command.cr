@@ -4,13 +4,15 @@ module Rooms::Commands
   struct AddTeam < BaseCommand
     include AutoInitialize
 
-    property team : String
+    property name : String
+    property color : String
 
 
     def self.from_params(params)
-      team = params["team"].as_s
+      name = params["name"].as_s
+      color = params["color"].as_s
 
-      new(team: team)
+      new(name: name, color: color)
     end
   end
 end

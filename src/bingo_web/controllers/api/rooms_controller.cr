@@ -73,6 +73,12 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
+  def send_chat_message
+    room_command(url_params["room_id"]) do |room|
+      command = Rooms::Commands::SendChatMessage.from_params(json_params)
+    end
+  end
+
   private def room_command(room_id)
     if room = Rooms::Context.get_room(room_id)
       command = yield room

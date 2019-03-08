@@ -4,13 +4,13 @@ module Rooms::Commands
   struct RemoveTeam < BaseCommand
     include AutoInitialize
 
-    property team : String
+    property team_id : String
 
 
     def self.from_params(params)
-      team = params["team"].as_s
+      team_id = params["team_id"].as_s
 
-      new(team: team)
+      new(team_id: team_id)
     end
   end
 end

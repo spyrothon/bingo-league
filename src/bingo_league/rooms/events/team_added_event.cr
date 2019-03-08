@@ -3,7 +3,9 @@ require "../room_event"
 module Rooms
   struct TeamAddedEvent < EventData
     JSON.mapping(
-      team: String
+      team_id: String,
+      name: String,
+      color: String
     )
   end
 
