@@ -46,7 +46,7 @@ module Rooms
       name = command.name
       meta = command.meta
       [
-        Rooms::RoomEvent.room_created(room_id, name, meta)
+        RoomEvent.room_created(room_id, name, meta)
       ]
     end
 
@@ -54,7 +54,7 @@ module Rooms
       new_board = command.board
       meta = command.meta
       [
-        Rooms::RoomEvent.board_updated(room_id, new_board, meta)
+        RoomEvent.board_updated(room_id, new_board, meta)
       ]
     end
 
@@ -67,7 +67,7 @@ module Rooms
 
       return nil if self.players[player.id]?
       [
-        Rooms::RoomEvent.player_joined(room_id, player, meta)
+        RoomEvent.player_joined(room_id, player, meta)
       ]
     end
 
@@ -78,7 +78,7 @@ module Rooms
       player = self.players[requested_player.id]?
       return nil unless player
       [
-        Rooms::RoomEvent.player_left(room_id, player, meta)
+        RoomEvent.player_left(room_id, player, meta)
       ]
     end
 
@@ -90,7 +90,7 @@ module Rooms
       player = self.players[requested_player.id]?
       return nil unless player
       [
-        Rooms::RoomEvent.player_nickname_changed(room_id, player, nickname, meta)
+        RoomEvent.player_nickname_changed(room_id, player, nickname, meta)
       ]
     end
 
@@ -102,39 +102,55 @@ module Rooms
       player = self.players[requested_player.id]?
       return nil unless player
       [
-        Rooms::RoomEvent.player_color_changed(room_id, player, color, meta)
+        RoomEvent.player_color_changed(room_id, player, color, meta)
       ]
     end
 
     def do_process(command : Commands::MarkCell)
-      cell_index = command.cell_index
-      team = command.team
       meta = command.meta
-      unless cell = board.cells[cell_index]?
-        raise "Board does not have the requested cell"
-      end
+      user = meta[:user]
+      player = requested_player_for_user(user)
+      cell_index = command.cell_index
+      return nil unless cell = board.cells[cell_index]?
+      return nil if cell.marked_by.includes?(player.id)
       [
-        Rooms::RoomEvent.cell_marked(room_id, cell_index, cell, team, meta)
+        RoomEvent.cell_marked(room_id, cell_index, cell, player, meta)
       ]
     end
 
     def do_process(command : Commands::UnmarkCell)
-      cell_index = command.cell_index
-      team = command.team
       meta = command.meta
-      unless cell = board.cells[cell_index]?
-        raise "Board does not have the requested cell"
-      end
+      user = meta[:user]
+      player = requested_player_for_user(user)
+      cell_index = command.cell_index
+      return nil unless cell = board.cells[cell_index]?
+      return nil unless cell.marked_by.includes?(player.id)
       [
-        Rooms::RoomEvent.cell_unmarked(room_id, cell_index, cell, team, meta)
+        RoomEvent.cell_unmarked(room_id, cell_index, cell, player, meta)
       ]
+    end
+
+    def do_process(command : Commands::ToggleCell)
+      meta = command.meta
+      user = meta[:user]
+      player = requested_player_for_user(user)
+      cell_index = command.cell_index
+      return nil unless cell = board.cells[cell_index]?
+
+      events = [] of RoomEvent
+      if cell.marked_by.includes?(player.id)
+        events << RoomEvent.cell_unmarked(room_id, cell_index, cell, player, meta)
+      else
+        events << RoomEvent.cell_marked(room_id, cell_index, cell, player, meta)
+      end
+      events
     end
 
     def do_process(command : Commands::SendChatMessage)
       content = command.content
       meta = command.meta
       [
-        Rooms::RoomEvent.chat_message_sent(room_id, content, meta)
+        RoomEvent.chat_message_sent(room_id, content, meta)
       ]
     end
 
@@ -193,18 +209,18 @@ module Rooms
 
     def do_apply(data : CellMarkedEvent, meta)
       cell_index = data.cell_index
-      team = data.team
+      player = data.player
 
       cell = self.board.cells[cell_index]
-      cell.marked_by << team
+      cell.marked_by << player.id
     end
 
     def do_apply(data : CellUnmarkedEvent, meta)
       cell_index = data.cell_index
-      team = data.team
+      player = data.player
 
       cell = self.board.cells[cell_index]
-      cell.marked_by.delete(team)
+      cell.marked_by.delete(player.id)
     end
 
     def do_apply(data : ChatMessageSentEvent, meta)

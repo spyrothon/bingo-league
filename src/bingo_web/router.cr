@@ -93,6 +93,7 @@ router BingoWeb::Router do
       {% for command in [
             :mark_cell,
             :unmark_cell,
+            :toggle_cell,
             :send_chat_message,
             :join,
             :leave,

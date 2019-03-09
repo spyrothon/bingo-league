@@ -1,7 +1,7 @@
 require "auto_initialize"
 
 module Rooms::Commands
-  struct UnmarkCell < BaseCommand
+  struct ToggleCell < BaseCommand
     include AutoInitialize
 
     property cell_index : Int32
