@@ -6,8 +6,8 @@ module Rooms
     include AutoInitialize
     include JSON::Serializable
 
-    property id : String
     property name : String
     property color : String
+    property player_ids = [] of Int64
   end
 end

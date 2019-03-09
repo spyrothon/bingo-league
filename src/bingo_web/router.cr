@@ -90,7 +90,14 @@ router BingoWeb::Router do
 
       # Authenticed
       use API::AuthenticationHandler
-      {% for command in [:mark_cell, :unmark_cell, :add_player, :remove_player, :add_team, :remove_team, :send_chat_message] %}
+      {% for command in [
+            :mark_cell,
+            :unmark_cell,
+            :add_team,
+            :remove_team,
+            :send_chat_message,
+            :join_team
+          ] %}
         post  "/rooms/:room_id/{{command.id}}", controller: API::RoomsController, action: {{command.id}}
       {% end %}
     end

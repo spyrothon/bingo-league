@@ -36,18 +36,6 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
-  def add_player
-    room_command(url_params["room_id"]) do |room|
-      Rooms::Commands::AddPlayer.from_params(json_params)
-    end
-  end
-
-  def remove_player
-    room_command(url_params["room_id"]) do |room|
-      Rooms::Commands::RemovePlayer.from_params(json_params)
-    end
-  end
-
   def add_team
     room_command(url_params["room_id"]) do |room|
       Rooms::Commands::AddTeam.from_params(json_params)
@@ -57,6 +45,12 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
   def remove_team
     room_command(url_params["room_id"]) do |room|
       Rooms::Commands::RemoveTeam.from_params(json_params)
+    end
+  end
+
+  def join_team
+    room_command(url_params["room_id"]) do |room|
+      Rooms::Commands::JoinTeam.from_params(json_params)
     end
   end
 

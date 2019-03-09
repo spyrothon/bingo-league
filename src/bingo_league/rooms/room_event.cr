@@ -87,34 +87,35 @@ module Rooms
       )
     end
 
-    def RoomEvent.player_added(room_id : String, player : String, meta)
+    def RoomEvent.player_added(room_id : String, user : BingoLeague::Accounts::User, meta)
       new(
         type: "player_added",
         room_id: room_id,
         data: {
-          player: player
+          user_id: user.id.to_s.to_i64,
+          user: user
         },
         meta: meta
       )
     end
 
-    def RoomEvent.player_removed(room_id : String, player : String, meta)
+    def RoomEvent.player_removed(room_id : String, user : BingoLeague::Accounts::User, meta)
       new(
         type: "player_removed",
         room_id: room_id,
         data: {
-          player: player
+          user_id: user.id.as(Int64),
+          user: user
         },
         meta: meta
       )
     end
 
-    def RoomEvent.team_added(room_id : String, team_id : String, name : String, color : String, meta)
+    def RoomEvent.team_added(room_id : String, name : String, color : String, meta)
       new(
         type: "team_added",
         room_id: room_id,
         data: {
-          team_id: team_id,
           name: name,
           color: color
         },
@@ -122,16 +123,42 @@ module Rooms
       )
     end
 
-    def RoomEvent.team_removed(room_id : String, team_id : String, meta)
+    def RoomEvent.team_removed(room_id : String, name : String, meta)
       new(
         type: "team_removed",
         room_id: room_id,
         data: {
-          team_id: team_id
+          name: name
         },
         meta: meta
       )
     end
+
+    def RoomEvent.player_team_joined(room_id : String, player_id : Int64, team : String, meta)
+      new(
+        type: "player_team_joined",
+        room_id: room_id,
+        data: {
+          player_id: player_id,
+          team: team
+        },
+        meta: meta
+      )
+    end
+
+    def RoomEvent.player_team_changed(room_id : String, player_id : Int64, old_team : String?, team : String, meta)
+      new(
+        type: "player_team_changed",
+        room_id: room_id,
+        data: {
+          player_id: player_id,
+          old_team: old_team,
+          team: team
+        },
+        meta: meta
+      )
+    end
+
 
     def RoomEvent.cell_marked(room_id : String, cell_index : Int32, cell : Cell, team : String, meta)
       new(

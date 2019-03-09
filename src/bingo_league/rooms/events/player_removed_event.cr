@@ -3,7 +3,8 @@ require "../room_event"
 module Rooms
   struct PlayerRemovedEvent < EventData
     JSON.mapping(
-      player: String
+      user: BingoLeague::Accounts::User,
+      user_id: Int64
     )
   end
 
