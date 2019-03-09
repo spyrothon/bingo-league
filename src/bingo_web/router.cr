@@ -93,10 +93,11 @@ router BingoWeb::Router do
       {% for command in [
             :mark_cell,
             :unmark_cell,
-            :add_team,
-            :remove_team,
             :send_chat_message,
-            :join_team
+            :join,
+            :leave,
+            :set_nickname,
+            :set_color,
           ] %}
         post  "/rooms/:room_id/{{command.id}}", controller: API::RoomsController, action: {{command.id}}
       {% end %}

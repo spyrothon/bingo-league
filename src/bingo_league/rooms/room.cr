@@ -16,14 +16,12 @@ module Rooms
     property name : String
     property! owner : User?
     property! board : Board?
-    property players : Hash(Int64, User)
-    property teams : Set(Team)
+    property players : Hash(Int64, Player)
     property chat : Array(String)
 
     def initialize(@room_id : String, @version = 1_i64)
       @name = "Room #{@room_id}"
-      @players = Hash(Int64, User).new
-      @teams = Set(Team).new
+      @players = Hash(Int64, Player).new
       @last_updated = Time.new
       @chat = [] of String
     end
@@ -34,10 +32,10 @@ module Rooms
     end
 
 
+
     ###
     # Processes
     ###
-
 
     def process(command : Commands::BaseCommand)
       events = do_process(command)
@@ -60,47 +58,52 @@ module Rooms
       ]
     end
 
-    def do_process(command : Commands::AddTeam)
-      name = command.name
+    def do_process(command : Commands::JoinRoom)
+      meta = command.meta
+      user = command.user
+      nickname = command.nickname
+      color = command.color || "#ffffff"
+      player = Player.new(user: user, nickname: nickname, color: color)
+
+      return nil if self.players[player.id]?
+      [
+        Rooms::RoomEvent.player_joined(room_id, player, meta)
+      ]
+    end
+
+    def do_process(command : Commands::LeaveRoom)
+      meta = command.meta
+      user = command.user
+      requested_player = requested_player_for_user(user)
+      player = self.players[requested_player.id]?
+      return nil unless player
+      [
+        Rooms::RoomEvent.player_left(room_id, player, meta)
+      ]
+    end
+
+    def do_process(command : Commands::SetPlayerNickname)
+      meta = command.meta
+      user = command.user
+      nickname = command.nickname
+      requested_player = requested_player_for_user(user)
+      player = self.players[requested_player.id]?
+      return nil unless player
+      [
+        Rooms::RoomEvent.player_nickname_changed(room_id, player, nickname, meta)
+      ]
+    end
+
+    def do_process(command : Commands::SetPlayerColor)
+      meta = command.meta
+      user = command.user
       color = command.color
-      meta = command.meta
+      requested_player = requested_player_for_user(user)
+      player = self.players[requested_player.id]?
+      return nil unless player
       [
-        Rooms::RoomEvent.team_added(room_id, name, color, meta)
+        Rooms::RoomEvent.player_color_changed(room_id, player, color, meta)
       ]
-    end
-
-    def do_process(command : Commands::RemoveTeam)
-      name = command.name
-      meta = command.meta
-      [
-        Rooms::RoomEvent.team_removed(room_id, name, meta)
-      ]
-    end
-
-    def do_process(command : Commands::JoinTeam)
-      meta = command.meta
-      player = meta[:user]
-      player_id = meta[:user_id]
-      player_existed = self.players.has_key?(player_id)
-      existing_team = self.teams.find{ |t| t.player_ids.includes?(player_id) }.try(&.name)
-      new_team = self.teams.find{ |t| t.name == command.team }
-      events = [] of Rooms::RoomEvent
-
-      unless player_existed
-        events << Rooms::RoomEvent.player_added(room_id, player, meta)
-      end
-
-      return events unless new_team
-
-      new_team = new_team.name
-
-      if existing_team
-        events << Rooms::RoomEvent.player_team_changed(room_id, player_id, existing_team, new_team, meta)
-      else
-        events << Rooms::RoomEvent.player_team_joined(room_id, player_id, new_team, meta)
-      end
-
-      events
     end
 
     def do_process(command : Commands::MarkCell)
@@ -160,44 +163,32 @@ module Rooms
       self.board = data.board
     end
 
-    def do_apply(data : PlayerAddedEvent, meta)
-      self.players[data.user_id] = data.user
+    def do_apply(data : PlayerJoinedEvent, meta)
+      player = data.player
+      player_id = player.id
+      self.players[player_id] = player
     end
 
-    def do_apply(data : PlayerRemovedEvent, meta)
-      self.players.delete(data.user_id)
+    def do_apply(data : PlayerLeftEvent, meta)
+      player = data.player
+      player_id = player.id
+      self.players.delete(player_id)
     end
 
-    def do_apply(data : TeamAddedEvent, meta)
-      team = Team.new(
-        name: data.name,
-        color: data.color
-      )
+    def do_apply(data : PlayerNicknameChanged, meta)
+      player = data.player
+      player_id = player.id
+      nickname = data.nickname
 
-      self.teams << team
+      self.players[player_id].nickname = nickname
     end
 
-    def do_apply(data : TeamRemovedEvent, meta)
-      if team = self.teams.find{ |t| t.name == data.name }
-        self.teams.delete(team)
-      end
-    end
+    def do_apply(data : PlayerColorChanged, meta)
+      player = data.player
+      player_id = player.id
+      color = data.color
 
-    def do_apply(data : PlayerTeamJoinedEvent, meta)
-      player_id = data.player_id
-      if team = self.teams.find{ |t| t.name == data.team }
-        team.player_ids << player_id
-      end
-    end
-
-    def do_apply(data : PlayerTeamChangedEvent, meta)
-      player_id = data.player_id
-      if old_team = self.teams.find{ |t| t.name == data.team }
-        old_team.player_ids.delete(player_id)
-      end
-      if team = self.teams.find{ |t| t.name == data.team }
-        team.player_ids << player_id
-      end
+      self.players[player_id].color = color
     end
 
     def do_apply(data : CellMarkedEvent, meta)
@@ -219,6 +210,16 @@ module Rooms
     def do_apply(data : ChatMessageSentEvent, meta)
       message = data.content
       self.chat << message
+    end
+
+
+
+    ###
+    # Utilities
+    ###
+
+    def requested_player_for_user(user : BingoLeague::Accounts::User)
+      requested_player = Player.new(user: user, color: "#ffffff")
     end
   end
 end

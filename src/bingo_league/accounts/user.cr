@@ -38,6 +38,7 @@ module BingoLeague::Accounts
 
     def to_json(json)
       json.object do
+        json.field "id", id
         json.field "name", name
         json.field "discord", discord
         json.field "twitch", twitch

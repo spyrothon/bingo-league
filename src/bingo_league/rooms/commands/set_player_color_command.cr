@@ -1,18 +1,16 @@
 require "auto_initialize"
 
 module Rooms::Commands
-  struct AddTeam < BaseCommand
+  struct SetPlayerColor < BaseCommand
     include AutoInitialize
 
-    property name : String
+    property user : BingoLeague::Accounts::User
     property color : String
 
-
-    def self.from_params(params)
-      name = params["name"].as_s
+    def self.from_params(params, user)
       color = params["color"].as_s
 
-      new(name: name, color: color)
+      new(user: user, color: color)
     end
   end
 end
