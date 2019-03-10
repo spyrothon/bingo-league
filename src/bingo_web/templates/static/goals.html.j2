@@ -1,0 +1,22 @@
+{% extends "layouts/base.html.j2" %}
+
+{% block main %}
+  <div class="container has-padding-sm">
+    <h1 class="title">Goal Clarifications</h1>
+
+    <p>Below is a listing of all objectives that may come up on a Bingo Board used in the Spyrothon Bingo League. If any goal is not clear or needs more clarification, please mention it in the <a href="https://discord.gg/fCvfnfk">Spyrothon Discord</a>.</p>
+
+    <dl class="has-margin-top-lg has-padding-left-md has-padding-right-md">
+      {% for goal in goals %}
+        <div class="has-margin-bottom-md">
+          <dt class="has-text-weight-bold is-size-5">{{goal.name}}</dt>
+          <dd class="has-margin-left-md">
+            {{goal.clarification}}
+            <br/>
+            <small class="is-uppercase has-text-grey-light">Types: {{goal.types}}, Difficulty: {{goal.difficulty}}</small>
+          </dd>
+        </div>
+      {% endfor %}
+    </dl>
+  </div>
+{% endblock %}

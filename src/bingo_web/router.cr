@@ -29,6 +29,7 @@ router BingoWeb::Router do
 
 
     get "/",      to: "static#index"
+    get "/goals",      to: "static#goals"
     scope "play" do
       match "",          to: "static#play"
       match "/:room_id",  to: "static#play"

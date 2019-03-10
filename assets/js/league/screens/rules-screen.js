@@ -12,6 +12,8 @@ export class RulesScreen extends Component {
           If a rule is unclear or is not present in this ruleset, please request a clarification in the <a href="https://discord.gg/fCvfnfk">Spyrothon Discord</a>
         </p>
 
+        <p>For a list of Bingo objectives and clarifications for each, visit <a href="/goals">The Goals Page</a>.</p>
+
         <h2>Hardware and Gameplay</h2>
         <ul>
           <li>All Sony consoles with official releases of Spyro 2 are allowed: PlayStation, PlayStation 2, PlayStation 3, PlayStation TV.</li>
