@@ -150,6 +150,28 @@ export class MatchEditor extends Component {
                 </div>
               </div>
 
+              <div class="field">
+                <label class="label">Room Link</label>
+                <div class="control">
+                  <input
+                    class="input is-content"
+                    value={match.room_link}
+                    onInput={(e) => onSetMatchInfo('match.room_link', e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Board Image</label>
+                <div class="control">
+                  <input
+                    class="input is-content"
+                    value={match.board_image_link}
+                    onInput={(e) => onSetMatchInfo('match.board_image_link', e.target.value)}
+                  />
+                </div>
+              </div>
+
               <div class="has-margin-top-lg">
                 <a class="button is-fullwidth is-primary" onClick={this.saveMatch.bind(this)} disabled={!canSubmit}>
                   Save Match

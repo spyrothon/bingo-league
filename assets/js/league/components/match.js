@@ -13,10 +13,33 @@ const DATETIME_CONFIG = {
 };
 
 export class Match extends Component {
-  render(props) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isExpanded: false
+    };
+  }
+
+  onExpand() {
+    console.log("no")
+    this.setState({
+      isExpanded: true
+    });
+  }
+
+  onCollapse() {
+    this.setState({
+      isExpanded: false
+    });
+  }
+
+  render() {
     const {
       match
-    } = props;
+    } = this.props;
+    const {
+      isExpanded
+    } = this.state;
 
     const {
       teams,
@@ -24,7 +47,11 @@ export class Match extends Component {
       start_date
     } = match;
 
-    const hasFooterContent = match.description || match.video_link;
+    const hasFooterContent =
+        match.description ||
+        match.video_link ||
+        match.room_link ||
+        match.board_image_link;
 
     const teamsById = _.keyBy(teams, 'id');
     const startDate = DateTime.fromISO(start_date);
@@ -116,27 +143,56 @@ export class Match extends Component {
             </div>
         }
 
+        { hasFooterContent && isExpanded
+          ? <div class="match-footer">
+              <div class="match-footer-text">
+                <div class="match-description">
+                  { match.description &&
+                    <span>
+                      <strong>Description: </strong>
+                      { match.description }
+                    </span>
+                  }
+                </div>
 
-        { hasFooterContent &&
-          <div class="match-footer">
-            <div class="match-description">
-              { match.description &&
-                <span>
-                  <strong>Description: </strong>
-                  { match.description }
-                </span>
-              }
-            </div>
+                <div class="match-video">
+                  { match.video_link &&
+                    <span>
+                      <strong>Video: </strong>
+                      <a href={match.video_link} target="_blank" rel="nofollow noopener">{ match.video_link }</a>
+                    </span>
+                  }
+                </div>
 
-            <div class="match-video">
-              { match.video_link &&
-                <span>
-                  <strong>Video: </strong>
-                  { match.video_link }
-                </span>
-              }
+                <div class="match-room">
+                  { match.room_link &&
+                    <span>
+                      <strong>Room: </strong>
+                      <a href={match.room_link} target="_blank" rel="nofollow noopener">{ match.room_link }</a>
+                    </span>
+                  }
+                </div>
+
+                <div class="match-board-image">
+                  { match.board_image_link &&
+                    <span>
+                      <strong>Final Board: </strong>
+                      <img src={match.board_image_link} />
+                    </span>
+                  }
+                </div>
+              </div>
+
+              <div class="match-expand-target" onClick={this.onCollapse.bind(this)}>
+                <span>Show Less</span>
+              </div>
             </div>
-          </div>
+          : hasFooterContent &&
+            <div>
+              <div class="match-expand-target" onClick={this.onExpand.bind(this)}>
+                <span>Show More</span>
+              </div>
+            </div>
         }
       </div>
     );

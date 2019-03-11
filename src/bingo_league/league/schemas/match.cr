@@ -13,6 +13,8 @@ module BingoLeague::League
       field :description, String
       field :notes, String
       field :video_link, String
+      field :room_link, String
+      field :board_image_link, String
 
       field :is_featured, Bool, default: false
       field :is_finalized, Bool, default: false

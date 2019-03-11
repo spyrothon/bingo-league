@@ -12,16 +12,20 @@
   <table class="table is-fullwidth">
     <thead>
       <tr>
-        <th>Name</th>
         <th>Start Date</th>
+        <th>Name</th>
+        <th>Stream?</th>
+        <th>Done?</th>
       </tr>
     </thead>
 
     <tbody>
       {% for match in matches %}
         <tr>
-          <td><a href="/matches/{{match.id}}/edit">{{ match.name }}</a></td>
           <td class="js-date-string js-localized">{{ match.start_date | strftime('%s') }}</td>
+          <td><a href="/matches/{{match.id}}/edit">{{ match.name }}</a></td>
+          <td>{{match.is_finalized}}</td>
+          <td>{{match.is_featured}}</td>
         </tr>
       {% endfor %}
     </tbody>

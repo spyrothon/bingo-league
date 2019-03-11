@@ -25,12 +25,9 @@ export class TeamStandings extends Component {
         .reverse()
         .value();
 
-    console.log(allTeams);
-
     return (
       <div>
-        { _.map(sortedTeams, (team, index) => <Team team={team} rank={index+1} />)
-        }
+        { _.map(sortedTeams, (team, index) => <Team team={team} rank={index+1} />) }
       </div>
     );
   }

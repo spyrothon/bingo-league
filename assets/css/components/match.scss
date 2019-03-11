@@ -1,4 +1,5 @@
 $match-background-color: #eaebec;
+$match-background-color--hover: #c9cccf;
 $match-header-color: #5b5e5f;
 $match-border-color: #5b5e5f;
 $match-radius: $radius;
@@ -53,6 +54,30 @@ $match-shadow-large: 0 2px 10px rgba($black, 0.2), 0 1px 4px rgba($black, 0.1);
 
   .match-footer {
     border-top: $match-border-thin;
+    margin-top: 0.5rem;
+  }
+
+  .match-footer-text {
     padding: 0.5rem;
+  }
+
+  .match-board-image img {
+    display: block;
+    margin: auto;
+    max-height: 320px;
+  }
+
+  .match-expand-target {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.25rem 0;
+    margin-top: 0.5rem;
+    border-top: $match-border-thin;
+    transition: background-color 0.2s ease;
+
+    &:hover, &:active {
+      background-color: $match-background-color--hover;
+      cursor: pointer;
+    }
   }
 }
