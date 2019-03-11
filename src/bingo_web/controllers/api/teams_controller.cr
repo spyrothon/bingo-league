@@ -5,7 +5,8 @@ class BingoWeb::API::TeamsController < BingoWeb::Controller
   private alias League = BingoLeague::League
 
   def index
-    teams = League.list_teams(Query.preload(:plays))
+    teams = League.list_teams(Query.preload(:plays, Query.preload(:match)))
+
     render_json({
       teams: teams
     })

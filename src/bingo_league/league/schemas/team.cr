@@ -12,6 +12,7 @@ module BingoLeague::League
 
       has_many :plays, Play
       has_many :players, Player
+      has_many :matches, Match, through: :plays
     end
 
     validate_required :name

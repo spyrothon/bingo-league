@@ -10,10 +10,22 @@ export class TeamStandings extends Component {
       allTeams,
     } = props;
 
-    const sortedTeams = _.sortBy(allTeams, [
-      (team) => _.filter(team.plays, 'won').length,
-      (team) => _.sumBy(team.plays, 'score')
-    ]).reverse();
+    const sortedTeams = _.chain(allTeams)
+        .map((team) => {
+          const finalizedPlays = team.plays.filter((play) => play.match.is_finalized);
+          return {
+            ...team,
+            plays: finalizedPlays
+          }
+        })
+        .sortBy([
+          (team) => _.filter(team.plays, 'won').length,
+          (team) => _.sumBy(team.plays, 'score')
+        ])
+        .reverse()
+        .value();
+
+    console.log(allTeams);
 
     return (
       <div>
