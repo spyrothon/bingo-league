@@ -27,6 +27,11 @@ module BingoLeague::Accounts
     validate_required :password
 
 
+
+    def id : Int64
+      @id.as(Int).to_i64
+    end
+
     def password=(new_password : String)
       @encrypted_password = Crypto::Bcrypt::Password.create(new_password).to_s
       @password = new_password

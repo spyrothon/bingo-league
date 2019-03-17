@@ -64,8 +64,7 @@ module Rooms
       nickname = command.nickname
       color = command.color || "#ffffff"
       player = Player.new(user: user, nickname: nickname, color: color)
-
-      return nil if self.players[player.id]?
+      return nil if self.players.has_key?(player.id)
       [
         RoomEvent.player_joined(room_id, player, meta)
       ]
@@ -74,8 +73,7 @@ module Rooms
     def do_process(command : Commands::LeaveRoom)
       meta = command.meta
       user = command.user
-      requested_player = requested_player_for_user(user)
-      player = self.players[requested_player.id]?
+      player = requested_player_for_user(user)
       return nil unless player
       [
         RoomEvent.player_left(room_id, player, meta)
@@ -86,8 +84,7 @@ module Rooms
       meta = command.meta
       user = command.user
       nickname = command.nickname
-      requested_player = requested_player_for_user(user)
-      player = self.players[requested_player.id]?
+      player = requested_player_for_user(user)
       return nil unless player
       [
         RoomEvent.player_nickname_changed(room_id, player, nickname, meta)
@@ -98,8 +95,7 @@ module Rooms
       meta = command.meta
       user = command.user
       color = command.color
-      requested_player = requested_player_for_user(user)
-      player = self.players[requested_player.id]?
+      player = requested_player_for_user(user)
       return nil unless player
       [
         RoomEvent.player_color_changed(room_id, player, color, meta)
@@ -111,8 +107,9 @@ module Rooms
       user = meta[:user]
       player = requested_player_for_user(user)
       cell_index = command.cell_index
+      return nil unless player
       return nil unless cell = board.cells[cell_index]?
-      return nil if cell.marked_by.includes?(player.id)
+      return nil if cell.marked_by_player?(player.id)
       [
         RoomEvent.cell_marked(room_id, cell_index, cell, player, meta)
       ]
@@ -123,8 +120,9 @@ module Rooms
       user = meta[:user]
       player = requested_player_for_user(user)
       cell_index = command.cell_index
+      return nil unless player
       return nil unless cell = board.cells[cell_index]?
-      return nil unless cell.marked_by.includes?(player.id)
+      return nil unless cell.marked_by_player?(player.id)
       [
         RoomEvent.cell_unmarked(room_id, cell_index, cell, player, meta)
       ]
@@ -135,10 +133,11 @@ module Rooms
       user = meta[:user]
       player = requested_player_for_user(user)
       cell_index = command.cell_index
+      return nil unless player
       return nil unless cell = board.cells[cell_index]?
 
       events = [] of RoomEvent
-      if cell.marked_by.includes?(player.id)
+      if cell.marked_by_player?(player.id)
         events << RoomEvent.cell_unmarked(room_id, cell_index, cell, player, meta)
       else
         events << RoomEvent.cell_marked(room_id, cell_index, cell, player, meta)
@@ -210,9 +209,10 @@ module Rooms
     def do_apply(data : CellMarkedEvent, meta)
       cell_index = data.cell_index
       player = data.player
+      color = player.color
 
       cell = self.board.cells[cell_index]
-      cell.marked_by << player.id
+      cell.mark(color, player.id)
     end
 
     def do_apply(data : CellUnmarkedEvent, meta)
@@ -220,7 +220,7 @@ module Rooms
       player = data.player
 
       cell = self.board.cells[cell_index]
-      cell.marked_by.delete(player.id)
+      cell.unmark(player: player.id)
     end
 
     def do_apply(data : ChatMessageSentEvent, meta)
@@ -235,7 +235,8 @@ module Rooms
     ###
 
     def requested_player_for_user(user : BingoLeague::Accounts::User)
-      requested_player = Player.new(user: user, color: "#ffffff")
+      requested_player_fake = Player.new(user: user, color: "#ffffff")
+      self.players[requested_player_fake.id]?
     end
   end
 end

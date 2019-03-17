@@ -12,5 +12,9 @@ module Rooms
       field :difficulty, Int32
       field :types, String
     end
+
+    def id : Int64
+      @id.as(Int).to_i64
+    end
   end
 end

@@ -9,8 +9,7 @@ module Rooms
     property  color : String
     property! nickname : String?
 
-    def initialize(*, @user : BingoLeague::Accounts::User, nickname = nil, @color = "default")
-      @color = "default"
+    def initialize(*, @user : BingoLeague::Accounts::User, nickname = nil, @color = "#ffffff")
       @nickname = nickname || user.name
     end
 
