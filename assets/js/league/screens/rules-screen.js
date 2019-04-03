@@ -71,7 +71,7 @@ export class RulesScreen extends Component {
         <h2>Availability</h2>
         <ul>
           <li>We have done our best to accommodate everyone when scheduling matches. From here, it is each player's responsibility to be available for their matches at the times they are scheduled.</li>
-          <li>If a scheduling conflict arises, it is the player's responsibility to request a reschedule for their match.</li>
+          <li>If a scheduling conflict arises, it is the player's responsibility to request a reschedule for their match. The player must coordinate with with all other players to find a new time for the match, then communicate the new time to an organizer for it to be rescheduled.</li>
           <li>We will work to accommodate occasional rescheduling, but it is not guaranteed that a match can be rescheduled successfully.</li>
           <li>When a scheduling conflict occurs and a match can not be rescheduled, the match will be considered a forfeit from the unavailable team, and the opposing team will be awarded the win and all 25 goals from the match.</li>
           <li>If a team forfeits more than 2 matches, they will be removed from the league.</li>
