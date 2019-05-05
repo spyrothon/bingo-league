@@ -66,6 +66,13 @@ export class RulesScreen extends Component {
           <li>Keep personal conflicts out of the Spyrothon Discord channel and the Spyrothon Twitch Chat.</li>
           <li>Stream sniping is not allowed. All matches are required to be streamed live and may be reviewed if a player is suspected of stream sniping the other team.</li>
           <li>Excessive disruptive or generally poor behavior with any of the above will result in removal from the league.</li>
+          <li><strong>Update May 5th, 2019:</strong> bingosync.com allows multiple users to use the same display name. As it was not explicitly laid out in the rules, and despite common sense and precedent in the history of bingo games, this ability has been abused in a small number of matches. Because of those past matches and to maintain consistency across the League, the ruling will not change and duplicate names will remain allowed for the rest of the League. However:
+          <ul>
+            <li>Excessively abusive names may be considered a direct violation of good sportsmanship and be met with any consequences of that rule.</li>
+            <li>Use of duplicate names may be considered as a factor when evaluating sportsmanship as a whole, but must not be the only factor in a decision.</li>
+            <li>The playoff round will not allow any duplicate names.</li>
+          </ul>
+          </li>
         </ul>
 
         <h2>Availability</h2>
