@@ -70,7 +70,7 @@ export class RulesScreen extends Component {
           <ul>
             <li>Excessively abusive names may be considered a direct violation of good sportsmanship and be met with any consequences of that rule.</li>
             <li>Use of duplicate names may be considered as a factor when evaluating sportsmanship as a whole, but must not be the only factor in a decision.</li>
-            <li>The playoff round will not allow any duplicate names.</li>
+            <li>In the playoff round, players will be directly assigned display names by Staff, and names will be announced publicly.</li>
           </ul>
           </li>
         </ul>
