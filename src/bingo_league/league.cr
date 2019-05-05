@@ -10,7 +10,7 @@ module BingoLeague::League
   ###
 
   def list_matches(query : Query = Query.new)
-    Repo.all(Match, query.preload([:plays, :teams]))
+    Repo.all(Match, query.where(is_public: "true").preload([:plays, :teams]))
   end
 
   def get_match(match_id, query : Query = Query.new)

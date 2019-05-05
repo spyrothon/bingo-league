@@ -4,7 +4,9 @@ class BingoWeb::SessionsController < BingoWeb::Controller
 
   def new
     redirect_target = query_params["redirect"]? || "/"
-    render("sessions/new.html.j2")
+    render("sessions/new.html.j2", {
+      "redirect_target" => redirect_target
+    })
   end
 
   def create
