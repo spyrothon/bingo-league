@@ -84,6 +84,13 @@ class BingoWeb::API::RoomsController < BingoWeb::Controller
     end
   end
 
+  def update_board
+    room_command(url_params["room_id"]) do |room|
+      board = Rooms::Context.new_board()
+      command = Rooms::Commands::UpdateBoard.from_params(board)
+    end
+  end
+
   private def room_command(room_id)
     if room = Rooms::Context.get_room(room_id)
       command = yield room

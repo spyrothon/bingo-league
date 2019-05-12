@@ -100,6 +100,7 @@ router BingoWeb::Router do
             :leave,
             :set_nickname,
             :set_color,
+            :update_board,
           ] %}
         post  "/rooms/:room_id/{{command.id}}", controller: API::RoomsController, action: {{command.id}}
       {% end %}

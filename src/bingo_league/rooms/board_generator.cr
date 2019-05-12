@@ -9,7 +9,7 @@ module Rooms
     private property table2 : Array(Int32)
 
     def initialize(@size : Int32, goals : Array(Goal), seed : Int? = nil)
-      @seed = seed.to_i64 || Time.now.epoch
+      @seed = seed ? seed.to_i64 : Time.now.epoch
       @random = Random.new(@seed)
       @goals = goals.group_by(&.difficulty.as(Int32))
 
@@ -19,7 +19,7 @@ module Rooms
       @table2 = (0..(@size-1)).to_a.shuffle!(@random)
     end
 
-    def generate
+    def generate : Board
       board_difficulties = Array(Int32).new(size * size) do |idx|
         difficulty_at(idx)
       end

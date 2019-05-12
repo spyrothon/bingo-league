@@ -54,6 +54,11 @@ module Rooms::Context
     end
   end
 
+  def new_board() : Board
+    goals = list_goals()
+    generate_board(goals)
+  end
+
 
   ###
   # Goals
@@ -96,7 +101,7 @@ module Rooms::Context
   # Boards
   ###
 
-  def generate_board(goals : Array(Goal), seed : Int32? = nil)
+  def generate_board(goals : Array(Goal), seed : Int32? = nil) : Board
     BoardGenerator.new(5, goals, seed).generate
   end
 end
